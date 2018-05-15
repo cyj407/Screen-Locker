@@ -1,5 +1,7 @@
 package autoOpen;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.lang.Runtime;
 import java.io.BufferedReader;
@@ -12,13 +14,16 @@ public class ReOpen {
 	private static long ori_time;
 
 	public static void main(String[] args) {
+		String mainName = args[0];
+		String mainPid = args[1];
+		String time = args[2];
 
-		setTime(Integer.parseInt(args[2]));
+		setTime(Integer.parseInt(time));
 		String myPid = getPid();
 		while (true) {
-			/** sleep for 10 seconds QQ **/
+			/** sleep for 5 secs **/
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -37,14 +42,14 @@ public class ReOpen {
 
 			/** detect if process closed **/
 			try {
-				Process p = Runtime.getRuntime().exec(String.format("ps -q %s -o pid=", args[1]));
+				Process p = Runtime.getRuntime().exec(String.format("ps -q %s -o pid=", mainPid));
 				BufferedReader output = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
 				String res = output.readLine();
 				if (res == null) {
 					/** process has been shutdown , reopen **/
-					ProcessBuilder newProcessOpen = new ProcessBuilder("java", args[0], System.getProperty("user.dir"));
-					newProcessOpen.start();
+					ProcessBuilder newProcessOpen = new ProcessBuilder("java", mainName, System.getProperty("user.dir"));
+					Process proc = newProcessOpen.start();
 
 					/** close this process **/
 					ProcessBuilder closeMe = new ProcessBuilder("kill", myPid);
