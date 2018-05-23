@@ -15,6 +15,19 @@ public class Application {
 	private String _publisher;
 	private Date _lastUsed;
 	
+	/** constructors **/
+	public Application() {
+		_displayName = "";
+		_processName = "";
+		_iconPath = "";
+		_executePath = "";
+		_uninstallString = "";
+		_version = "";
+		_publisher = "";
+		_lastUsed = new Date();
+	}
+	
+	/** getters **/
 	public String getDisplayName() {
 		return _displayName;
 	}
@@ -26,6 +39,29 @@ public class Application {
 	}
 	public String getProcessName() {
 		return _processName;
+	}
+	
+	/** setters **/
+	public void setDisplayName(String name) {
+		_displayName = name;
+	}
+	public void setProcessName(String name) {
+		_processName = name;
+	}
+	public void setIconPath(String path) {
+		_iconPath = path;
+	}
+	public void setExecutePath(String path) {
+		_executePath = path;
+	}
+	public void setUninstallString(String s) {
+		_uninstallString = s;
+	}
+	public void setPublisher(String s) {
+		_publisher = s;
+	}
+	public void setLastUsed(Date d) {
+		_lastUsed = d;
 	}
 	/*
 	public static void main(String argv[]) {
