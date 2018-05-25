@@ -5,17 +5,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.TimerTask;
+import java.util.List;
 
 
 public class MyTimer extends TimerTask{
-
+	
 	public static Hashtable<String, Integer> applications = new Hashtable<String, Integer>();
 
-	public int getTime(String application) throws IOException, ClassNotFoundException {
-		
+	public int getTime(String application) throws IOException, ClassNotFoundException {	
 		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("time.txt"));
 		try {
 			while(true) {
@@ -34,6 +35,23 @@ public class MyTimer extends TimerTask{
 		return -1;
 	}
 	
+	/*return the maximum time value in applications*/
+	public int getLargeTime() throws IOException, ClassNotFoundException {
+		Enumeration e = applications.keys();
+		int maxtime = 0;
+		while(e. hasMoreElements()) {
+			String s= e.nextElement().toString();
+			int num = applications.get(s);
+			if(maxtime < num) {
+				maxtime = num;
+					//System.out.println("App = " + string);
+					//System.out.println("time = " + applications.get(application));	
+			}
+		}
+		System.out.println("time = " + maxtime);	
+		return maxtime;
+	}
+	
 	public void setTime(String application, int time) throws IOException {
 		applications.put(application, time*3600);
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
@@ -46,6 +64,18 @@ public class MyTimer extends TimerTask{
 		oos.flush(); 
 		oos.close();
 	}
+	
+	public List BlackList() {
+		List<String> blacklist = new ArrayList<>();
+		Enumeration e = applications.keys();
+		while(e. hasMoreElements()) {
+			String s = e.nextElement().toString();
+			blacklist.add(s);
+		}
+		System.out.println("list = " + blacklist);	
+		return blacklist;	
+	}
+	
 	public void run() {
 		Enumeration e = applications.keys();
 		while(e. hasMoreElements()){
