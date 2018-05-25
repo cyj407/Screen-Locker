@@ -17,10 +17,10 @@ public class Main {
 		int t2 = timer.getTime("java");
 		System.out.println("main:" + t);
 		System.out.println("main:" + t2);
-		timer.getLargeTime();
+		MyTimer.getLargeTime();
 		Thread.sleep(3000);
-		timer.getLargeTime();
-		timer.BlackList();
+		MyTimer.getLargeTime();
+		MyTimer.BlackList();
 	}
 
 }

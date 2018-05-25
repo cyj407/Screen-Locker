@@ -36,7 +36,7 @@ public class MyTimer extends TimerTask{
 	}
 	
 	/*return the maximum time value in applications*/
-	public int getLargeTime() throws IOException, ClassNotFoundException {
+	public static int getLargeTime() throws IOException, ClassNotFoundException {
 		Enumeration e = applications.keys();
 		int maxtime = 0;
 		while(e. hasMoreElements()) {
@@ -65,7 +65,7 @@ public class MyTimer extends TimerTask{
 		oos.close();
 	}
 	
-	public List BlackList() {
+	public static List BlackList() {
 		List<String> blacklist = new ArrayList<>();
 		Enumeration e = applications.keys();
 		while(e. hasMoreElements()) {
