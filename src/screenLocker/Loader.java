@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class Loader {
 	public abstract boolean loadApplication();
-	public abstract int loadProgressPercentage();
+	public abstract double loadProgressPercentage();
 	public abstract String loadStatus();
 	private static String OS = System.getProperty("os.name").toLowerCase();
 	protected static List<Application> appList;
