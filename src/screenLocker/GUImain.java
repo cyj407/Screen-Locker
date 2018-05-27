@@ -9,4 +9,7 @@ public class GUImain extends GUI{
 	public int getTimer(String app) {
 		return applications.get(app);
 	}
+	public static void main(String args[]) {
+		Loader.GetInstance().LoadApplication();
+	}
 }

@@ -13,17 +13,17 @@ public final class LinuxLoader extends Loader {
         return _instance;
 	}
 	@Override
-	public boolean loadApplication() {
+	public boolean LoadApplication() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 	@Override
-	public int loadProgressPercentage() {
+	public double LoadProgressPercentage() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
-	public String loadStatus() {
+	public String LoadStatus() {
 		// TODO Auto-generated method stub
 		return null;
 	}
