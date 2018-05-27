@@ -18,7 +18,7 @@ public class Q_set {
  			database = internet.getList();		
  		else {		// create the question from local site
 			try {
-				Scanner scanner = new Scanner(new FileInputStream("./LocalData.txt"));
+				Scanner scanner = new Scanner(new FileInputStream("./src/qa_part/LocalData.txt"));
 				while(scanner.hasNextLine())
 					database += scanner.nextLine();
 				scanner.close();

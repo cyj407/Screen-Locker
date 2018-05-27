@@ -7,12 +7,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 
-public class InternetCheck {
-	
-	/* mlab  accountname: 	SL_question		*
-	 * mlab 	username:	questionCaller	*
-	 * mlab 	password:	giveme1question	*/
-		
+public class InternetCheck {	
 	private String urlContent = "";		// content from the url
 	
 	public boolean isConnected() {
