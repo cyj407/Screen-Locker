@@ -9,27 +9,27 @@ public class ReOpen {
 
 	public static void main(String[] args) throws Exception {
 
-		String mainName = args[0];
+		String _mainName = args[0];
+		RmiServerIntf _obj = null;
 
-		RmiServerIntf obj = null;
-		obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
+		_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 
 		while (true) {
 
 			/** times up, leave loop **/
 			try {
-				if (obj.RMI_getRemainTime() <= 0) {
+				if (_obj.GetRemainTime() <= 0) {
 					break;
 				}
 			} catch (Exception e) {
 				/** cannot find server -> application is down **/
-				ProcessBuilder newProcessOpen = new ProcessBuilder("java", mainName);
-				Process np = newProcessOpen.start();
+				ProcessBuilder _newProcessOpen = new ProcessBuilder("java", _mainName);
+				Process np = _newProcessOpen.start();
 				np.waitFor();
 
 				/** if still can't find server, then loop back again **/
 				try {
-					obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
+					_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 				} catch (Exception et) {
 					continue;
 				}
@@ -44,34 +44,34 @@ public class ReOpen {
 
 		/** start ReOpen Process **/
 		try {
-			ProcessBuilder pb = new ProcessBuilder("java", "autoOpen.ReOpen", myExe);
-			pb.directory(new File(workingDir));
-			pb.start();
+			ProcessBuilder _pb = new ProcessBuilder("java", "autoOpen.ReOpen", myExe);
+			_pb.directory(new File(workingDir));
+			_pb.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	private static boolean ReOpen_exist() throws Exception{
-		Process p = null;
-		BufferedReader br = null;
+		Process _p = null;
+		BufferedReader _br = null;
 
-		p = Runtime.getRuntime().exec("ps -C java -o pid=");
-		br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		_p = Runtime.getRuntime().exec("ps -C java -o pid=");
+		_br = new BufferedReader(new InputStreamReader(_p.getInputStream()));
 
-		String st = "", t;
-		while ((t = br.readLine()) != null) {
-			st += t + " ";
+		String _st = "", _t;
+		while ((_t = _br.readLine()) != null) {
+			_st += _t + " ";
 		}
-		br.close();
+		_br.close();
 
-		p = Runtime.getRuntime().exec("ps -c " + st);
-		br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		st = "";
-		while ((t = br.readLine()) != null) {
-			st += t + " ";
+		_p = Runtime.getRuntime().exec("ps -c " + _st);
+		_br = new BufferedReader(new InputStreamReader(_p.getInputStream()));
+		_st = "";
+		while ((_t = _br.readLine()) != null) {
+			_st += _t + " ";
 		}
 
-		return st.contains("ReOpen");
+		return _st.contains("ReOpen");
 	}
 }

@@ -17,14 +17,14 @@ public class ProgramManager {
 		/************************* yiiju's section ***********************/
 
 		/*********************** afcidk's section ************************/
-		String myDir = System.getProperty("user.dir");
-		if (!myDir.substring(myDir.length() - 4).equals("/bin")) {
-			myDir += "/bin";
+		String _myDir = System.getProperty("user.dir");
+		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
+			_myDir += "/bin";
 		}
 
-		RMIServer.startServer();
+		RMIServer.StartServer();
 		try {
-			ReOpen.openReOpen("screenLocker.ProgramManager", myDir);
+			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

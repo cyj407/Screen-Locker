@@ -2,7 +2,6 @@ package screenLocker;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,9 +10,15 @@ import java.util.List;
 
 public final class LinuxLoader extends Loader {
 	private static LinuxLoader _instance;
-	private static double percentage;
-	private static String currentLoad;
-	private static String currentExec;
+	private static double _percentage;
+	private static String _currentExec;
+	/** TODO: need to pop up a window warning this application will close nearly all running applications **/
+
+	public LinuxLoader() {
+		appList = new ArrayList<Application>();
+		loadApplication();
+
+	}
 
 	public static Loader getInstance() {
 		if (_instance == null) {
@@ -25,24 +30,36 @@ public final class LinuxLoader extends Loader {
 		}
 		return _instance;
 	}
-
-	public LinuxLoader() {
-		appList = new ArrayList<Application>();
-		loadApplication();
-
-	}
-
-	@Override
 	public boolean loadApplication() {
 		addInfo("/usr/share/applications");
 		return true;
 	}
+	public double loadProgressPercentage() {
+		//System.out.printf("%.2f ", _percentage * 100);
+		return _percentage*100;
+	}
+	public String loadStatus() {
+		//System.out.println(currentLoad + " " + _currentExec);
+		return "loading..." + _currentExec;
+	}
 
+	private static List<String> getCurrentState() throws IOException {
+
+		List<String> ret = new ArrayList<String>();
+		Process pe = Runtime.getRuntime().exec("ps -A");
+		BufferedReader bre = new BufferedReader(new InputStreamReader(pe.getInputStream()));
+
+		String t;
+		while ((t = bre.readLine()) != null)
+			ret.add(t);
+
+		return ret;
+	}
 	private void addInfo(String path) {
 		File folder = new File(path);
 		File[] files = folder.listFiles();
 		int size = files.length, fileCnt = 0;
-		percentage = 0;
+		_percentage = 0;
 
 		for (File file : files) {
 			if (file.isFile()) {
@@ -68,7 +85,6 @@ public final class LinuxLoader extends Loader {
 
 							if (front.equals("Name=")) {
 								new_app.setDisplayName(back);
-								currentLoad = back;
 							} else if (front.equals("Exec=")) {
 								String exePath = back.split(" ")[0];
 								String exeName = "";
@@ -79,7 +95,7 @@ public final class LinuxLoader extends Loader {
 									exeName = exePath;
 								}
 								// System.out.println(exeName);
-								currentExec = exeName;
+								_currentExec = exeName;
 							} else if (front.equals("Icon=")) {
 								new_app.setIconPath(back);
 							}
@@ -94,25 +110,15 @@ public final class LinuxLoader extends Loader {
 				}
 			}
 			++fileCnt;
-			percentage = (double) fileCnt / size;
+			_percentage = (double) fileCnt / size;
 			loadProgressPercentage();
 			loadStatus();
 		}
 
 	}
-
-	@Override
-	public double loadProgressPercentage() {
-		//System.out.printf("%.2f ", percentage * 100);
-		return percentage*100;
+	private void openProc(String path) throws IOException {
+		Runtime.getRuntime().exec(path);
 	}
-
-	@Override
-	public String loadStatus() {
-		//System.out.println(currentLoad + " " + currentExec);
-		return "loading..." + currentExec;
-	}
-
 	private String findExeName(String path) throws Exception {
 		Process p = Runtime.getRuntime().exec(String.format("file %s", path));
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -133,20 +139,6 @@ public final class LinuxLoader extends Loader {
 		return path.substring(path.lastIndexOf("/") + 1);
 
 	}
-
-	private static List<String> getCurrentState() throws IOException {
-
-		List<String> ret = new ArrayList<String>();
-		Process pe = Runtime.getRuntime().exec("ps -A");
-		BufferedReader bre = new BufferedReader(new InputStreamReader(pe.getInputStream()));
-
-		String t;
-		while ((t = bre.readLine()) != null)
-			ret.add(t);
-
-		return ret;
-	}
-
 	private String getDiff(String path, List<String> s1, List<String> s2) throws Exception {
 		int len2 = s2.size();
 
@@ -164,9 +156,4 @@ public final class LinuxLoader extends Loader {
 		}
 		return "cannot find process name";
 	}
-
-	private void openProc(String path) throws IOException {
-		Runtime.getRuntime().exec(path);
-	}
-
 }
