@@ -21,6 +21,18 @@ public class Main {
 		Thread.sleep(3000);
 		MyTimer.getLargeTime();
 		MyTimer.BlackList();
+		
+		try {
+			Runtime.getRuntime().addShutdownHook(new Message());
+		}catch (Exception e) {
+		}
+		
+		timer2.cancel();
 	}
-
+	
+	static class Message extends Thread{
+		public void run() {
+			MyTimer.close();
+		}
+	}
 }

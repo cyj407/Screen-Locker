@@ -92,4 +92,19 @@ public class MyTimer extends TimerTask{
 			}
 		}
 	}
+	
+	public static void close() {
+		try {        
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
+			Enumeration e = applications.keys();
+			while(e. hasMoreElements()){
+				String s= e.nextElement().toString();
+				oos.writeObject(s);
+				oos.writeInt(applications.get(s));
+			}
+			oos.flush(); 
+			oos.close();
+		} catch (IOException ex) {                       
+		}
+	}
 }
