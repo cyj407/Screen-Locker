@@ -29,8 +29,8 @@ public class MyTimer extends TimerTask{
 					String string = (String)ois.readObject();
 					int num = ois.readInt();
 					applications.put(string, num);
-					System.out.println("App = " + string);
-					System.out.println("time = " + applications.get(string));	
+					//System.out.println("App = " + string);
+					//System.out.println("time = " + applications.get(string));	
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -67,8 +67,6 @@ public class MyTimer extends TimerTask{
 			int num = applications.get(s);
 			if(maxtime < num) {
 				maxtime = num;
-					//System.out.println("App = " + string);
-					//System.out.println("time = " + applications.get(application));	
 			}
 		}
 		System.out.println("time = " + maxtime);	
@@ -99,6 +97,24 @@ public class MyTimer extends TimerTask{
 		return blacklist;	
 	}
 	
+	public static void setAddTenMins() {
+		try {  
+			Enumeration e = applications.keys();
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
+			while(e. hasMoreElements()){
+				String s= e.nextElement().toString();
+				oos.writeObject(s);
+				int newtime = applications.get(s)+360;
+				oos.writeInt(newtime);
+				applications.put(s, newtime);
+			}
+			oos.flush(); 
+			oos.close();
+		} catch (IOException ex) {                       
+			
+		}
+	}
+	
 	private int twomin = 0;
 	public void run() {
 		Enumeration e = applications.keys();
@@ -125,8 +141,8 @@ public class MyTimer extends TimerTask{
 					String s= e2.nextElement().toString();
 					oos.writeObject(s);
 					oos.writeInt(applications.get(s));
-					System.out.println(s);
-					System.out.println(applications.get(s));
+					//System.out.println(s);
+					//System.out.println(applications.get(s));
 				}
 				oos.flush(); 
 				oos.close();
