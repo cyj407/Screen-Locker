@@ -182,7 +182,7 @@ public final class WindowsLoader extends Loader {
 	}
 
 	@Override
-	public int loadProgressPercentage() {
+	public double loadProgressPercentage() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

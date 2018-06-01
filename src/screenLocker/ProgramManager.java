@@ -8,7 +8,7 @@ public class ProgramManager {
 	private static GUImain _guiMain = new GUImain();
 	private static GUIquestion _guiQuestion = new GUIquestion();
 	private static GUIsetting _guiSetting = new GUIsetting();
-	private static Loader _loader = Loader.getInstance();
+	//private static Loader _loader = Loader.getInstance();
 
 	public static void main(String[] args) {
 
@@ -18,8 +18,10 @@ public class ProgramManager {
 
 		/*********************** afcidk's section ************************/
 		String _myDir = System.getProperty("user.dir");
-		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
+		if (Loader.isLinux() && !_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
+		} else if (Loader.isWindows() && !_myDir.substring(_myDir.length() - 4).equals("\\bin")) {
+			_myDir += "\\bin";
 		}
 
 		RMIServer.StartServer();
@@ -28,6 +30,8 @@ public class ProgramManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		while (true);
+
 
 		/************************ cyj407's section ***********************/
 	}
