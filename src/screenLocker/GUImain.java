@@ -1,5 +1,4 @@
 package screenLocker;
-
 public class GUImain extends GUI{
 	
 	public int showTimer(String app) {
@@ -10,6 +9,7 @@ public class GUImain extends GUI{
 		return applications.get(app);
 	}
 	public static void main(String args[]) {
-		Loader.GetInstance().LoadApplication();
+		//Loader.GetInstance().LoadApplication();
+		//System.out.println(((WindowsLoader)Loader.GetInstance()).listRunningProcesses());
 	}
 }

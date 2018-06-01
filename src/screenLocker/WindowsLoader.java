@@ -145,7 +145,7 @@ public final class WindowsLoader extends Loader {
 		    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
 		    	String _s = _entry.getKey();
 		    	Object _o = _entry.getValue();
-		    	if (_s.equals("SystemComponent") && (int)_o == 1) {
+		    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
 		    		_flag = false;
 		    	}
 		    	if (_s.equals("UninstallString") && ((String.valueOf(_o)).isEmpty())) {
@@ -173,7 +173,7 @@ public final class WindowsLoader extends Loader {
 		    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
 		    	String _s = _entry.getKey();
 		    	Object _o = _entry.getValue();
-		    	if (_s.equals("SystemComponent") && (int)_o == 1) {
+		    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
 		    		_flag = false;
 		    	}
 		    	if (_s.equals("UninstallString") && ((String.valueOf(_o)).isEmpty())) {
@@ -201,7 +201,7 @@ public final class WindowsLoader extends Loader {
 		    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
 		    	String _s = _entry.getKey();
 		    	Object _o = _entry.getValue();
-		    	if (_s.equals("SystemComponent") && (int)_o == 1) {
+		    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
 		    		_flag = false;
 		    	}
 		    	if (_s.equals("UninstallString") && (String.valueOf(_o)).isEmpty()) {
@@ -242,6 +242,15 @@ public final class WindowsLoader extends Loader {
 			
 		}
 		try {
+			if (_app.GetExecutePath() != null && _app.GetExecutePath().indexOf(".exe") >= 0) {
+				File _file = new File(_app.GetExecutePath());
+				String _str = _file.getPath().replace(_file.getParent(), "");
+				_app.SetProcessName(_str);
+			}
+		} catch (Exception e) {
+			
+		}
+		try {
 			_app.SetVersion((String)_tr.get("Version"));
 		} catch (Exception e) {
 			
@@ -276,16 +285,19 @@ public final class WindowsLoader extends Loader {
 	    return null;
 	}
 
-	/*
+	
 	public static List<String> listRunningProcesses() {
 		    List<String> processes = new ArrayList<String>();
+		    
 		    try {
 		      String line;
 		      Process p = Runtime.getRuntime().exec("tasklist.exe /fo csv /nh");
+		      
 		      BufferedReader input = new BufferedReader
 		          (new InputStreamReader(p.getInputStream()));
 		      while ((line = input.readLine()) != null) {
-		          if (!line.trim().equals("")) {
+		          
+		    	  if (!line.trim().equals("")) {
 		              // keep only the process name
 		              line = line.substring(1);
 		              processes.add(line.substring(0, line.indexOf("\"")));
@@ -299,5 +311,5 @@ public final class WindowsLoader extends Loader {
 		    }
 		    return processes;
 		  }
-		  */
+		  
 }
