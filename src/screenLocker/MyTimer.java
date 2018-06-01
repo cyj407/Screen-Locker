@@ -99,6 +99,7 @@ public class MyTimer extends TimerTask{
 		return blacklist;	
 	}
 	
+	private int twomin = 0;
 	public void run() {
 		Enumeration e = applications.keys();
 		while(e. hasMoreElements()){
@@ -112,6 +113,25 @@ public class MyTimer extends TimerTask{
 			}
 			else {
 				applications.remove(s);
+			}
+		}
+		twomin++;
+		if(twomin == 120) {
+			twomin = 0;
+			try {        
+				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
+				Enumeration e2 = applications.keys();
+				while(e2. hasMoreElements()){
+					String s= e2.nextElement().toString();
+					oos.writeObject(s);
+					oos.writeInt(applications.get(s));
+					System.out.println(s);
+					System.out.println(applications.get(s));
+				}
+				oos.flush(); 
+				oos.close();
+			} catch (IOException ex) {                       
+			
 			}
 		}
 	}

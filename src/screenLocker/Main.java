@@ -27,7 +27,7 @@ public class Main {
 		}catch (Exception e) {
 		}
 		
-		timer2.cancel();
+		//timer2.cancel();
 	}
 	
 	static class Message extends Thread{
