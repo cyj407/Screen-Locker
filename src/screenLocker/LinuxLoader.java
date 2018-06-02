@@ -132,7 +132,7 @@ public final class LinuxLoader extends Loader {
 		if (br.readLine().contains("text")) {
 			System.out.println("path = " + path);
 			List<String> oriList = getCurrentState();
-			openProc(path);
+			_openProc(path);
 			Thread.sleep(5000);
 			List<String> aftList = getCurrentState();
 			ret = getDiff(path, oriList, aftList);
@@ -143,6 +143,10 @@ public final class LinuxLoader extends Loader {
 		return path.substring(path.lastIndexOf("/") + 1);
 
 	}
+	private void _openProc(String path) throws IOException {	
+				Runtime.getRuntime().exec(path);	
+	}
+	
 	private String getDiff(String path, List<String> s1, List<String> s2) throws Exception {
 		int len2 = s2.size();
 

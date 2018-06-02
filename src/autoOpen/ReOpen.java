@@ -73,7 +73,7 @@ public class ReOpen {
 
 	private static boolean ReOpen_exist() throws Exception {
 
-		if (Loader.isLinux()) {
+		if (Loader.IsLinux()) {
 			Process _p = null;
 			BufferedReader _br = null;
 			_p = Runtime.getRuntime().exec("ps -C java -o pid=");

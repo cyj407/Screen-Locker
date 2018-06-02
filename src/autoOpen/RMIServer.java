@@ -1,6 +1,7 @@
 package autoOpen;
 
 import java.rmi.server.UnicastRemoteObject;
+import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
@@ -11,8 +12,17 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 		super(0);
 	}
 
-	public int GetRemainTime() throws RemoteException {
-		return MyTimer.getLargetTime();
+	public int GetRemainTime() {
+		try {
+			return MyTimer.getLargeTime();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
 	}
 
 	public static void StartServer() {
