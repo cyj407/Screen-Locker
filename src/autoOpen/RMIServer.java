@@ -16,7 +16,6 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 	}
 
 	public static void StartServer() {
-
 		/** create Registry **/
 		try {
 			LocateRegistry.createRegistry(1099);

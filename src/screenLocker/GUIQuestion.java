@@ -3,8 +3,14 @@ package screenLocker;
 import java.util.Hashtable;
 import java.util.Random;
 
-public class GUIquestion extends GUI{
+import javafx.scene.Parent;
+
+public class GUIQuestion extends GUI{
 	
+	public GUIQuestion(Parent arg0) {
+		super(arg0);
+	}
+
 	private int questionNum;
 	public Hashtable<Integer, Integer> questions = new Hashtable<Integer, Integer>();
 	

@@ -1,7 +1,13 @@
 package screenLocker;
 
-public class GUIsetting extends GUI{
+import javafx.scene.Parent;
+
+public class GUISetting extends GUI{
 	
+	public GUISetting(Parent arg0) {
+		super(arg0);
+	}
+
 	public void setTimer(String app,int time) {
 		applications.put(app, time);
 	}

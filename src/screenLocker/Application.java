@@ -1,7 +1,5 @@
 package screenLocker;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Application {
@@ -10,7 +8,6 @@ public class Application {
 	private String _processName;
 	private String _iconPath;
 	private String _executePath;
-	private String _uninstallString;
 	private String _version;
 	private String _publisher;
 	private Date _lastUsed;
@@ -21,47 +18,46 @@ public class Application {
 		_processName = "";
 		_iconPath = "";
 		_executePath = "";
-		_uninstallString = "";
 		_version = "";
 		_publisher = "";
 		_lastUsed = new Date();
 	}
 	
 	/** getters **/
-	public String getDisplayName() {
+	public String GetDisplayName() {
 		return _displayName;
 	}
-	public String getIconPath() {
+	public String GetIconPath() {
 		return _iconPath;
 	}
-	public String getExecutePath() {
-		return _iconPath;
+	public String GetExecutePath() {
+		return _executePath;
 	}
-	public String getProcessName() {
+	public String GetProcessName() {
 		return _processName;
 	}
 	
 	/** setters **/
-	public void setDisplayName(String name) {
+	public void SetDisplayName(String name) {
 		_displayName = name;
 	}
-	public void setProcessName(String name) {
+	public void SetProcessName(String name) {
 		_processName = name;
 	}
-	public void setIconPath(String path) {
+	public void SetIconPath(String path) {
 		_iconPath = path;
 	}
-	public void setExecutePath(String path) {
+	public void SetExecutePath(String path) {
 		_executePath = path;
 	}
-	public void setUninstallString(String s) {
-		_uninstallString = s;
-	}
-	public void setPublisher(String s) {
+	public void SetPublisher(String s) {
 		_publisher = s;
 	}
-	public void setLastUsed(Date d) {
+	public void SetLastUsed(Date d) {
 		_lastUsed = d;
+	}
+	public void SetVersion(String s) {
+		_version = s;
 	}
 	/*
 	public static void main(String argv[]) {
@@ -71,4 +67,3 @@ public class Application {
 	}
 	*/
 }
-
