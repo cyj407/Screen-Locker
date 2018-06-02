@@ -3,12 +3,14 @@ package autoOpen;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 public class ProcessListener extends Thread {
-	private String[] blacklist = {"gedit", "firefox"};
+	private List<String> _blacklist;
+	/**TODO: blacklist must be obtained from Timer **/
 	
-	public ProcessListener(String[] blacklist) {
-		this.blacklist = blacklist;
+	public ProcessListener(List<String> blacklist) {
+		this._blacklist = blacklist;
 	}
 	public ProcessListener() {
 		System.out.println("don't use this constructer!! remember to set blacklist!!");
@@ -25,8 +27,8 @@ public class ProcessListener extends Thread {
 				e1.printStackTrace();
 			}
 
-			for (int i = 0; i < blacklist.length; ++i) {
-				ProcessBuilder pb = new ProcessBuilder("ps", "-C", blacklist[i]);
+			for (String item: _blacklist) {
+				ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);
 				Process p;
 
 				try {
@@ -35,7 +37,7 @@ public class ProcessListener extends Thread {
 					buf.readLine();
 					String res = buf.readLine();
 					if (res != null) {
-						Runtime.getRuntime().exec("kill `ps -C " + blacklist[i] + " -o pid=`");
+						Runtime.getRuntime().exec("kill `ps -C " + item + " -o pid=`");
 					}
 				} catch (IOException e) { // TODO Auto-generated catch block
 					e.printStackTrace();

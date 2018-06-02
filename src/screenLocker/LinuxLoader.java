@@ -2,7 +2,6 @@ package screenLocker;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,7 +24,6 @@ public final class LinuxLoader extends Loader {
 		}
 		return _instance;
 	}
-
 	public LinuxLoader() {
 		_appList = new ArrayList<Application>();
 		LoadApplication();
@@ -38,6 +36,18 @@ public final class LinuxLoader extends Loader {
 		return true;
 	}
 
+	private static List<String> getCurrentState() throws IOException {
+
+		List<String> ret = new ArrayList<String>();
+		Process pe = Runtime.getRuntime().exec("ps -A");
+		BufferedReader bre = new BufferedReader(new InputStreamReader(pe.getInputStream()));
+
+		String t;
+		while ((t = bre.readLine()) != null)
+			ret.add(t);
+
+		return ret;
+	}
 	private void _addInfo(String _path) {
 		File _folder = new File(_path);
 		File[] _files = _folder.listFiles();
@@ -112,7 +122,6 @@ public final class LinuxLoader extends Loader {
 		//System.out.println(currentLoad + " " + currentExec);
 		return "loading..." + _currentExec;
 	}
-
 	private String findExeName(String path) throws Exception {
 		Process p = Runtime.getRuntime().exec(String.format("file %s", path));
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -133,20 +142,6 @@ public final class LinuxLoader extends Loader {
 		return path.substring(path.lastIndexOf("/") + 1);
 
 	}
-
-	private static List<String> getCurrentState() throws IOException {
-
-		List<String> ret = new ArrayList<String>();
-		Process pe = Runtime.getRuntime().exec("ps -A");
-		BufferedReader bre = new BufferedReader(new InputStreamReader(pe.getInputStream()));
-
-		String t;
-		while ((t = bre.readLine()) != null)
-			ret.add(t);
-
-		return ret;
-	}
-
 	private String getDiff(String path, List<String> s1, List<String> s2) throws Exception {
 		int len2 = s2.size();
 
@@ -164,9 +159,4 @@ public final class LinuxLoader extends Loader {
 		}
 		return "cannot find process name";
 	}
-
-	private void openProc(String path) throws IOException {
-		Runtime.getRuntime().exec(path);
-	}
-
 }
