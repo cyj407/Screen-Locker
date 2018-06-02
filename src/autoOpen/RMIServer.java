@@ -36,18 +36,7 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 		--remain_time;
 	}
 
-	public static void startServer(long sec) {
-		/** set the lock_time **/
-		setLockTime(sec);
-
-		/** set timer **/
-		Timer timer = new Timer();
-		TimerTask oneSec = new TimerTask() {
-			public void run() {
-				decTime();
-			}
-		};
-		timer.schedule(oneSec, 0, 1000);
+	public static void startServer() {
 
 		/** create Registry **/
 		try {

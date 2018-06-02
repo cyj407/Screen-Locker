@@ -2,26 +2,14 @@ package screenLocker;
 
 import java.util.Hashtable;
 
-public class GUI {
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+
+public class GUI extends Scene {
 	
+	public GUI(Parent arg0) {
+		super(arg0);
+	}
 	public Hashtable<String, Integer> applications = new Hashtable<String, Integer>();
 
-	public void setShrink() {
-		
-	}
-	public void getShrink() {
-		
-	}
-	public void setEnlarge() {
-		
-	}
-	public void getEnlarge() {
-		
-	}
-	public void setClose() {
-		
-	}
-	public void getClose() {
-		
-	}
 }
