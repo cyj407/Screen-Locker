@@ -4,40 +4,18 @@ import java.rmi.server.UnicastRemoteObject;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
-import java.util.Timer;
-import java.util.TimerTask;
+import screenLocker.MyTimer;
 
 public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
-	private static long lock_time;
-	private static long remain_time;
-
 	public RMIServer() throws RemoteException {
 		super(0);
 	}
 
-	public long RMI_getRemainTime() throws RemoteException {
-		return remain_time;
+	public int GetRemainTime() throws RemoteException {
+		return MyTimer.getLargetTime();
 	}
 
-	public static long getRemainTime() {
-		return remain_time;
-	}
-
-	public long getLockTime() throws RemoteException {
-		return lock_time;
-	}
-
-	public static void setLockTime(long sec) {
-		lock_time = sec;
-		remain_time = sec;
-	}
-
-	private static void decTime() {
-		--remain_time;
-	}
-
-	public static void startServer() {
-
+	public static void StartServer() {
 		/** create Registry **/
 		try {
 			LocateRegistry.createRegistry(1099);

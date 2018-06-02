@@ -38,9 +38,9 @@ public class ProgramManager extends Application {
 			myDir += "/bin";
 		}
 
-		RMIServer.startServer();
+		RMIServer.StartServer();
 		try {
-			ReOpen.openReOpen("screenLocker.ProgramManager", myDir);
+			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
