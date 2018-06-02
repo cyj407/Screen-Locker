@@ -8,12 +8,5 @@ public class GUISetting extends GUI{
 		super(arg0);
 	}
 
-	public void setTimer(String app,int time) {
-		applications.put(app, time);
-	}
-	
-	public int getTimer(String app) {
-		return applications.get(app);
-	}
 
 }

@@ -105,6 +105,7 @@ public final class LinuxLoader extends Loader {
 	public double LoadProgressPercentage() {
 		//System.out.printf("%.2f ", percentage * 100);
 		return _percentage*100;
+
 	}
 
 	@Override
