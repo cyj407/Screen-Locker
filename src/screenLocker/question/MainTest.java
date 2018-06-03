@@ -1,4 +1,4 @@
-package qa_part;
+package screenLocker.question;
 
 public class MainTest {
 

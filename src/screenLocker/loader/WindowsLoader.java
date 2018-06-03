@@ -1,7 +1,10 @@
-package screenLocker;
+package screenLocker.loader;
 
 import com.sun.jna.platform.win32.Advapi32Util;
 import com.sun.jna.platform.win32.WinReg;
+
+import screenLocker.Application;
+
 import static com.sun.jna.platform.win32.WinReg.HKEY_LOCAL_MACHINE;
 import static com.sun.jna.platform.win32.WinReg.HKEY_CURRENT_USER;
 import java.io.BufferedReader;
@@ -57,16 +60,7 @@ public final class WindowsLoader extends Loader {
 	
 	@Override
 	public boolean LoadApplication() {
-		for(int i = 0 ; i < GetApplicationNumber() ; ++i) {
-			int _randomTime = (int)(Math.random() * 150 + 50);
-			_readNext();
-			try {
-				Thread.sleep(_randomTime);
-			} catch (Exception _e) {
-				
-			}
-			System.out.println(LoadStatus());
-		}
+		_readNext();
 		return false;
 	}
 	@Override

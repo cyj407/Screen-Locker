@@ -1,4 +1,4 @@
-package autoOpen;
+package screenLocker.autoOpen;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

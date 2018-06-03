@@ -1,6 +1,8 @@
-package screenLocker;
+package screenLocker.loader;
 
 import java.util.List;
+
+import screenLocker.Application;
 
 public abstract class Loader {
 	public abstract boolean LoadApplication();

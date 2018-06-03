@@ -1,4 +1,4 @@
-package qa_part;
+package screenLocker.question;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

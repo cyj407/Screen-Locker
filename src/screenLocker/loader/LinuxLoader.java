@@ -1,4 +1,4 @@
-package screenLocker;
+package screenLocker.loader;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import screenLocker.Application;
 
 public final class LinuxLoader extends Loader {
 	private static LinuxLoader _instance;

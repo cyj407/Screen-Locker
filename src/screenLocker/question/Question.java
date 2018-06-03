@@ -1,4 +1,4 @@
-package qa_part;
+package screenLocker.question;
 
 import java.util.Map;
 

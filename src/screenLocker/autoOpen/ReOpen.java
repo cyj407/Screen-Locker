@@ -1,10 +1,11 @@
-package autoOpen;
+package screenLocker.autoOpen;
 
-import screenLocker.Loader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
+
+import screenLocker.loader.Loader;
 
 public class ReOpen {
 

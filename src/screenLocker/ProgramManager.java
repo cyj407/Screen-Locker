@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import sceneController.DefaultController;
+import screenLocker.gui.GUI;
+import screenLocker.gui.GUILoading;
+import screenLocker.loader.Loader;
 
 import java.awt.Toolkit;
 
@@ -15,16 +17,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import autoOpen.RMIServer;
-import autoOpen.ReOpen;
+import controller.DefaultController;
+import controller.LoadingController;
+import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private Stage _rootStage;
-	private GUI _guiMain;
-	private GUI _guiQuestion;
-	private GUI _guiSetting;
-	private GUI _guiLoading;
-	private GUI _activeGui;
+	private Scene _guiMain;
+	private Scene _guiQuestion;
+	private Scene _guiSetting;
+	private Scene _guiLoading;
+	private Scene _activeGui;
 	public static void main(String[] args) {
 
 		/********************* f26401004's section ***********************/
@@ -58,6 +61,8 @@ public class ProgramManager extends Application {
 		_rootStage.initStyle(StageStyle.UNDECORATED);
 		_rootStage.setWidth(800);
 		_rootStage.setHeight(548);
+		// TODO: set all event for different scene transfer.
+		_addTransferListener();
 		// initantiate all scene.
 		_instantiateScene();
 		// setup the first scene to loading scene.
@@ -65,44 +70,61 @@ public class ProgramManager extends Application {
 		// set the current scene.
 		_activeGui = _guiLoading;
 		_rootStage.show();
+		// Loader start load application
+		Loader.GetInstance().LoadApplication();
 	}
 	
 	private void _instantiateScene() {
 		// initialize loading scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/assets/fxmls/default.fxml"));
-			_fxmlLoader.setController(new DefaultController());
-			_guiLoading = new GUILoading(_fxmlLoader.load());
+					this.getClass().getResource("/Views/_loadingLayout.fxml"));
+			_fxmlLoader.setController(new LoadingController());
+			_guiLoading = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		// initialize main scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/assets/fxmls/default.fxml"));
+					this.getClass().getResource("/Views/_mainLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
-			_guiMain = new GUILoading(_fxmlLoader.load());
+			_guiMain = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		// initialize setting scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/assets/fxmls/default.fxml"));
+					this.getClass().getResource("/Views/_settingLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
-			_guiSetting = new GUILoading(_fxmlLoader.load());
+			_guiSetting = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		// initialize question scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/assets/fxmls/default.fxml"));
+					this.getClass().getResource("/Views/_questionLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
-			_guiQuestion = new GUILoading(_fxmlLoader.load());
+			_guiQuestion = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	private void _addTransferListener() {
+		_rootStage.addEventHandler(WindowsTransferEvent.TransferToMain, e -> {
+			_rootStage.setScene(_guiMain);
+			_activeGui = _guiMain;
+		});
+		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
+			_rootStage.setScene(_guiSetting);
+			_activeGui = _guiSetting;
+		});
+		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
+			_rootStage.setScene(_guiQuestion);
+			_activeGui = _guiQuestion;
+		});
 	}
 }

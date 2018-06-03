@@ -1,11 +1,13 @@
-package autoOpen;
+package screenLocker.autoOpen;
 
 import java.rmi.server.UnicastRemoteObject;
+
+import screenLocker.MyTimer;
+
 import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
-import screenLocker.MyTimer;
 
 public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 	public RMIServer() throws RemoteException {
