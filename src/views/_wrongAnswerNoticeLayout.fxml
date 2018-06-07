@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="200.0" fitWidth="300.0" layoutX="47.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../images/_warning.png" />
+            <Image url="@../../src/images/_warning.png" />
          </image>
       </ImageView>
       <Label alignment="CENTER" layoutX="29.0" layoutY="41.0" prefHeight="56.0" prefWidth="244.0" style="-fx-border-color: red; -fx-border-width: 4;" text="Your answer is incorrect." textAlignment="CENTER" textFill="RED">
