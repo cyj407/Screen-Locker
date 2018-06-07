@@ -7,8 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import screenLocker.gui.GUI;
-import screenLocker.gui.GUILoading;
+//import screenLocker.gui.GUI;
+//import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
 
 import java.awt.Toolkit;
@@ -78,7 +78,7 @@ public class ProgramManager extends Application {
 		// initialize loading scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/Views/_loadingLayout.fxml"));
+					this.getClass().getResource("/views/_loadingLayout.fxml"));
 			_fxmlLoader.setController(new LoadingController());
 			_guiLoading = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
@@ -87,7 +87,7 @@ public class ProgramManager extends Application {
 		// initialize main scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/Views/_mainLayout.fxml"));
+					this.getClass().getResource("/views/_mainLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
 			_guiMain = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
@@ -96,7 +96,7 @@ public class ProgramManager extends Application {
 		// initialize setting scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/Views/_settingLayout.fxml"));
+					this.getClass().getResource("/views/_settingLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
 			_guiSetting = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
@@ -105,7 +105,7 @@ public class ProgramManager extends Application {
 		// initialize question scene.
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/Views/_questionLayout.fxml"));
+					this.getClass().getResource("/views/_questionLayout.fxml"));
 			_fxmlLoader.setController(new DefaultController());
 			_guiQuestion = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
