@@ -42,6 +42,7 @@ public class Q_set {
 		chooseQ.put("choiceC", obj.getString("choiceC"));
 		chooseQ.put("choiceD", obj.getString("choiceD"));
 		chooseQ.put("ans", obj.getString("ans"));
+		chooseQ.put("time", obj.getString("time"));
 	}
 	
 	public Map<String,String> getQuestion(){
