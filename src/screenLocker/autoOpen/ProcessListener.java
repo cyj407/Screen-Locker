@@ -5,15 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import screenLocker.MyTimer;
+
 public class ProcessListener extends Thread {
 	private List<String> _blacklist;
-	/**TODO: blacklist must be obtained from Timer **/
 	
-	public ProcessListener(List<String> blacklist) {
-		this._blacklist = blacklist;
-	}
 	public ProcessListener() {
-		System.out.println("don't use this constructer!! remember to set blacklist!!");
 	}
 
 	public void run() {
@@ -23,9 +20,9 @@ public class ProcessListener extends Thread {
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			_blacklist = MyTimer.BlackList();
 
 			for (String item: _blacklist) {
 				ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);
@@ -39,7 +36,7 @@ public class ProcessListener extends Thread {
 					if (res != null) {
 						Runtime.getRuntime().exec("kill `ps -C " + item + " -o pid=`");
 					}
-				} catch (IOException e) { // TODO Auto-generated catch block
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
