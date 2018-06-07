@@ -69,7 +69,6 @@ public class MyTimer extends TimerTask{
 				maxtime = num;
 			}
 		}
-		System.out.println("time = " + maxtime);	
 		return maxtime;
 	}
 	

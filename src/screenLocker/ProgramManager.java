@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import screenLocker.autoOpen.RMIServer;
+import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
 //import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
@@ -29,16 +31,18 @@ public class ProgramManager extends Application {
 	private Scene _guiLoading;
 	private Scene _activeGui;
 	public static void main(String[] args) {
+		launch(args);
 
-		/********************* f26401004's section ***********************/
+		//-------------------- f26401004's section -----------------------//
 		
-		/************************* yiiju's section ***********************/
+		//------------------------ yiiju's section -----------------------//
 
-		/*********************** afcidk's section ************************/
+		//----------------------- afcidk's section -----------------------//
+		//IMPORTANT!! Must be placed after launch(args)
 		/*
-		String myDir = System.getProperty("user.dir");
-		if (!myDir.substring(myDir.length() - 4).equals("/bin")) {
-			myDir += "/bin";
+		String _myDir = System.getProperty("user.dir");
+		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
+			_myDir += "/bin";
 		}
 
 		RMIServer.StartServer();
@@ -47,9 +51,9 @@ public class ProgramManager extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 */
-		/************************ cyj407's section ***********************/
-		launch(args);
+		System.out.println("here");
+		*/
+		//----------------------- cyj407's section -----------------------//
 	}
 
 	@Override

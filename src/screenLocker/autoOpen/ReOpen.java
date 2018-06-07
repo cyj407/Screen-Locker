@@ -8,28 +8,33 @@ import java.rmi.Naming;
 import screenLocker.loader.Loader;
 
 public class ReOpen {
+	private final static String _deli = Loader.IsLinux()?"/":"\\";
 
 	public static void main(String[] args) throws Exception {
 
 		String _mainName = args[1];
 		String _path = args[0];
-		_path = String.format("\"%s\\bin;%s\\lib\\jna-platform.jar;%s\\lib\\jna.jar;%s\\lib\\jRegistryKey.jar\"", _path,
-				_path, _path, _path);
+		_path = String.format("\"%1$s%2$sbin;%1$s%2$slib%2$sjna-platform.jar;%1$s%2$slib%2$sjna.jar;%1$s%2$slib%2$sjRegistryKey.jar\"", _path,
+				_deli);
 		RmiServerIntf _obj = null;
-		System.out.println(_path);
 
 		_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 
+		int cnt = 0;
 		while (true) {
 
 			/** times up, leave loop **/
 			try {
+				_obj.GetRemainTime();
+				/*
 				if (_obj.GetRemainTime() <= 0) {
 					break;
 				}
+				*/
 			} catch (Exception e) {
 				/** cannot find server -> application is down **/
-				Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
+				if (Loader.IsLinux()) Runtime.getRuntime().exec(String.format("java %s", _mainName));
+				else Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
 
 				/** if still can't find server, then loop back again **/
 				while (true) {
@@ -51,11 +56,11 @@ public class ReOpen {
 
 		/** start ReOpen Process **/
 		try {
-			ProcessBuilder _pb = new ProcessBuilder("java", "autoOpen.ReOpen",
-					workingDir.substring(0, workingDir.lastIndexOf("\\")), myExe);
+			ProcessBuilder _pb = new ProcessBuilder("java", "screenLocker.autoOpen.ReOpen",
+					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
 			Process p = _pb.start();
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			String st;
 			while ((st = br.readLine()) != null) {
 				System.out.println(st);

@@ -13,7 +13,6 @@ import screenLocker.Application;
 public final class LinuxLoader extends Loader {
 	private static LinuxLoader _instance;
 	private static int _currentAppId;
-	private static int _appSum;
 
 	public static Loader GetInstance() {
 		if (_instance == null) {
@@ -32,8 +31,7 @@ public final class LinuxLoader extends Loader {
 	}
 	
 	public boolean LoadApplication() {
-		_readNext();
-		return false;
+		return _readNext();
 	}
 
 	private static List<String> getCurrentState() throws IOException {
@@ -75,7 +73,6 @@ public final class LinuxLoader extends Loader {
 								continue;
 							String _front = _line.substring(0, 5);
 							String _back = _line.substring(5);
-							++_appSum;
 
 							if (_front.equals("Name=")) {
 								_newApp.SetDisplayName(_back);
@@ -101,20 +98,18 @@ public final class LinuxLoader extends Loader {
 					}
 				}
 			}
-			LoadProgressPercentage();
-			LoadStatus();
 		}
-
 	}
 
 	@Override
 	public double LoadProgressPercentage() {
-		return (double)_currentAppId/_appSum;
+		return (double)_currentAppId/_appList.size();
 
 	}
 
 	@Override
 	public String LoadStatus() {
+		if (_currentAppId >= _appList.size()) _currentAppId = _appList.size()-1;
 		return "loading..." + _appList.get(_currentAppId).GetDisplayName();
 	}
 
@@ -170,7 +165,7 @@ public final class LinuxLoader extends Loader {
 	}
 	
 	private static boolean _readNext() {
-		if (_currentAppId < _appSum) {
+		if (_currentAppId < _appList.size()) {
 			++_currentAppId;
 			return true;
 		}

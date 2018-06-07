@@ -18,10 +18,8 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 		try {
 			return MyTimer.getLargeTime();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return 0;
