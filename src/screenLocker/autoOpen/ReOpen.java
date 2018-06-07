@@ -60,11 +60,6 @@ public class ReOpen {
 					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
 			Process p = _pb.start();
-			BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			String st;
-			while ((st = br.readLine()) != null) {
-				System.out.println(st);
-			}
 
 			/**
 			 * checkout the pid, do wmic path win32_process where name="java.exe" get

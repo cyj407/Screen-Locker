@@ -30,6 +30,8 @@ public class ProgramManager extends Application {
 	private Scene _guiSetting;
 	private Scene _guiLoading;
 	private Scene _activeGui;
+	public static RMIServer rmiServer = RMIServer.StartServer();
+
 	public static void main(String[] args) {
 		launch(args);
 
@@ -39,20 +41,18 @@ public class ProgramManager extends Application {
 
 		//----------------------- afcidk's section -----------------------//
 		//IMPORTANT!! Must be placed after launch(args)
-		/*
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
 		}
 
-		RMIServer.StartServer();
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("here");
-		*/
+
 		//----------------------- cyj407's section -----------------------//
 	}
 
