@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
@@ -21,6 +22,8 @@ import java.net.URL;
 
 import controller.DefaultController;
 import controller.LoadingController;
+import controller.MainController;
+import controller.SettingController;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
@@ -41,6 +44,7 @@ public class ProgramManager extends Application {
 
 		//----------------------- afcidk's section -----------------------//
 		//IMPORTANT!! Must be placed after launch(args)
+		
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
@@ -51,7 +55,6 @@ public class ProgramManager extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("here");
 
 		//----------------------- cyj407's section -----------------------//
 	}
@@ -92,7 +95,7 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_mainLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
+			_fxmlLoader.setController(new MainController());
 			_guiMain = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -101,7 +104,7 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_settingLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
+			_fxmlLoader.setController(new SettingController());
 			_guiSetting = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -110,7 +113,6 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_questionLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
 			_guiQuestion = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

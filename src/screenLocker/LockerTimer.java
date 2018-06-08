@@ -16,11 +16,11 @@ import java.util.TimerTask;
 import java.util.List;
 
 
-public class MyTimer extends TimerTask{
+public class LockerTimer extends TimerTask{
 	
 	public static Hashtable<String, Integer> applications = new Hashtable<String, Integer>();
 	
-	public MyTimer() throws FileNotFoundException, IOException {
+	public LockerTimer() throws FileNotFoundException, IOException {
 		Path p = Paths.get("time.txt");
         if (Files.exists(p)) {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("time.txt"));

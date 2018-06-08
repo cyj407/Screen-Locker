@@ -17,7 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import qa_part.Question;
+import screenLocker.question.Question;
 
 
 public class QuestionController implements Initializable{
@@ -49,7 +49,7 @@ public class QuestionController implements Initializable{
 				_remainTime.setText(String.valueOf(_countdown));
 			    if(_countdown < 0) {
 			    	try {
-			        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_timeoutNoticeLayout.fxml"));	        
+			        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("/views/_timeoutNoticeLayout.fxml"));	        
 			        	_stage = (Stage) _remainTime.getScene().getWindow();
 			        	Stage _showTimeoutStage = new Stage();
 				        _showTimeoutStage.setScene(new Scene(_noticeFXML));
@@ -101,7 +101,7 @@ public class QuestionController implements Initializable{
 		else {
 			_clickedButton.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {
-	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_wrongAnswerNoticeLayout.fxml"));	        
+	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("/views/_wrongAnswerNoticeLayout.fxml"));	        
 		        Stage _showWrongStage = new Stage();
 		        _showWrongStage.setScene(new Scene(_noticeFXML));
 		        _showWrongStage.setResizable(false);

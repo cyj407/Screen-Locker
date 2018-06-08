@@ -69,6 +69,9 @@ public final class WindowsLoader extends Loader {
 	}
 	@Override
 	public String LoadStatus() {
+		if (_currentNumber == 0) {
+			return "Now is loading " + _appList.get(0).GetDisplayName() + " ...";
+		}
 		String _str = "Now is loading " + _appList.get(_currentNumber - 1).GetDisplayName() + " ...";
 		return _str;
 	}
@@ -227,7 +230,7 @@ public final class WindowsLoader extends Loader {
 		} catch (Exception e) {
 		}
 		try {
-    		_app.SetIconPath((String)_tr.get("DisplayIcon"));
+    		_app.SetIconPath(((String)_tr.get("DisplayIcon")).replace(",0", ""));
 		} catch (Exception e) {
 		}
 		try {
