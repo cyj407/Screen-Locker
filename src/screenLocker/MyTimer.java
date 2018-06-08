@@ -69,7 +69,6 @@ public class MyTimer extends TimerTask{
 				maxtime = num;
 			}
 		}
-		System.out.println("time = " + maxtime);	
 		return maxtime;
 	}
 	
@@ -86,10 +85,10 @@ public class MyTimer extends TimerTask{
 		oos.close();
 	}
 	
-	public static List BlackList() {
+	public static List<String> BlackList() {
 		List<String> blacklist = new ArrayList<>();
-		Enumeration e = applications.keys();
-		while(e. hasMoreElements()) {
+		Enumeration<String> e = applications.keys();
+		while(e.hasMoreElements()) {
 			String s = e.nextElement().toString();
 			blacklist.add(s);
 		}

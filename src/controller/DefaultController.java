@@ -3,6 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -32,6 +33,7 @@ public class DefaultController implements Initializable {
     @FXML
     public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	screenLocker.ProgramManager.rmiServer.CloseServer();
     	stage.close();
     }
     @FXML

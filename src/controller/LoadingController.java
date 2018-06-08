@@ -40,6 +40,7 @@ public class LoadingController implements Initializable {
     @FXML
     public void Close(MouseEvent _event) {
     	Stage _stage = (Stage)((Node)_event.getSource()).getScene().getWindow();
+    	screenLocker.ProgramManager.rmiServer.CloseServer();
     	_stage.close();
     }
     @FXML
