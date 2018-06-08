@@ -6,8 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import screenLocker.MyTimer;
-import screenLocker.loader.Loader;
+import screenLocker.LockerTimer;
 
 public class ProcessListener extends Thread {
 	private List<String> _blacklist;
@@ -25,12 +24,10 @@ public class ProcessListener extends Thread {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			_blacklist.add("pietty0400b14.exe");
-			_blacklist.add("GitHubDesktop.exe");
 			
-			//_blacklist = MyTimer.BlackList();
+			_blacklist = LockerTimer.BlackList();
 
-			if(Loader.IsLinux()) {
+			if(screenLocker.loader.Loader.IsLinux()) {
 				for (String item: _blacklist) {
 					ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);
 					Process p;
@@ -48,7 +45,7 @@ public class ProcessListener extends Thread {
 					}
 				}
 			}
-			if(Loader.IsWindows()) {
+			if(screenLocker.loader.Loader.IsWindows()) {
 				for (String item: _blacklist) {
 					try {
 						Process p = Runtime.getRuntime().exec("tasklist"+ " /FI \"imagename eq "+ item+ "\"");

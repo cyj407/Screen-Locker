@@ -27,14 +27,14 @@
    <children>
       <ImageView fitHeight="322.0" fitWidth="478.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="4" GridPane.valignment="CENTER">
          <image>
-            <Image url="@../../images/_backgroundQuestion.png" />
+            <Image url="@../../src/images/_backgroundQuestion.png" />
          </image>
       </ImageView>
       <Label fx:id="_remainTime" contentDisplay="CENTER" textAlignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
          <graphic>
             <ImageView fitHeight="125.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../images/_imageTimer.png" />
+                  <Image url="@../../src/images/_imageTimer.png" />
                </image>
             </ImageView>
          </graphic>

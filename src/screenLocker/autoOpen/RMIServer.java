@@ -2,7 +2,7 @@ package screenLocker.autoOpen;
 
 import java.rmi.server.UnicastRemoteObject;
 
-import screenLocker.MyTimer;
+import screenLocker.LockerTimer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,7 +21,7 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 
 	public int GetRemainTime() {
 		try {
-			return MyTimer.getLargeTime();
+			return LockerTimer.getLargeTime();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
