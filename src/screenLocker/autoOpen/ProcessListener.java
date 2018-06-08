@@ -3,6 +3,7 @@ package screenLocker.autoOpen;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import screenLocker.MyTimer;
@@ -11,6 +12,7 @@ public class ProcessListener extends Thread {
 	private List<String> _blacklist;
 	
 	public ProcessListener() {
+		_blacklist = new ArrayList<>();
 	}
 
 	public void run() {
@@ -33,8 +35,9 @@ public class ProcessListener extends Thread {
 					BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
 					buf.readLine();
 					String res = buf.readLine();
+					System.out.println("res = " + res);
 					if (res != null) {
-						Runtime.getRuntime().exec("kill `ps -C " + item + " -o pid=`");
+						Runtime.getRuntime().exec("pkill " + item);
 					}
 				} catch (IOException e) {
 					e.printStackTrace();

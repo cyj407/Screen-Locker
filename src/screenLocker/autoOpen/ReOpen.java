@@ -60,7 +60,7 @@ public class ReOpen {
 					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
 			Process p = _pb.start();
-
+			
 			/**
 			 * checkout the pid, do wmic path win32_process where name="java.exe" get
 			 * commandline,processid for debugging: if want to kill pid on windows, do

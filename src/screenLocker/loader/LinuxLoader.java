@@ -122,7 +122,6 @@ public final class LinuxLoader extends Loader {
 
 		/** executable path **/
 		if (br.readLine().contains("text")) {
-			System.out.println("path = " + path);
 			List<String> oriList = getCurrentState();
 			_openProc(path);
 			Thread.sleep(1000);
