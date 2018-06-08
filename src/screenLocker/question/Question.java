@@ -4,12 +4,10 @@ import java.util.Map;
 
 public class Question {
 	
-	private String qn;
+	private String qn,ans,time;
 	private String choiceA, choiceB, choiceC, choiceD;
-	private String ans;
 	
-	Question(){
-		// set question
+	public Question(){
 		Q_set database = new Q_set();
 		Map<String,String> target = database.getQuestion();
 		qn = target.get("qn");
@@ -18,8 +16,8 @@ public class Question {
 		choiceC = target.get("choiceC");
 		choiceD = target.get("choiceD");
 		ans = target.get("ans");
+		time = target.get("time");
 	}
-	// get question
 	public String getqn() {
 		return qn;
 	}
@@ -38,12 +36,7 @@ public class Question {
 	public String getans() {
 		return ans;
 	}
-	
-	// 4 choices
-
-	// click button to answer
-	// timer
-	
-	// wrong
-	// correct
+	public int getTime() {
+		return Integer.valueOf(time);
+	}
 }

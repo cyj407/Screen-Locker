@@ -19,5 +19,6 @@
 	<classpathentry kind="lib" path="lib/jna-platform.jar"/>
 	<classpathentry kind="lib" path="lib/jna.jar"/>
 	<classpathentry kind="lib" path="lib/jRegistryKey.jar"/>
+	<classpathentry kind="lib" path="lib/image4j-0.7.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

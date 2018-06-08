@@ -1,5 +1,6 @@
 package screenLocker.loader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import screenLocker.Application;
@@ -29,18 +30,23 @@ public abstract class Loader {
 	public static int GetApplicationNumber() {
 		return _appList.size();
 	}
-	public static boolean IsExisitedApplication(String _name)
-	{
+	public static boolean IsExisitedApplication(String _name) {
 		for(Application _iter : _appList)
 			if (_iter.GetDisplayName().equals(_name))
 				return true;
 		return false;
 	}
-	public static boolean IsExisitedApplication(Application _app)
-	{
+	public static boolean IsExisitedApplication(Application _app) {
 		for(Application _iter : _appList)
 			if (_iter.GetDisplayName().equals(_app.GetDisplayName()))
 				return true;
 		return false;
+	}
+	public static ArrayList<Application> GetApplication() {
+		ArrayList<Application> _result = new ArrayList<Application>();
+		for(Application _iter : _appList) {
+			_result.add(_iter);
+		}
+		return _result;
 	}
 }

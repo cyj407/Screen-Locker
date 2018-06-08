@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
@@ -74,14 +75,86 @@
       </HBox>
    </top>
    <center>
-      <GridPane BorderPane.alignment="CENTER">
+      <GridPane fx:id="_rightItems" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="200.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="238.0" minHeight="10.0" prefHeight="187.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="408.0" minHeight="10.0" prefHeight="311.0" vgrow="SOMETIMES" />
         </rowConstraints>
+         <children>
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity">
+               <children>
+                  <VBox alignment="CENTER_LEFT" prefHeight="188.0" prefWidth="300.0">
+                     <children>
+                        <Text fx:id="_appName" fill="#354040" strokeType="OUTSIDE" strokeWidth="0.0" text="應用程式">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin></Text>
+                        <Text fx:id="_appLastUsed" fill="#354040" strokeType="OUTSIDE" strokeWidth="0.0" text="上次使用">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin></Text>
+                        <Text fx:id="_appStatus" fill="#354040" strokeType="OUTSIDE" strokeWidth="0.0" text="目前狀態">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </VBox.margin></Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="30.0" right="10.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <ImageView fx:id="_appIcon" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <effect>
+                        <Shadow color="#979797" height="0.0" radius="0.0" width="0.0" />
+                     </effect>
+                  </ImageView>
+               </children>
+            </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+               <children>
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#888f8f" height="1.0" stroke="TRANSPARENT" strokeType="INSIDE" width="443.0" />
+                  <HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="200.0">
+                     <children>
+                        <Text fill="#354040" strokeType="OUTSIDE" strokeWidth="0.0" text="設定監聽">
+                           <font>
+                              <Font size="18.0" />
+                           </font></Text>
+                        <Button maxHeight="28.0" maxWidth="88.0" minHeight="28.0" minWidth="88.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="88.0" style="-fx-background-color: #354040; -fx-background-radius: 8px;" text="自訂排程" textFill="#f2f4f4">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="280.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="30.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <TableView fx:id="_appTimeTable" maxHeight="216.0" maxWidth="434.0" minHeight="216.0" minWidth="434.0" prefHeight="216.0" prefWidth="434.0" style="-fx-background-color: #fefefe; -fx-border-color: #979797;">
+                    <columns>
+                      <TableColumn prefWidth="93.0" style="-fx-background-color: #fefefe;" text="排程編號" />
+                      <TableColumn prefWidth="340.0" style="-fx-background-color: #fefefe;" text="時間" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
       </GridPane>
    </center>
    <left>
@@ -92,14 +165,61 @@
                   <Image url="@../images/_backgroundSetting.png" />
                </image>
             </ImageView>
-            <TextField alignment="TOP_CENTER" maxHeight="28.0" maxWidth="248.0" minHeight="28.0" minWidth="245.0" prefHeight="28.0" prefWidth="245.0" style="-fx-background-radius: 14px; -fx-background-color: #354040; -fx-border-color: #979797; -fx-border-radius: 14px;">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <StackPane.margin>
-                  <Insets top="14.0" />
-               </StackPane.margin>
-            </TextField>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <StackPane maxHeight="26.0" maxWidth="245.0" minHeight="26.0" minWidth="245.0" prefHeight="26.0" prefWidth="245.0" style="-fx-background-radius: 14px; -fx-background-color: #354040; -fx-border-color: #979797; -fx-border-radius: 14px;">
+                     <children>
+                        <TextField fx:id="_searchTextField" alignment="TOP_LEFT" maxHeight="28.0" maxWidth="210.0" minHeight="28.0" minWidth="210.0" prefHeight="28.0" prefWidth="210.0" promptText="search..." style="-fx-background-color: rgba(0, 0, 0, 0); -fx-text-inner-color: #fefefe;">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <StackPane.margin>
+                              <Insets left="32.0" />
+                           </StackPane.margin>
+                           <padding>
+                              <Insets top="6.0" />
+                           </padding>
+                        </TextField>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_LEFT">
+                           <image>
+                              <Image url="@../images/_iconSearch.png" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets left="10.0" top="4.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane alignment="CENTER_LEFT" prefHeight="26.0" prefWidth="286.0">
+                     <children>
+                        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7b7d82" height="26.0" stroke="TRANSPARENT" strokeType="INSIDE" width="286.0" />
+                        <Text fill="#d4d4d4" strokeType="OUTSIDE" strokeWidth="0.0" text="Application List">
+                           <StackPane.margin>
+                              <Insets left="26.0" />
+                           </StackPane.margin>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="14.0" top="14.0" />
+                     </VBox.margin>
+                  </StackPane>
+                  <ListView fx:id="_appListView" maxHeight="330.0" maxWidth="270.0" minHeight="330.0" minWidth="270.0" prefHeight="330.0" prefWidth="270.0" style="-fx-background-color: rgba(0, 0, 0, 0);" />
+                  <Button fx:id="_returnButton" mnemonicParsing="false" onAction="#ToGUIMain" prefHeight="32.0" prefWidth="245.0" style="-fx-background-color: #354040; -fx-background-radius: 16px; -fx-border-color: #979797; -fx-border-radius: 16px;" text="返回" textFill="#f2f4f4">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="3.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </VBox>
          </children>
       </StackPane>
    </left>

@@ -22,6 +22,8 @@ import java.net.URL;
 
 import controller.DefaultController;
 import controller.LoadingController;
+import controller.MainController;
+import controller.SettingController;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
@@ -36,9 +38,9 @@ public class ProgramManager extends Application {
 	public static void main(String[] args) {
 		//--------example of MyTimer and ProcessListener------------------//
 		/*
-		MyTimer timer;
+		LockTimer timer;
 		try {
-			timer = new MyTimer();
+			timer = new LockTimer();
 			timer.setTime("gedit", 1);
 		} catch (IOException e2) {
 			e2.printStackTrace();
@@ -106,7 +108,7 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_mainLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
+			_fxmlLoader.setController(new MainController());
 			_guiMain = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -115,7 +117,7 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_settingLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
+			_fxmlLoader.setController(new SettingController());
 			_guiSetting = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -124,7 +126,6 @@ public class ProgramManager extends Application {
 		try {
 			FXMLLoader _fxmlLoader = new FXMLLoader(
 					this.getClass().getResource("/views/_questionLayout.fxml"));
-			_fxmlLoader.setController(new DefaultController());
 			_guiQuestion = new Scene(_fxmlLoader.load());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

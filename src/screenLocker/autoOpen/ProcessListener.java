@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import screenLocker.MyTimer;
+import screenLocker.LockerTimer;
 
 public class ProcessListener extends Thread {
 	private List<String> _blacklist;
@@ -24,7 +24,7 @@ public class ProcessListener extends Thread {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			_blacklist = MyTimer.BlackList();
+			_blacklist = LockerTimer.BlackList();
 
 			for (String item: _blacklist) {
 				ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);

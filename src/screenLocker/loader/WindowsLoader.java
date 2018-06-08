@@ -69,6 +69,9 @@ public final class WindowsLoader extends Loader {
 	}
 	@Override
 	public String LoadStatus() {
+		if (_currentNumber == 0) {
+			return "Now is loading " + _appList.get(0).GetDisplayName() + " ...";
+		}
 		String _str = "Now is loading " + _appList.get(_currentNumber - 1).GetDisplayName() + " ...";
 		return _str;
 	}
@@ -85,7 +88,11 @@ public final class WindowsLoader extends Loader {
 		// get all key of the target registry.
 		String[] _defaultAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _defaultAppPath);
 		String[] _anotherAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _anotherAppPath);
-		String[] _userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultAppPathOfCurrentUser);
+		String[] _userDefaultAppRegister = null;
+		try {
+			_userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultAppPathOfCurrentUser);
+		} catch (Exception e) {
+		}
 		// visit the default register that record application executable path information.
 		for (String _iter : _defaultAppRegister) {
 			String _temp = _defaultAppPath + "\\" + _iter;
@@ -108,23 +115,32 @@ public final class WindowsLoader extends Loader {
 		    	continue;
 		    _executableList.add(_targetPath);
 		}
-		// visit the local user register that record application executable path information.
-		for (String _iter : _userDefaultAppRegister) {
-			String _temp = _defaultAppPathOfCurrentUser + "\\" + _iter;
-			TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
-		    if (_tr.isEmpty())
-		    	continue;
-			String _targetPath = String.valueOf(_tr.entrySet().iterator().next().getValue());
-		    if (_targetPath.length() < 2)
-		    	continue;
-		    _executableList.add(_targetPath);
+		try {
+			// visit the local user register that record application executable path information.
+			for (String _iter : _userDefaultAppRegister) {
+				String _temp = _defaultAppPathOfCurrentUser + "\\" + _iter;
+				TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
+			    if (_tr.isEmpty())
+			    	continue;
+				String _targetPath = String.valueOf(_tr.entrySet().iterator().next().getValue());
+			    if (_targetPath.length() < 2)
+			    	continue;
+			    _executableList.add(_targetPath);
+			}
+		} catch (Exception e) {
+			
 		}
 	}
 	private void _loadAllApplication () {
 		// get all key of the target registry.
 		String[] _defaultAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _defaultPath);
 		String[] _anotherAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _anotherPath);
-		String[] _userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultPathOfCurrentUser);
+		String[] _userDefaultAppRegister = null;
+		try {
+			_userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultPathOfCurrentUser);
+		} catch (Exception e) {
+			
+		}
 		// visit the default register that record application information.
 		for (String _iter : _defaultAppRegister) {
 			String _temp = _defaultPath + "\\" + _iter;
@@ -181,33 +197,37 @@ public final class WindowsLoader extends Loader {
 		    	}
 		    }	
 		}
-		// visit the local user register that record application information.
-		for (String _iter : _userDefaultAppRegister) {
-			String _temp = _defaultPathOfCurrentUser + "\\" + _iter;
-		    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
-		    if (_tr.isEmpty()) {
-		    	continue;
-		    }
-		    if (_iter.contains("Update")) {
-		    	continue;
-		    }
-		    boolean _flag = true;
-		    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
-		    	String _s = _entry.getKey();
-		    	Object _o = _entry.getValue();
-		    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
-		    		_flag = false;
-		    	}
-		    	if (_s.equals("UninstallString") && (String.valueOf(_o)).isEmpty()) {
-		    		_flag = false;
-		    	}
-		    }
-		    if (_flag && _tr.containsKey("DisplayName")) {
-		    	String _str = (String) _tr.get("DisplayName");
-		    	if (!_str.contains("Update")) {
-		    		_addApplication(_tr);
-		    	}
-		    }
+		try {
+			// visit the local user register that record application information.
+			for (String _iter : _userDefaultAppRegister) {
+				String _temp = _defaultPathOfCurrentUser + "\\" + _iter;
+			    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
+			    if (_tr.isEmpty()) {
+			    	continue;
+			    }
+			    if (_iter.contains("Update")) {
+			    	continue;
+			    }
+			    boolean _flag = true;
+			    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
+			    	String _s = _entry.getKey();
+			    	Object _o = _entry.getValue();
+			    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
+			    		_flag = false;
+			    	}
+			    	if (_s.equals("UninstallString") && (String.valueOf(_o)).isEmpty()) {
+			    		_flag = false;
+			    	}
+			    }
+			    if (_flag && _tr.containsKey("DisplayName")) {
+			    	String _str = (String) _tr.get("DisplayName");
+			    	if (!_str.contains("Update")) {
+			    		_addApplication(_tr);
+			    	}
+			    }
+			}
+		} catch (Exception e) {
+			
 		}
 	}
 	private void _addApplication(TreeMap<String, Object> _tr) {
@@ -227,7 +247,7 @@ public final class WindowsLoader extends Loader {
 		} catch (Exception e) {
 		}
 		try {
-    		_app.SetIconPath((String)_tr.get("DisplayIcon"));
+    		_app.SetIconPath(((String)_tr.get("DisplayIcon")).replace(",0", ""));
 		} catch (Exception e) {
 		}
 		try {
