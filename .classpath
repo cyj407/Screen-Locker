@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/jna.jar"/>
 	<classpathentry kind="lib" path="lib/jRegistryKey.jar"/>
 	<classpathentry kind="lib" path="lib/image4j-0.7.2.jar"/>
+	<classpathentry kind="lib" path="/home/afcidk/Downloads/jre1.8.0_171/lib/rt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
