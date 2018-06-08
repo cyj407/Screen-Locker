@@ -1,6 +1,8 @@
-package screenLocker.question;
+package qa_part;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -18,13 +20,19 @@ public class Q_set {
  			database = internet.getList();		
  		else {		// create the question from local site
 			try {
-				Scanner scanner = new Scanner(new FileInputStream("./src/qa_part/LocalData.txt"));
-				while(scanner.hasNextLine())
-					database += scanner.nextLine();
-				scanner.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+	            BufferedReader _br = new BufferedReader(new InputStreamReader(new FileInputStream("./src/qa_part/LocalData.txt"),"utf8"));
+	            while(_br.ready()) {
+	                String _brStr = _br.readLine();
+	                if(_brStr.length() > 0) {
+	                	_brStr = _brStr.substring(1, _brStr.length());
+	                    // utf8 format's first word is '?'
+	                	database += _brStr;
+	                }
+	            }
+	        }catch(Exception e){
+	            e.printStackTrace();
+	        }
+			
  		}
  		
  		JSONArray q_set = new JSONArray(database);
@@ -42,6 +50,7 @@ public class Q_set {
 		chooseQ.put("choiceC", obj.getString("choiceC"));
 		chooseQ.put("choiceD", obj.getString("choiceD"));
 		chooseQ.put("ans", obj.getString("ans"));
+		chooseQ.put("time", obj.getString("time"));
 	}
 	
 	public Map<String,String> getQuestion(){

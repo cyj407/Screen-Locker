@@ -1,4 +1,4 @@
-package screenLocker.question;
+package qa_part;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -25,6 +25,7 @@ public class InternetCheck {
 			while((tmp = q.readLine())!=null) {
 				urlContent += tmp;
 			}
+		//	System.out.println(urlContent);
 		
 			return true;
 		}catch(Exception e) {	// --> no, produce question from the local

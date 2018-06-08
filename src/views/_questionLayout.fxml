@@ -1,106 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="800.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="800.0" minHeight="48.0" minWidth="800.0" onMouseDragged="#Draged" onMousePressed="#Pressed" prefHeight="48.0" prefWidth="800.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-               <HBox.margin>
-                  <Insets right="4.0" />
-               </HBox.margin>
+<GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" opacity="0.6" prefHeight="548.0" prefWidth="800.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.QuestionController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="450.0" minWidth="10.0" prefWidth="354.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.000005086263" minWidth="0.0" prefWidth="53.333333333333314" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="532.000005086263" minWidth="10.0" prefWidth="353.99995930989587" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="194.3333536783854" minHeight="10.0" prefHeight="142.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="260.33333333333337" minHeight="10.0" prefHeight="205.33332316080725" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="127.66668701171875" minHeight="10.0" prefHeight="74.66667683919269" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="148.99998474121094" minHeight="10.0" prefHeight="87.33333333333331" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ImageView fitHeight="322.0" fitWidth="478.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowSpan="4" GridPane.valignment="CENTER">
+         <image>
+            <Image url="@../../images/_backgroundQuestion.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="_remainTime" contentDisplay="CENTER" textAlignment="CENTER" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+         <graphic>
+            <ImageView fitHeight="125.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/_iconTitle.png" />
+                  <Image url="@../../images/_imageTimer.png" />
                </image>
             </ImageView>
-            <Text strokeType="INSIDE" strokeWidth="0.0" text="Screen Locker" wrappingWidth="200.0">
-               <HBox.margin>
-                  <Insets left="4.0" right="390.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="24.0" />
-               </font></Text>
-            <Button fx:id="_shrinkButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#Shrink" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" />
-               </HBox.margin>
-               <graphic>
-                  <ImageView fitHeight="2.0" fitWidth="10.0" pickOnBounds="true" preserveRatio="true" translateY="5.0">
-                     <image>
-                        <Image url="@../images/_iconShrink.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="_enlargeButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="4.0" />
-               </HBox.margin>
-               <graphic>
-                  <ImageView fitHeight="13.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/_iconEnlarge.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="_closeButton" maxHeight="32.0" maxWidth="64.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Close" prefHeight="32.0" prefWidth="64.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
-               <HBox.margin>
-                  <Insets bottom="4.0" left="4.0" right="8.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/_iconClose.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children>
+         </graphic>
+         <font>
+            <Font size="38.0" />
+         </font>
+      </Label>
+      <Label fx:id="_question" alignment="CENTER" contentDisplay="CENTER" maxWidth="648.0" minHeight="100.0" opacity="0.91" prefWidth="648.0" style="-fx-background-color: #380087; -fx-background-radius: 50;" textAlignment="JUSTIFY" textFill="WHITE" wrapText="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
-      </HBox>
-   </top>
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <GridPane GridPane.rowIndex="3">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-            </GridPane>
-            <ImageView fitHeight="322.0" fitWidth="478.0" opacity="0.12" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-               <image>
-                  <Image url="@../images/_backgroundQueation.png" />
-               </image>
-            </ImageView>
-         </children>
-      </GridPane>
-   </center>
-</BorderPane>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+         </padding>
+      </Label>
+      <Button fx:id="_btn_a" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-radius: 20; -fx-background-color: #e3c3aa;" textAlignment="JUSTIFY" wrapText="true" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="21.99" radius="9.7525" spread="0.51" width="19.02" />
+         </effect>
+      </Button>
+      <Button fx:id="_btn_d" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-radius: 20; -fx-background-color: #e3c3aa;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="21.99" radius="9.7525" spread="0.51" width="19.02" />
+         </effect>
+      </Button>
+      <Button fx:id="_btn_c" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-radius: 20; -fx-background-color: #e3c3aa;" textAlignment="JUSTIFY" wrapText="true" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="TOP">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="21.99" radius="9.7525" spread="0.51" width="19.02" />
+         </effect>
+      </Button>
+      <Button fx:id="_btn_b" alignment="CENTER" contentDisplay="CENTER" maxHeight="45.0" minWidth="150.0" mnemonicParsing="false" onAction="#handleButtonClick" style="-fx-background-radius: 20; -fx-background-color: #e3c3aa;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <effect>
+            <DropShadow height="21.99" radius="9.7525" spread="0.51" width="19.02" />
+         </effect>
+      </Button>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>
