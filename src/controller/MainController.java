@@ -42,6 +42,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
+import screenLocker.LockerTimer;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
@@ -55,7 +56,6 @@ public class MainController implements Initializable{
             _hbox = new HBox();
             _icon = new ImageView();
             _hbox.getChildren().add(_icon);
-            //_hbox.alignmentProperty().set(Pos.CENTER_LEFT);
             _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
@@ -177,12 +177,15 @@ public class MainController implements Initializable{
 		
 		ArrayList<Application> _appList = new ArrayList<Application>();
         //ListView<String> _appList = new ListView<>();
-        for(Application _iter : Loader.GetInstance().GetApplication()) {
-        	_appList.add(_iter);
-        }
+		for(String _iter : LockerTimer.BlackList()) {
+			for(Application _appIter : Loader.GetInstance().GetApplication()) {
+				if (_iter.equals(_appIter.GetDisplayName())) {
+					_appList.add(_appIter);
+				}
+			}
+		}
         ObservableList _observableList = FXCollections.observableArrayList(_appList);
         _appListView.setItems(_observableList);
-        _appListView.setPrefHeight(35 * 8);
         _appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
             @Override
             public ListCell<Application> call(ListView<Application> param) {

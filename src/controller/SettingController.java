@@ -37,22 +37,16 @@ public class SettingController implements Initializable {
 	
 	static class AppCell extends ListCell<Application> {
         private HBox _hbox;
-        private StackPane _pane;
-        private Button _button;
         private ImageView _icon;
         private Application _lastItem;
 
         public AppCell() {
             super();
-            this.setStyle("-fx-background-color: rgba(0, 0, 0, 0)");
             _hbox = new HBox();
-            _button = new Button();
-            _button.setStyle("-fx-background-color: rgba(0, 0, 0, 0); -fx-background-radius: 17px; -fx-border-radius: 17px; -fx-text-fill: #f2f4f4;-fx-font-size: 14px");
-            _button.setMinHeight(35);
-            _pane = new StackPane();
             _icon = new ImageView();
-            _hbox.getChildren().addAll(_pane, _icon, _button);
-            _hbox.alignmentProperty().set(Pos.CENTER_LEFT);
+            _hbox.getChildren().add(_icon);
+            _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
+            getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
         
         @Override
@@ -65,9 +59,9 @@ public class SettingController implements Initializable {
             } else {
                 _lastItem = _item;
                 if (_item.GetDisplayName().length() > 15)
-                	_button.setText(_item.GetDisplayName().substring(0, 15) + "...");
+                	setText("  " + _item.GetDisplayName().substring(0, 15) + "...");
                 else
-                	_button.setText(_item.GetDisplayName());
+                	setText("  " + _item.GetDisplayName());
                 try {
                 	if (_lastItem.GetIconPath() != null && _lastItem.GetIconPath() != "" ) {
 		                if (_lastItem.GetIconPath().indexOf(".ico") < 0) {
