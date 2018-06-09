@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="800.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoadingController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="800.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoadingController">
    <top>
       <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="800.0" minHeight="48.0" minWidth="800.0" onMouseDragged="#Draged" onMousePressed="#Pressed" prefHeight="48.0" prefWidth="800.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;" BorderPane.alignment="CENTER">
          <children>

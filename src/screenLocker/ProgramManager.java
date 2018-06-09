@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import screenLocker.autoOpen.ProcessListener;
 import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
@@ -38,15 +39,19 @@ public class ProgramManager extends Application {
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
 	public static void main(String[] args) {
-		launch(args);
+
+		
 
 		//-------------------- f26401004's section -----------------------//
 		
 		//------------------------ yiiju's section -----------------------//
 
+		Thread thread = new ProcessListener();
+		thread.start();
+		
 		//----------------------- afcidk's section -----------------------//
 		//IMPORTANT!! Must be placed after launch(args)
-		
+
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
@@ -57,6 +62,9 @@ public class ProgramManager extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		System.out.println("here");
+		launch(args);
 
 		//----------------------- cyj407's section -----------------------//
 	}
@@ -112,4 +120,5 @@ public class ProgramManager extends Application {
 			changeScene("/views/_questionLayout.fxml");
 		});
 	}
+
 }
