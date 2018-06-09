@@ -46,6 +46,16 @@ import screenLocker.LockerTimer;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
+	private double _x, _y;
+    @FXML
+    private Button _shrinkButton;
+    @FXML
+    private Button _enlargeButton;
+    @FXML
+    private Button _closeButton;
+    @FXML
+    private ListView<Application> _appListView;
+	
 	static class AppCell extends ListCell<Application> {
         private HBox _hbox;
         private ImageView _icon;
@@ -129,16 +139,6 @@ public class MainController implements Initializable{
             }
         }
     }
-	
-	private double _x, _y;
-    @FXML
-    private Button _shrinkButton;
-    @FXML
-    private Button _enlargeButton;
-    @FXML
-    private Button _closeButton;
-    @FXML
-    private ListView<Application> _appListView;
     
 	@FXML
     public void Draged(MouseEvent event) {

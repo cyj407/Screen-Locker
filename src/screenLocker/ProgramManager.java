@@ -2,9 +2,11 @@ package screenLocker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -32,7 +34,7 @@ public class ProgramManager extends Application {
 	private Scene _guiQuestion;
 	private Scene _guiSetting;
 	private Scene _guiLoading;
-	private Scene _activeGui;
+//	private Scene _activeGui;
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
 	public static void main(String[] args) {
@@ -75,62 +77,39 @@ public class ProgramManager extends Application {
 		// setup the first scene to loading scene.
 		_rootStage.setScene(_guiLoading);
 		// set the current scene.
-		_activeGui = _guiLoading;
+	//	_activeGui = _guiLoading;
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
 	}
 	
-	private void _instantiateScene() {
-		// initialize loading scene.
+	public void changeScene(String fxml){
+	    Parent pane;
 		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_loadingLayout.fxml"));
-			_fxmlLoader.setController(new LoadingController());
-			_guiLoading = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			pane = FXMLLoader.load(
+			       getClass().getResource(fxml));
+			_rootStage.getScene().setRoot(pane);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		// initialize main scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_mainLayout.fxml"));
-			_fxmlLoader.setController(new MainController());
-			_guiMain = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		// initialize setting scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_settingLayout.fxml"));
-			_fxmlLoader.setController(new SettingController());
-			_guiSetting = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		// initialize question scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_questionLayout.fxml"));
-			_guiQuestion = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+	}
+	
+	private void _instantiateScene() throws IOException {
+		FXMLLoader _loading = new FXMLLoader(
+				this.getClass().getResource("/views/_loadingLayout.fxml"));
+		_guiLoading = new Scene(_loading.load());
 	}
 	
 	private void _addTransferListener() {
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToMain, e -> {
-			_rootStage.setScene(_guiMain);
-			_activeGui = _guiMain;
+			changeScene("/views/_mainLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
-			_rootStage.setScene(_guiSetting);
-			_activeGui = _guiSetting;
+			changeScene("/views/_SettingLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
-			_rootStage.setScene(_guiQuestion);
-			_activeGui = _guiQuestion;
+			changeScene("/views/_questionLayout.fxml");
 		});
 	}
 }
