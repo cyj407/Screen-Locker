@@ -106,7 +106,7 @@
             <Font size="38.0" />
          </font>
       </Label>
-      <Label fx:id="_question" alignment="CENTER" contentDisplay="CENTER" maxWidth="648.0" minHeight="100.0" opacity="0.93" prefWidth="648.0" style="-fx-background-color: f7f46d; -fx-background-radius: 50;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <Label fx:id="_question" alignment="CENTER" contentDisplay="CENTER" maxWidth="648.0" minHeight="100.0" opacity="0.8" prefWidth="648.0" style="-fx-background-color: f7f46d; -fx-background-radius: 50;" textAlignment="JUSTIFY" wrapText="true" GridPane.columnSpan="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
          <font>
             <Font size="17.0" />
          </font>
