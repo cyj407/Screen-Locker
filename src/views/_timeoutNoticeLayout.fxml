@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessageController">
    <children>
-      <ImageView fitHeight="200.0" fitWidth="300.0" layoutX="47.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="207.0" fitWidth="253.0" layoutX="44.0" layoutY="48.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../src/images/_warning.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="29.0" layoutY="41.0" prefHeight="56.0" prefWidth="244.0" style="-fx-border-color: red; -fx-border-width: 4;" text="Time is up." textAlignment="CENTER" textFill="RED">
+      <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="300.0" minHeight="48.0" minWidth="300.0" prefHeight="48.0" prefWidth="300.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets right="4.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/_iconTitle.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="INSIDE" strokeWidth="0.0" text="TIMEOUT" wrappingWidth="178.66671752929688">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Button fx:id="_closeButton" maxHeight="32.0" maxWidth="64.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Close" prefHeight="32.0" prefWidth="64.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="8.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/_iconClose.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+      <Label alignment="CENTER" layoutX="29.0" layoutY="75.0" prefHeight="56.0" prefWidth="244.0" style="-fx-border-color: red; -fx-border-width: 4;" text="Time is up." textAlignment="CENTER" textFill="RED">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="53.0" layoutY="90.0" prefHeight="88.0" prefWidth="207.0" style="-fx-font-weight: bold;" text="PUBLISHMENT:&#10;Add 10 minutes time to unlock this application." wrapText="true">
+      <Label layoutX="47.0" layoutY="130.0" prefHeight="88.0" prefWidth="207.0" style="-fx-font-weight: bold;" text="PUNISHMENT:&#10;Add 10 minutes time to unlock this application." wrapText="true">
          <font>
             <Font size="13.0" />
          </font></Label>
