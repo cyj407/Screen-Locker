@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import java.net.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.effect.*?>
@@ -105,7 +106,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Text>
-            <Button fx:id="_settingButton" maxHeight="32.0" maxWidth="76.0" minHeight="32.0" minWidth="76.0" mnemonicParsing="false" onAction="#ToGUISetting" prefHeight="32.0" prefWidth="76.0" style="-fx-background-radius: 10px; -fx-background-color: #354040; -fx-border-color: #979797; -fx-border-width: 1px; -fx-border-radius: 10px;" text="設定" textFill="#f2f4f4">
+            <Button fx:id="_settingButton" maxHeight="32.0" maxWidth="76.0" minHeight="32.0" minWidth="76.0" mnemonicParsing="false" onAction="#ToGUISetting" prefHeight="32.0" prefWidth="76.0" style="-fx-background-radius: 10px; -fx-border-color: #979797; -fx-border-width: 1px; -fx-border-radius: 10px;" stylesheets="@../stylesheets/_button.css" text="設定" textFill="#f2f4f4">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
@@ -117,11 +118,17 @@
                </opaqueInsets>
                <padding>
                   <Insets bottom="1.0" />
-               </padding></Button>
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
             <ListView fx:id="_appListView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: rgba(255, 255, 255, 0);" stylesheets="@../stylesheets/_appListView.css" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
                   <Insets bottom="20.0" right="10.0" />
                </StackPane.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </ListView>
          </children>
       </StackPane>

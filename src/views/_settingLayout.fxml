@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -114,13 +115,10 @@
                         <Insets left="30.0" right="10.0" />
                      </HBox.margin>
                   </VBox>
-                  <ImageView fx:id="_appIcon" fitHeight="128.0" fitWidth="128.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="_appIcon" fitHeight="96.0" fitWidth="96.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
-                     <effect>
-                        <Shadow color="#979797" height="0.0" radius="0.0" width="0.0" />
-                     </effect>
                   </ImageView>
                </children>
             </HBox>
@@ -203,8 +201,11 @@
                         <Insets bottom="14.0" top="14.0" />
                      </VBox.margin>
                   </StackPane>
-                  <ListView fx:id="_appListView" maxHeight="330.0" maxWidth="270.0" minHeight="330.0" minWidth="270.0" prefHeight="330.0" prefWidth="270.0" style="-fx-background-color: rgba(0, 0, 0, 0);" />
-                  <Button fx:id="_returnButton" mnemonicParsing="false" onAction="#ToGUIMain" prefHeight="32.0" prefWidth="245.0" style="-fx-background-color: #354040; -fx-background-radius: 16px; -fx-border-color: #979797; -fx-border-radius: 16px;" text="返回" textFill="#f2f4f4">
+                  <ListView fx:id="_appListView" maxHeight="330.0" maxWidth="270.0" minHeight="330.0" minWidth="270.0" prefHeight="330.0" prefWidth="270.0" style="-fx-background-color: rgba(0, 0, 0, 0);">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></ListView>
+                  <Button fx:id="_returnButton" mnemonicParsing="false" onAction="#ToGUIMain" prefHeight="32.0" prefWidth="245.0" style="-fx-background-radius: 16px; -fx-border-color: #979797; -fx-border-radius: 16px;" stylesheets="@../stylesheets/_button.css" text="返回" textFill="#f2f4f4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -217,6 +218,9 @@
                      <padding>
                         <Insets bottom="3.0" />
                      </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </VBox>

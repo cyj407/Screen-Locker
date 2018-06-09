@@ -57,6 +57,7 @@ public class MainController implements Initializable{
             _icon = new ImageView();
             _hbox.getChildren().add(_icon);
             _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
+            setStyle("-fx-cursor: pointer");
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
         
