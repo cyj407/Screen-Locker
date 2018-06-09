@@ -20,7 +20,7 @@ public class Q_set {
  			database = internet.getList();		
  		else {		// create the question from local site
 			try {
-	            BufferedReader _br = new BufferedReader(new InputStreamReader(new FileInputStream("./src/qa_part/LocalData.txt"),"utf8"));
+	            BufferedReader _br = new BufferedReader(new InputStreamReader(new FileInputStream("./src/screenLocker/question/LocalData.txt"),"utf8"));
 	            while(_br.ready()) {
 	                String _brStr = _br.readLine();
 	                if(_brStr.length() > 0) {
