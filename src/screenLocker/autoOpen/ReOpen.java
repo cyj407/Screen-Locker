@@ -3,34 +3,35 @@ package screenLocker.autoOpen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 import screenLocker.loader.Loader;
 
 public class ReOpen {
-	private final static String _deli = Loader.IsLinux()?"/":"\\";
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
+	private final static String _deli2 = Loader.IsLinux() ? ":" : ";";
 
 	public static void main(String[] args) throws Exception {
 
 		String _mainName = args[1];
 		String _path = args[0];
-		_path = String.format("\"%1$s%2$sbin;%1$s%2$slib%2$sjna-platform.jar;%1$s%2$slib%2$sjna.jar;%1$s%2$slib%2$sjRegistryKey.jar\"", _path,
-				_deli);
+		_path = String.format(
+				"\"%1$s%2$sbin%3$s%1$s%2$slib%2$sjna-platform.jar%3$s%1$s%2$slib%2$sjna.jar%3$s%1$s%2$slib%2$sjRegistryKey.jar\"",
+				_path, _deli, _deli2);
 		RmiServerIntf _obj = null;
-
 		_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 
-		int cnt = 0;
 		while (true) {
 
 			/** times up, leave loop **/
 			try {
-				_obj.GetRemainTime();
-				/*
 				if (_obj.GetRemainTime() <= 0) {
 					break;
 				}
-				*/
 			} catch (Exception e) {
 				/** cannot find server -> application is down **/
 				if (Loader.IsLinux()) Runtime.getRuntime().exec(String.format("java %s", _mainName));
@@ -60,7 +61,14 @@ public class ReOpen {
 					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
 			Process p = _pb.start();
-			
+			/*
+			BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			String st;
+			while ((st=br.readLine()) != null) {
+				System.out.println(st);
+			}
+			*/
+
 			/**
 			 * checkout the pid, do wmic path win32_process where name="java.exe" get
 			 * commandline,processid for debugging: if want to kill pid on windows, do
@@ -106,8 +114,7 @@ public class ReOpen {
 			while ((_line = _br.readLine()) != null) {
 				_lines += _line;
 			}
-			
-			System.out.println("contain?" + _lines.contains("ReOpen"));
+
 			return _lines.contains("ReOpen");
 		}
 

@@ -156,7 +156,7 @@ public class MainController implements Initializable{
     @FXML
     public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	screenLocker.ProgramManager.rmiServer.CloseServer();
+    	screenLocker.ProgramManager.leave();
     	stage.close();
     }
     @FXML

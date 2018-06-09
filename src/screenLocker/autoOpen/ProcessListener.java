@@ -5,25 +5,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 import screenLocker.LockerTimer;
 
-public class ProcessListener extends Thread {
+public class ProcessListener extends Thread{
 	private List<String> _blacklist;
+	private static boolean _listening;
 	
 	public ProcessListener() {
 		_blacklist = new ArrayList<>();
+		_listening = true;
 	}
-
+	public void close() {
+		_listening = false;
+	}
+	
 	public void run() {
 
-		while (true) {
-			/** sleep 5 secs **/
+		while (_listening) {
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e1) {
-				e1.printStackTrace();
 			}
+
 			_blacklist = LockerTimer.BlackList();
 
 			for (String item: _blacklist) {
