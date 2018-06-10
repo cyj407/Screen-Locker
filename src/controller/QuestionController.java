@@ -63,42 +63,40 @@ public class QuestionController implements Initializable{
     }
 	
 	
-	private void updateRemainTime(boolean _startCountdown) {
-		if(_startCountdown) {
-			Timeline _time = new Timeline();
-			KeyFrame _cycle= new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
-				@Override public void handle(ActionEvent event) {
-					_remainTime.setVisible(true);
-					if(_hasAnswered)
-						_time.stop();
-					_countdown--;
-					if(_countdown <= 10) {
-						_remainTime.setStyle("-fx-text-fill: red");
-					}
-					_remainTime.setText(String.valueOf(_countdown));
-				    if(_countdown < 0) {
-				    	try {
-				        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_timeoutNoticeLayout.fxml"));	        
-				        	_stage = (Stage) _remainTime.getScene().getWindow();
-				        	Stage _showTimeoutStage = new Stage();
-					        _showTimeoutStage.setScene(new Scene(_noticeFXML));
-					        _showTimeoutStage.initStyle(StageStyle.UNDECORATED);
-					        _showTimeoutStage.setResizable(false); 
-					        _showTimeoutStage.show();
-							_stage.close();
-				        } catch(Exception e) {
-				        	e.printStackTrace();
-				        }
-				    	_time.stop();
-				    
-				    	// fail, add 10 minutes time to lock the application
-				    }
-				}		
-			});
-			_time.setCycleCount(Timeline.INDEFINITE);
-			_time.getKeyFrames().add(_cycle);
-			_time.play();
-		}
+	private void updateRemainTime() {
+		Timeline _time = new Timeline();
+		KeyFrame _cycle= new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent event) {
+				_remainTime.setVisible(true);
+				if(_hasAnswered)
+					_time.stop();
+				_countdown--;
+				if(_countdown <= 10) {
+					_remainTime.setStyle("-fx-text-fill: red");
+				}
+				_remainTime.setText(String.valueOf(_countdown));
+			    if(_countdown < 0) {
+			    	try {
+			        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_timeoutNoticeLayout.fxml"));	        
+			        	_stage = (Stage) _remainTime.getScene().getWindow();
+			        	Stage _showTimeoutStage = new Stage();
+				        _showTimeoutStage.setScene(new Scene(_noticeFXML));
+				        _showTimeoutStage.initStyle(StageStyle.UNDECORATED);
+				        _showTimeoutStage.setResizable(false); 
+				        _showTimeoutStage.show();
+						_stage.close();
+			        } catch(Exception e) {
+			        	e.printStackTrace();
+			        }
+			    	_time.stop();
+			    
+			    	// fail, add 10 minutes time to lock the application
+			    }
+			}		
+		});
+		_time.setCycleCount(Timeline.INDEFINITE);
+		_time.getKeyFrames().add(_cycle);
+		_time.play();
 	}
 	
 
@@ -162,7 +160,7 @@ public class QuestionController implements Initializable{
 		_btn_c.setText(_questionContent.getC());
 		_btn_d.setText(_questionContent.getD());
 		
-		// updateRemainTime();
+		updateRemainTime();
 	}
 
 }

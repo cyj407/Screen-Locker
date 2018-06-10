@@ -39,9 +39,6 @@ public class ProgramManager extends Application {
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
 	public static void main(String[] args) {
-
-		
-
 		//-------------------- f26401004's section -----------------------//
 		
 		//------------------------ yiiju's section -----------------------//
@@ -114,10 +111,28 @@ public class ProgramManager extends Application {
 			changeScene("/views/_mainLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
-			changeScene("/views/_SettingLayout.fxml");
+			changeScene("/views/_settingLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
 			changeScene("/views/_questionLayout.fxml");
+			
+			boolean _enterQuestion;
+			Stage _enterQStage = new Stage();
+			Parent parent;
+			try {
+				parent = FXMLLoader.load(getClass().getResource("views/_questionEntranceLayout.fxml"));
+				Scene scene = new Scene(parent);
+				_enterQStage.initStyle(StageStyle.UNDECORATED);
+				_enterQStage.setScene(scene);
+				_enterQStage.setResizable(false);
+				_enterQStage.show();
+				
+		//		if(_enterQStage._enter)
+					changeScene("/views/_questionLayout.fxml");
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 	}
 
