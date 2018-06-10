@@ -1,0 +1,46 @@
+.date-circle-text-field > .text-field {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16px 0px 0px 16px;
+    -fx-border-radius: 16px 0px 0px 16px;
+    -fx-border-width: 0px;
+    -fx-border-color:  #b8b8b8;
+}
+
+.date-circle-text-field > .arrow-button {
+    -fx-background-radius: 0px 16px 16px 0px;
+    -fx-border-radius: 0px 16px 16px 0px;
+}
+.cancle-button:hover {
+    -fx-background-color: #f2575b;
+}
+.cancle-button {
+    -fx-background-color: #1f2626;
+}
+
+.default-button:hover {
+    -fx-background-color: #65bcc4;
+}
+
+.default-button {
+    -fx-background-color: #1f2626;
+}
+
+.menu-bar-close-button:hover {
+    -fx-background-color: #f2575b;
+}
+
+.menu-bar-close-button {
+    -fx-background-color: #4ca0a8;
+}
+
+.menu-bar-enlarge-button {
+    -fx-background-color: #2a585c;
+}
+
+.menu-bar-shrink-button:hover {
+    -fx-background-color: #65bcc4;
+}
+
+.menu-bar-shrink-button {
+    -fx-background-color: #4ca0a8;
+}

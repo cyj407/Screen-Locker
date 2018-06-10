@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import screenLocker.autoOpen.ProcessListener;
 import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
@@ -34,12 +35,7 @@ import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private Stage _rootStage;
-	private Scene _guiMain;
-	private Scene _guiQuestion;
-	private Scene _guiSetting;
-	private Scene _guiLoading;
 	private static ProcessListener _pListen = null;
-//	private Scene _activeGui;
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
 	public static void leave() {
@@ -84,10 +80,10 @@ public class ProgramManager extends Application {
 		_rootStage.setHeight(548);
 		// TODO: set all event for different scene transfer.
 		_addTransferListener();
-		// initantiate all scene.
-		_instantiateScene();
-		// setup the first scene to loading scene.
-		_rootStage.setScene(_guiLoading);
+		// initantiate loading scene.
+		FXMLLoader _loading = new FXMLLoader(
+				this.getClass().getResource("/views/_loadingLayout.fxml"));
+		_rootStage.setScene(new Scene(_loading.load()));
 		// set the current scene.
 	//	_activeGui = _guiLoading;
 		_rootStage.show();
@@ -106,13 +102,7 @@ public class ProgramManager extends Application {
 			e.printStackTrace();
 		}
 	}
-	
-	private void _instantiateScene() throws IOException {
-		FXMLLoader _loading = new FXMLLoader(
-				this.getClass().getResource("/views/_loadingLayout.fxml"));
-		_guiLoading = new Scene(_loading.load());
-	}
-	
+
 	private void _addTransferListener() {
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToMain, e -> {
 			changeScene("/views/_mainLayout.fxml");
