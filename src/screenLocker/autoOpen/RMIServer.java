@@ -15,9 +15,14 @@ import java.rmi.registry.*;
 
 public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 	private static RMIServer _server;
+	private static boolean _alive;
 
 	public RMIServer() throws RemoteException {
 		super(0);
+	}
+
+	public boolean IsAlive() {
+		return _alive;
 	}
 
 	public int GetRemainTime() {
@@ -32,6 +37,7 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 	}
 
 	public static RMIServer StartServer() {
+		_alive = true;
 		/** create Registry **/
 		try {
 			LocateRegistry.createRegistry(1099);
@@ -42,44 +48,41 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 		}
 
 		/** create Server, this will invoke a new thread **/
-		try {
-			_server = new RMIServer();
-			Naming.rebind("//localhost/ReOpenServer", _server);
-		} catch (Exception e) {
-			System.out.println("cannot create or rebind new server");
-			e.printStackTrace();
+		if (_server == null) {
+			try {
+				_server = new RMIServer();
+				Naming.rebind("//localhost/ReOpenServer", _server);
+			} catch (Exception e) {
+				System.out.println("cannot create or rebind new server");
+				e.printStackTrace();
+			}
 		}
 		return _server;
 	}
 
 	public void CloseServer() {
-		while (true) {
+		_alive = false;
+		try {
+			Naming.unbind("//localhost/ReOpenServer");
+		} catch (RemoteException | MalformedURLException | NotBoundException e1) {
 			try {
-				Naming.unbind("//localhost/ReOpenServer");
-				break;
-			} catch (RemoteException | MalformedURLException | NotBoundException e1) {
-				try {
-					PrintWriter writer = new PrintWriter("log_naming.txt");
-					writer.println(e1);
-					writer.close();
-				} catch (Exception e2) {
+				PrintWriter writer = new PrintWriter("log_naming.txt");
+				writer.println(e1);
+				writer.close();
+			} catch (Exception e2) {
 
-				}
 			}
 		}
 
-		while (true) {
+		try {
+			UnicastRemoteObject.unexportObject(this, true);
+		} catch (NoSuchObjectException e) {
 			try {
-				UnicastRemoteObject.unexportObject(this, true);
-				break;
-			} catch (NoSuchObjectException e) {
-				try {
-					PrintWriter writer = new PrintWriter("log_obj.txt");
-					writer.println(e);
-					writer.close();
-				} catch (Exception e2) {
+				PrintWriter writer = new PrintWriter("log_obj.txt");
+				writer.println(e);
+				writer.close();
+			} catch (Exception e2) {
 
-				}
 			}
 		}
 	}

@@ -44,7 +44,7 @@ public class ProgramManager extends Application {
 		_pListen.close();
 		// TODO: will freeze when close the second time
 		// will stuck in the inf loop in CloseServer, but the inf loop is to ensure the server really unbounded
-		//rmiServer.CloseServer();
+		rmiServer.CloseServer();
 	}
 
 	public static void main(String[] args) {
