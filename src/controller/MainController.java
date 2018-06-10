@@ -22,9 +22,12 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -39,6 +42,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
@@ -67,7 +71,7 @@ public class MainController implements Initializable{
             _icon = new ImageView();
             _hbox.getChildren().add(_icon);
             _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
-            setStyle("-fx-cursor: pointer");
+            //setStyle("-fx-cursor: pointer");
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
         
@@ -172,6 +176,7 @@ public class MainController implements Initializable{
 		Event _event = new WindowsTransferEvent(this, _stage, WindowsTransferEvent.TransferToSetting);
 		_shrinkButton.fireEvent(_event);
     }
+    
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {

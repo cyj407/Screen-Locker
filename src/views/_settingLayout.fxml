@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
@@ -21,7 +29,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.Cursor?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="800.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="800.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingController">
    <top>
       <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="800.0" minHeight="48.0" minWidth="800.0" onMouseDragged="#Draged" onMousePressed="#Pressed" prefHeight="48.0" prefWidth="800.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;" BorderPane.alignment="CENTER">
          <children>
@@ -41,7 +49,7 @@
                   <Font size="24.0" />
                </font>
             </Text>
-            <Button fx:id="_shrinkButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#Shrink" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
+            <Button fx:id="_shrinkButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#Shrink" prefHeight="32.0" prefWidth="32.0" styleClass="menu-bar-shrink-button" stylesheets="@../stylesheets/_rootStylesheet.css" textFill="#f2f4f4">
                <HBox.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" />
                </HBox.margin>
@@ -53,7 +61,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="_enlargeButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
+            <Button fx:id="_enlargeButton" maxHeight="32.0" maxWidth="32.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="32.0" styleClass="menu-bar-enlarge-button" stylesheets="@../stylesheets/_rootStylesheet.css" textFill="#f2f4f4">
                <HBox.margin>
                   <Insets bottom="4.0" left="4.0" right="4.0" />
                </HBox.margin>
@@ -65,7 +73,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="_closeButton" maxHeight="32.0" maxWidth="64.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Close" prefHeight="32.0" prefWidth="64.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
+            <Button fx:id="_closeButton" maxHeight="32.0" maxWidth="64.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Close" prefHeight="32.0" prefWidth="64.0" styleClass="menu-bar-close-button" stylesheets="@../stylesheets/_rootStylesheet.css" textFill="#f2f4f4">
                <HBox.margin>
                   <Insets bottom="4.0" left="4.0" right="8.0" />
                </HBox.margin>
@@ -155,7 +163,7 @@
                         <Insets left="30.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="_appTimeTable" maxHeight="216.0" maxWidth="434.0" minHeight="216.0" minWidth="434.0" prefHeight="216.0" prefWidth="434.0" style="-fx-background-color: #fefefe; -fx-border-color: #979797;">
+                  <TableView fx:id="_appTimeTable" editable="true" maxHeight="216.0" maxWidth="434.0" minHeight="216.0" minWidth="434.0" onMouseClicked="#AddInterval" prefHeight="216.0" prefWidth="434.0" style="-fx-background-color: #fefefe; -fx-border-color: #979797;">
                     <columns>
                       <TableColumn prefWidth="93.0" style="-fx-background-color: #fefefe;" text="排程編號" />
                       <TableColumn prefWidth="340.0" style="-fx-background-color: #fefefe;" text="時間" />
@@ -178,7 +186,7 @@
                <children>
                   <StackPane maxHeight="26.0" maxWidth="245.0" minHeight="26.0" minWidth="245.0" prefHeight="26.0" prefWidth="245.0" style="-fx-background-radius: 14px; -fx-background-color: #354040; -fx-border-color: #979797; -fx-border-radius: 14px;">
                      <children>
-                        <TextField fx:id="_searchTextField" alignment="TOP_LEFT" maxHeight="28.0" maxWidth="210.0" minHeight="28.0" minWidth="210.0" prefHeight="28.0" prefWidth="210.0" promptText="search..." style="-fx-background-color: rgba(0, 0, 0, 0); -fx-text-inner-color: #fefefe;">
+                        <TextField fx:id="_searchTextField" alignment="TOP_LEFT" maxHeight="28.0" maxWidth="210.0" minHeight="28.0" minWidth="210.0" onKeyPressed="#SearchApplication" prefHeight="28.0" prefWidth="210.0" promptText="search..." style="-fx-background-color: rgba(0, 0, 0, 0); -fx-text-inner-color: #fefefe;">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
@@ -229,9 +237,6 @@
                      <padding>
                         <Insets bottom="3.0" />
                      </padding>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
                   </Button>
                </children>
             </VBox>

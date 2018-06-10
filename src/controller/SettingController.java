@@ -21,17 +21,23 @@ import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
@@ -126,6 +132,7 @@ public class SettingController implements Initializable {
 	
 	
     private double _x, _y;
+    private ArrayList<Application> _currentList;
     @FXML
     private Button _shrinkButton;
     @FXML
@@ -148,6 +155,8 @@ public class SettingController implements Initializable {
     private ImageView _appIcon;
     @FXML
     private TableView _timerTable;
+    @FXML
+    private TextField _searchTextField;
     
     
     
@@ -184,16 +193,47 @@ public class SettingController implements Initializable {
 		_shrinkButton.fireEvent(_event);
     }
     
+    @FXML
+    public void AddInterval(MouseEvent _event) {
+		try {
+			Parent _intervalFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_setIntervalLayout.fxml"));
+			Stage _setIntervalStage = new Stage();
+	        _setIntervalStage.setScene(new Scene(_intervalFXML));
+	        _setIntervalStage.initStyle(StageStyle.UNDECORATED);
+	        _setIntervalStage.setResizable(false); 
+	        _setIntervalStage.show();
+		
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    }
+    
+    @FXML
+    public void SearchApplication(KeyEvent _event) {
+    	if (_searchTextField.getText() != "") {
+    		_currentList.clear();
+    		for(Application _iter : Loader.GetInstance().GetApplication()) {
+    			if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
+    				_currentList.add(_iter);
+    			}
+    		}
+            ObservableList _observableList = FXCollections.observableArrayList(_currentList);
+            _appListView.setItems(_observableList);
+    	}
+    }
+    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
 		_rightItems.setVisible(false);
-		ArrayList<Application> _appList = new ArrayList<Application>();
+		_currentList = new ArrayList<Application>();
         //ListView<String> _appList = new ListView<>();
         for(Application _iter : Loader.GetInstance().GetApplication()) {
-        	_appList.add(_iter);
+        	_currentList.add(_iter);
         }
-        ObservableList _observableList = FXCollections.observableArrayList(_appList);
+        ObservableList _observableList = FXCollections.observableArrayList(_currentList);
         _appListView.setItems(_observableList);
         _appListView.setPrefHeight(35 * 8);
         _appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
@@ -267,6 +307,10 @@ public class SettingController implements Initializable {
 				}
 			}
         });
+        
+        
+        
+        
 	}
 	
 	
