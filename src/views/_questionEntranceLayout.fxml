@@ -10,22 +10,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MessageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EnterQuestionController">
    <children>
-      <ImageView fitHeight="200.0" fitWidth="300.0" layoutX="10.0" layoutY="48.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="207.0" fitWidth="253.0" layoutX="44.0" layoutY="48.0" opacity="0.23" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../src/images/_congratulations.png" />
+            <Image url="@../../src/images/_warning.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="28.0" layoutY="87.0" prefHeight="56.0" prefWidth="244.0" style="-fx-border-color: blue; -fx-border-width: 4;" text="Your answer is correct." textAlignment="CENTER" textFill="BLUE">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="47.0" layoutY="133.0" prefHeight="88.0" prefWidth="207.0" style="-fx-font-weight: bold;" text="You sucessfully unlock this application!" wrapText="true">
-         <font>
-            <Font size="13.0" />
-         </font></Label>
       <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="300.0" minHeight="48.0" minWidth="300.0" prefHeight="48.0" prefWidth="300.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;">
          <children>
             <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
@@ -36,7 +27,7 @@
                   <Image url="@../images/_iconTitle.png" />
                </image>
             </ImageView>
-            <Text strokeType="INSIDE" strokeWidth="0.0" text="UNLOCK" wrappingWidth="178.66671752929688">
+            <Text strokeType="INSIDE" strokeWidth="0.0" text="NOTICE" wrappingWidth="178.66671752929688">
                <font>
                   <Font size="24.0" />
                </font>
@@ -61,5 +52,26 @@
             <Insets />
          </opaqueInsets>
       </HBox>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="38.0" layoutY="74.0" prefHeight="70.0" prefWidth="223.0" style="-fx-border-color: red; -fx-border-width: 4;" text="Are you sure to answer the question?" textAlignment="CENTER" textFill="RED" wrapText="true">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="129.0" prefHeight="63.0" prefWidth="233.0" style="-fx-font-weight: bold;" text="* You have to answer a question correctly , or you will get the punishment." wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font></Label>
+      <Button fx:id="_enterQButton" layoutX="106.0" layoutY="188.0" maxHeight="41.0" maxWidth="87.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Entrance" prefHeight="41.0" prefWidth="87.0" style="-fx-background-color: #4ca0a8;" textFill="#f2f4f4">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <graphic>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="YES">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

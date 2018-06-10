@@ -28,24 +28,41 @@ public class ProcessListener extends Thread{
 				Thread.sleep(3000);
 			} catch (InterruptedException e1) {
 			}
-
+			
 			_blacklist = LockerTimer.BlackList();
 
-			for (String item: _blacklist) {
-				ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);
-				Process p;
-
-				try {
-					p = pb.start();
-					BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					buf.readLine();
-					String res = buf.readLine();
-					System.out.println("res = " + res);
-					if (res != null) {
-						Runtime.getRuntime().exec("pkill " + item);
+			if(screenLocker.loader.Loader.IsLinux()) {
+				for (String item: _blacklist) {
+					ProcessBuilder pb = new ProcessBuilder("ps", "-C", item);
+					Process p;
+	
+					try {
+						p = pb.start();
+						BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
+						buf.readLine();
+						String res = buf.readLine();
+						if (res != null) {
+							Runtime.getRuntime().exec("kill `ps -C " + item + " -o pid=`");
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
+				}
+			}
+			if(screenLocker.loader.Loader.IsWindows()) {
+				for (String item: _blacklist) {
+					try {
+						Process p = Runtime.getRuntime().exec("tasklist"+ " /FI \"imagename eq "+ item+ "\"");
+						BufferedReader buf = new BufferedReader(new InputStreamReader(p.getInputStream()));
+						buf.readLine();
+						String res = buf.readLine();
+						
+						if (res != null) {
+							Runtime.getRuntime().exec("taskkill /f /im " + item);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

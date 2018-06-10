@@ -155,8 +155,10 @@ public final class WindowsLoader extends Loader {
 		    for(Map.Entry<String, Object> _entry : _tr.entrySet()) {
 		    	String _s = _entry.getKey();
 		    	Object _o = _entry.getValue();
-		    	if (_s.equals("SystemComponent") && (Integer)_o == 1) {
-		    		_flag = false;
+		    	if(_o instanceof Number) {
+			    	if (_s.equals("SystemComponent") && ((Number)_o).intValue() == 1) {
+			    		_flag = false;
+			    	}
 		    	}
 		    	if (_s.equals("UninstallString") && ((String.valueOf(_o)).isEmpty())) {
 		    		_flag = false;

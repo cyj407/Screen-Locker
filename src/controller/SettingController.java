@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,21 +17,25 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
+import screenLocker.LockerTimer;
 import screenLocker.loader.Loader;
 
 public class SettingController implements Initializable {
@@ -133,6 +138,18 @@ public class SettingController implements Initializable {
     private GridPane _rightItems;
     @FXML
     private ListView _appListView;
+    @FXML
+    private Text _appName;
+    @FXML
+    private Text _appLastUsed;
+    @FXML
+    private Text _appStatus;
+    @FXML
+    private ImageView _appIcon;
+    @FXML
+    private TableView _timerTable;
+    
+    
     
 	@FXML
     public void Draged(MouseEvent event) {
@@ -185,6 +202,70 @@ public class SettingController implements Initializable {
             	return new AppCell();
 
             }
+        });
+        // add mouse click handler
+        _appListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if (!_rightItems.visibleProperty().get())
+					_rightItems.setVisible(true);
+				Application _selected = (Application)_appListView.getSelectionModel().getSelectedItem();
+				System.out.println(_selected.GetDisplayName());
+				// render right items
+				if (_selected.GetDisplayName().length() > 15) {
+					_appName.setText("���ε{��   " + _selected.GetDisplayName().substring(0, 15) + "...");
+				} else {
+					_appName.setText("���ε{��   " + _selected.GetDisplayName());
+				}
+				//_appLastUsed.setText(_selected.Get);
+				if (LockerTimer.BlackList().contains(_selected.GetDisplayName())) {
+					_appStatus.setText("�ثe���A   ��w��");
+				} else {
+					_appStatus.setText("�ثe���A   �i�ϥ�");
+				}
+				for (Application _appIter : Loader.GetApplication()) {
+					if (_selected.GetDisplayName().equals(_appIter.GetDisplayName())) {
+						try {
+							if (_appIter.GetIconPath() != null && _appIter.GetIconPath() != "" ) {
+				                if (_appIter.GetIconPath().indexOf(".ico") < 0) {
+				                	// get the exe icon file.
+				                	File _file = new File(_appIter.GetIconPath());
+				                    sun.awt.shell.ShellFolder _sf =
+				                            sun.awt.shell.ShellFolder.getShellFolder(_file);
+				                    javax.swing.Icon _iconImage = new ImageIcon(_sf.getIcon(true));
+				                    BufferedImage _bufferedImage = new BufferedImage(_iconImage.getIconWidth(), _iconImage.getIconHeight(),
+				                    		BufferedImage.TYPE_INT_ARGB);
+				                    _iconImage.paintIcon(null, _bufferedImage.getGraphics(), 0, 0);
+				                    _appIcon.setImage(SwingFXUtils.toFXImage(_bufferedImage, null));
+				                } else {
+				                	File _file = new File(_appIter.GetIconPath());
+				                    List<BufferedImage> _images = ICODecoder.read(_file);
+				                    for(BufferedImage _iter : _images) {
+				                    	if (_iter.getWidth() > 36 && _iter.getWidth() < 76) {
+				                    		_appIcon.setImage(SwingFXUtils.toFXImage(_iter, null));
+				                    		break;
+				                    	}
+				                    }
+				                }
+		                	} else {
+			                	// get the default exe icon file.
+			                	File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
+			                	List<BufferedImage> _images = ICODecoder.read(_file);
+			                    for(BufferedImage _iter : _images) {
+			                    	if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
+			                    		_appIcon.setImage(SwingFXUtils.toFXImage(_iter, null));
+			                    		break;
+			                    	}
+			                    }
+		                	}
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}   
+					}
+				}
+			}
         });
 	}
 	

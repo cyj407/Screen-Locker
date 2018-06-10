@@ -46,6 +46,16 @@ import screenLocker.LockerTimer;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
+	private double _x, _y;
+    @FXML
+    private Button _shrinkButton;
+    @FXML
+    private Button _enlargeButton;
+    @FXML
+    private Button _closeButton;
+    @FXML
+    private ListView<Application> _appListView;
+	
 	static class AppCell extends ListCell<Application> {
         private HBox _hbox;
         private ImageView _icon;
@@ -57,6 +67,7 @@ public class MainController implements Initializable{
             _icon = new ImageView();
             _hbox.getChildren().add(_icon);
             _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
+            setStyle("-fx-cursor: pointer");
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
         
@@ -129,16 +140,6 @@ public class MainController implements Initializable{
             }
         }
     }
-	
-	private double _x, _y;
-    @FXML
-    private Button _shrinkButton;
-    @FXML
-    private Button _enlargeButton;
-    @FXML
-    private Button _closeButton;
-    @FXML
-    private ListView<Application> _appListView;
     
 	@FXML
     public void Draged(MouseEvent event) {
