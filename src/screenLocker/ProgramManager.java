@@ -22,7 +22,7 @@ import controller.SettingController;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
-	private Stage _rootStage;
+	private static Stage _rootStage;
 	private static ProcessListener _pListen = null;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
@@ -31,6 +31,10 @@ public class ProgramManager extends Application {
 		_pListen.close();
 		rmiServer.CloseServer();
 	}
+	public static Stage RootStage() {
+		return _rootStage;
+	}
+	
 
 	public static void main(String[] args) {
 		// ------------------must be placed at the first---------------------//
@@ -78,7 +82,6 @@ public class ProgramManager extends Application {
 				this.getClass().getResource("/views/_loadingLayout.fxml"));
 		_rootStage.setScene(new Scene(_loading.load()));
 		// set the current scene.
-	//	_activeGui = _guiLoading;
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
@@ -104,23 +107,6 @@ public class ProgramManager extends Application {
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
 			changeScene("/views/_questionLayout.fxml");
-			
-			boolean _enterQuestion;
-			Stage _enterQStage = new Stage();
-			Parent parent;
-			try {
-				parent = FXMLLoader.load(getClass().getResource("views/_questionEntranceLayout.fxml"));
-				Scene scene = new Scene(parent);
-				_enterQStage.initStyle(StageStyle.UNDECORATED);
-				_enterQStage.setScene(scene);
-				_enterQStage.setResizable(false);
-				_enterQStage.show();
-				
-		//		if(_enterQStage._enter)
-					changeScene("/views/_questionLayout.fxml");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 		});
 	}
 

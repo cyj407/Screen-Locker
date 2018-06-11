@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -11,9 +12,15 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import screenLocker.Application;
+import screenLocker.LockerTimer;
+import screenLocker.ProgramManager;
 
 public class SetIntervalController implements Initializable {
     private double _x, _y;
+    private Application _selected;
+    private LockerTimer _timer;
+    private SettingController _parentController;
     @FXML
     private Button _closeButton;
     @FXML
@@ -24,6 +31,14 @@ public class SetIntervalController implements Initializable {
     private ChoiceBox _fromTimePicker;
     @FXML
     private ChoiceBox _toTimePicker;
+    
+    public void SetApplication(Application _target) {
+    	System.out.println("set application");
+    	_selected = _target;
+    }
+    public void SetParentController(SettingController _parent) {
+    	_parentController = _parent;
+    }
     
 	@FXML
     public void Draged(MouseEvent event) {
@@ -44,19 +59,31 @@ public class SetIntervalController implements Initializable {
     	stage.close();
     }
     
+
     @FXML
-    public void Submit(MouseEvent event) {
-    	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	if (_fromDatePicker.getValue() == null)
-    		return;
-    	if (_toDatePicker.getValue() == null)
-    		return;
-    	if (_fromTimePicker.getSelectionModel().isEmpty())
-    		return;
+    public void Submit(MouseEvent _event) {
+    	Stage _stage = (Stage)((Node)_event.getSource()).getScene().getWindow();
+    	//if (_fromDatePicker.getValue() == null)
+    		//return;
+    	//if (_toDatePicker.getValue() == null)
+    		//return;
+    	//if (_fromTimePicker.getSelectionModel().isEmpty())
+    		//return;
     	if (_toTimePicker.getSelectionModel().isEmpty())
     		return;
-    	
-    	stage.close();
+		// set the time to LockerTimer
+		try {
+			_timer = new LockerTimer();
+			int _time = Integer.parseInt(_toTimePicker.getSelectionModel().getSelectedItem().toString().substring(0, 2));
+			_timer.setTime(_selected.GetDisplayName(), _time);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		// refresh table view data.
+		_parentController.RefreshTableView();
+    	_stage.close();
     }
 
 	@Override

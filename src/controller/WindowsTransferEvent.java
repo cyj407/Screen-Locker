@@ -10,6 +10,7 @@ public class WindowsTransferEvent extends Event {
 	public static final EventType<WindowsTransferEvent> TransferToMain = new EventType(ANY, "TransferToMain");
 	public static final EventType<WindowsTransferEvent> TransferToSetting = new EventType(ANY, "TransferToSetting");
 	public static final EventType<WindowsTransferEvent> TransferToQuestion = new EventType(ANY, "TransferToQuestion");
+	public static final EventType<WindowsTransferEvent> RefreshTableView = new EventType(ANY, "RefreshTableView");
 	
 	public WindowsTransferEvent(Object source, EventTarget target, EventType<? extends Event> eventType) {
 		super(source, target, eventType);
