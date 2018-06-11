@@ -2,11 +2,8 @@ package screenLocker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -16,16 +13,7 @@ import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
 //import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
-
-import java.awt.Toolkit;
-
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.management.ManagementFactory;
-import java.net.URL;
-import java.util.Timer;
 
 import controller.DefaultController;
 import controller.LoadingController;
@@ -40,12 +28,11 @@ public class ProgramManager extends Application {
 
 	public static void leave() {
 		_pListen.close();
-		// TODO: will freeze when close the second time
-		// will stuck in the inf loop in CloseServer, but the inf loop is to ensure the server really unbounded
 		rmiServer.CloseServer();
 	}
 
 	public static void main(String[] args) {
+
 		// -------------------- f26401004's section -----------------------//
 
 		// ------------------------ yiiju's section -----------------------//
@@ -98,7 +85,6 @@ public class ProgramManager extends Application {
 			       getClass().getResource(fxml));
 			_rootStage.getScene().setRoot(pane);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -127,7 +113,6 @@ public class ProgramManager extends Application {
 		//		if(_enterQStage._enter)
 					changeScene("/views/_questionLayout.fxml");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});

@@ -4,7 +4,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 import screenLocker.LockerTimer;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -26,14 +25,7 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 	}
 
 	public int GetRemainTime() {
-		try {
-			return LockerTimer.getLargeTime();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return 0;
+		return LockerTimer.getLargeTime();
 	}
 
 	public static RMIServer StartServer() {

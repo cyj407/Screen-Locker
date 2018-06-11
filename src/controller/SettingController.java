@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -11,7 +10,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
-import controller.MainController.AppCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -19,7 +17,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.*;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,17 +24,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
-<<<<<<< HEAD
-=======
 import javafx.scene.control.TextField;
->>>>>>> 834447c3bd867133f15a845d568ffb8fc13cdce8
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -123,7 +115,6 @@ public class SettingController implements Initializable {
 	                    	}
 	                    }
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
                     
@@ -229,7 +220,6 @@ public class SettingController implements Initializable {
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		_rightItems.setVisible(false);
 		_currentList = new ArrayList<Application>();
         //ListView<String> _appList = new ListView<>();
