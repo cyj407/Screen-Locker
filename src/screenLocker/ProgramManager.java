@@ -24,6 +24,7 @@ import controller.WindowsTransferEvent;
 public class ProgramManager extends Application {
 	private Stage _rootStage;
 	private static ProcessListener _pListen = null;
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
 	public static void leave() {
@@ -33,13 +34,13 @@ public class ProgramManager extends Application {
 
 	public static void main(String[] args) {
 		String _myDir = System.getProperty("user.dir");
-		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
-			_myDir += "/bin";
+		if (!_myDir.substring(_myDir.length() - 4).equals(_deli+"bin")) {
+			_myDir += _deli+"bin";
 		}
 		System.setProperty("user.dir", _myDir);
 
 		LockerTimer timer = new LockerTimer();
-		timer.setTime("abc", 1);
+		timer.setTime("chrome.exe", 1);
 
 		// -------------------- f26401004's section -----------------------//
 
