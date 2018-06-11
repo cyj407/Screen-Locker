@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.TimerTask;
+import screenLocker.loader.Loader;
+
 import java.util.List;
 
 import screenLocker.loader.Loader;
@@ -21,24 +23,26 @@ public class LockerTimer extends TimerTask {
 	private String _path;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	
-	public LockerTimer() throws FileNotFoundException, IOException {
-		_path = System.getProperty("user.dir") + _deli +  "time.txt";
+	public LockerTimer() {
+		_path = System.getProperty("user.dir") + _deli + "time.txt";
 		File _checkFile = new File(_path);
 		if(_checkFile.exists()) {
 			System.out.println(_path);
-			ObjectInputStream _ois = new ObjectInputStream(new FileInputStream(_path));
+			ObjectInputStream _ois = null;
 			try {
+				_ois = new ObjectInputStream(new FileInputStream(_path));
 				while(true) {
 					if (_ois.read() == -1) 
 						break;
 					String _string = (String)_ois.readObject();
 					int _num = _ois.readInt();
 					_applications.put(_string, _num);
+					
 				}
 			} catch (Exception e) {
-					e.printStackTrace();
+				e.printStackTrace();
 			}
-				
+
 			try {
 				_ois.close();
 			} catch (IOException e) {
@@ -94,7 +98,6 @@ public class LockerTimer extends TimerTask {
 			String _s = _e.nextElement().toString();
 			_blacklist.add(_s);
 		}
-		System.out.println("list = " + _blacklist);	
 		return _blacklist;	
 	}
 	

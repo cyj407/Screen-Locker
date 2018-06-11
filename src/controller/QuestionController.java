@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import screenLocker.ProgramManager;
 import screenLocker.question.Question;
 
 public class QuestionController implements Initializable{
@@ -84,7 +86,8 @@ public class QuestionController implements Initializable{
 				        _showTimeoutStage.initStyle(StageStyle.UNDECORATED);
 				        _showTimeoutStage.setResizable(false); 
 				        _showTimeoutStage.show();
-						_stage.close();
+				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
+				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 			        } catch(Exception e) {
 			        	e.printStackTrace();
 			        }
@@ -107,7 +110,7 @@ public class QuestionController implements Initializable{
         String _userAnswer = _clickedButton.getText();
         _stage = (Stage) _clickedButton.getScene().getWindow();
         if(_userAnswer.equals(_correctAnswer)) {
-			_clickedButton.setStyle("-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white");
+			_clickedButton.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {
 	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_correctAnswerNoticeLayout.fxml"));
 		        Stage _showCorrectStage = new Stage();
@@ -117,7 +120,8 @@ public class QuestionController implements Initializable{
 		        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
 		        _delay.setOnFinished(event ->{
 						_showCorrectStage.show();
-						_stage.close();
+				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
+				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 					}
 				);
 		        _delay.play();		       
@@ -128,7 +132,7 @@ public class QuestionController implements Initializable{
 	        // sucess, open the application
 		}
 		else {
-			_clickedButton.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white");
+			_clickedButton.setStyle("-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {
 	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_wrongAnswerNoticeLayout.fxml"));	        
 		        Stage _showWrongStage = new Stage();
@@ -138,7 +142,8 @@ public class QuestionController implements Initializable{
 		        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
 		        _delay.setOnFinished(event ->{
 						_showWrongStage.show();
-						_stage.close();
+				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
+				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 					}
 				);
 				_delay.play();

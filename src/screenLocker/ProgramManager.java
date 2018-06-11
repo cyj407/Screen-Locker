@@ -10,12 +10,11 @@ import javafx.stage.StageStyle;
 import screenLocker.autoOpen.ProcessListener;
 import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
-//import screenLocker.gui.GUI;
-//import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Timer;
 
 import controller.DefaultController;
 import controller.LoadingController;
@@ -25,33 +24,32 @@ import controller.WindowsTransferEvent;
 import java.util.Timer;
 
 public class ProgramManager extends Application {
-	private Stage _rootStage;
+	private static Stage _rootStage;
 	private static ProcessListener _pListen = null;
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
+	//public static LockerTimer lockerTimer = new LockerTimer();
 
 	public static void leave() {
 		_pListen.close();
 		rmiServer.CloseServer();
 	}
+	public static Stage RootStage() {
+		return _rootStage;
+	}
+	
 
 	public static void main(String[] args) {
+		
+		// ------------------must be placed at the first---------------------//
 		String _myDir = System.getProperty("user.dir");
-		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
-			_myDir += "/bin";
+		if (!_myDir.substring(_myDir.length() - 4).equals(_deli+"bin")) {
+			_myDir += _deli+"bin";
 		}
 		System.setProperty("user.dir", _myDir);
-
-		LockerTimer timer;
-		try {
-			timer = new LockerTimer();
-		timer.setTime("abc", 1);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
+		Timer _timer = new Timer();
+		_timer.schedule(new LockerTimer(), 0, 1000);
 
 		// -------------------- f26401004's section -----------------------//
 
@@ -61,12 +59,13 @@ public class ProgramManager extends Application {
 
 		// ----------------------- afcidk's section -----------------------//
 		// IMPORTANT!! Must be placed before launch(args)
-
+		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 
 		// ----------------------- cyj407's section -----------------------//
 		launch(args);
@@ -88,7 +87,6 @@ public class ProgramManager extends Application {
 				this.getClass().getResource("/views/_loadingLayout.fxml"));
 		_rootStage.setScene(new Scene(_loading.load()));
 		// set the current scene.
-	//	_activeGui = _guiLoading;
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
@@ -114,23 +112,6 @@ public class ProgramManager extends Application {
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
 			changeScene("/views/_questionLayout.fxml");
-			
-			boolean _enterQuestion;
-			Stage _enterQStage = new Stage();
-			Parent parent;
-			try {
-				parent = FXMLLoader.load(getClass().getResource("views/_questionEntranceLayout.fxml"));
-				Scene scene = new Scene(parent);
-				_enterQStage.initStyle(StageStyle.UNDECORATED);
-				_enterQStage.setScene(scene);
-				_enterQStage.setResizable(false);
-				_enterQStage.show();
-				
-		//		if(_enterQStage._enter)
-					changeScene("/views/_questionLayout.fxml");
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 		});
 	}
 
