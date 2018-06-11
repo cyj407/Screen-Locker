@@ -237,6 +237,9 @@
                      <padding>
                         <Insets bottom="3.0" />
                      </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </VBox>

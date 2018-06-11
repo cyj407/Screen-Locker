@@ -1,48 +1,30 @@
 package controller;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Set;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.filechooser.FileSystemView;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
@@ -161,7 +143,7 @@ public class MainController implements Initializable{
     @FXML
     public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	screenLocker.ProgramManager.rmiServer.CloseServer();
+    	screenLocker.ProgramManager.leave();
     	stage.close();
     }
     @FXML
@@ -190,7 +172,7 @@ public class MainController implements Initializable{
 				}
 			}
 		}
-        ObservableList _observableList = FXCollections.observableArrayList(_appList);
+        ObservableList<Application> _observableList = FXCollections.observableArrayList(_appList);
         _appListView.setItems(_observableList);
         _appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
             @Override

@@ -2,11 +2,8 @@ package screenLocker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -16,12 +13,7 @@ import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
 //import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
-
-import java.awt.Toolkit;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import controller.DefaultController;
 import controller.LoadingController;
@@ -31,23 +23,32 @@ import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private Stage _rootStage;
+	private static ProcessListener _pListen = null;
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
+	public static void leave() {
+		_pListen.close();
+		rmiServer.CloseServer();
+	}
+
 	public static void main(String[] args) {
-		//-------------------- f26401004's section -----------------------//
-		
-		//------------------------ yiiju's section -----------------------//
-
-		Thread thread = new ProcessListener();
-		thread.start();
-		
-		//----------------------- afcidk's section -----------------------//
-		//IMPORTANT!! Must be placed after launch(args)
-
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
 		}
+		System.setProperty("user.dir", _myDir);
+
+		LockerTimer timer = new LockerTimer();
+		timer.setTime("abc", 1);
+
+		// -------------------- f26401004's section -----------------------//
+
+		// ------------------------ yiiju's section -----------------------//
+		_pListen = new ProcessListener();
+		_pListen.start();
+
+		// ----------------------- afcidk's section -----------------------//
+		// IMPORTANT!! Must be placed before launch(args)
 
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
@@ -55,10 +56,8 @@ public class ProgramManager extends Application {
 			e.printStackTrace();
 		}
 
-		System.out.println("here");
+		// ----------------------- cyj407's section -----------------------//
 		launch(args);
-
-		//----------------------- cyj407's section -----------------------//
 	}
 
 	@Override
@@ -90,7 +89,6 @@ public class ProgramManager extends Application {
 			       getClass().getResource(fxml));
 			_rootStage.getScene().setRoot(pane);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -119,7 +117,6 @@ public class ProgramManager extends Application {
 		//		if(_enterQStage._enter)
 					changeScene("/views/_questionLayout.fxml");
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});

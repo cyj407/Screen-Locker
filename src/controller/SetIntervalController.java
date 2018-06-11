@@ -3,7 +3,6 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.*;
 import javafx.scene.Node;
@@ -62,7 +61,6 @@ public class SetIntervalController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
 		_fromTimePicker.setItems(FXCollections.observableArrayList(
 			    "00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00",
 			    "00:70", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00",
