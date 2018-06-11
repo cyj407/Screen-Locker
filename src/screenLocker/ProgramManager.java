@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -14,12 +13,7 @@ import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
 //import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
-
-import java.awt.Toolkit;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import controller.DefaultController;
 import controller.LoadingController;
@@ -29,31 +23,32 @@ import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private Stage _rootStage;
-	private Scene _guiMain;
-	private Scene _guiQuestion;
-	private Scene _guiSetting;
-	private Scene _guiLoading;
-	private Scene _activeGui;
+	private static ProcessListener _pListen = null;
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
+	public static void leave() {
+		_pListen.close();
+		rmiServer.CloseServer();
+	}
+
 	public static void main(String[] args) {
-
-		
-
-		//-------------------- f26401004's section -----------------------//
-		
-		//------------------------ yiiju's section -----------------------//
-
-		Thread thread = new ProcessListener();
-		thread.start();
-		
-		//----------------------- afcidk's section -----------------------//
-		//IMPORTANT!! Must be placed after launch(args)
-
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
 			_myDir += "/bin";
 		}
+		System.setProperty("user.dir", _myDir);
+
+		LockerTimer timer = new LockerTimer();
+		timer.setTime("abc", 1);
+
+		// -------------------- f26401004's section -----------------------//
+
+		// ------------------------ yiiju's section -----------------------//
+		_pListen = new ProcessListener();
+		_pListen.start();
+
+		// ----------------------- afcidk's section -----------------------//
+		// IMPORTANT!! Must be placed before launch(args)
 
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
@@ -61,10 +56,8 @@ public class ProgramManager extends Application {
 			e.printStackTrace();
 		}
 
-		System.out.println("here");
+		// ----------------------- cyj407's section -----------------------//
 		launch(args);
-
-		//----------------------- cyj407's section -----------------------//
 	}
 
 	@Override
@@ -78,67 +71,54 @@ public class ProgramManager extends Application {
 		_rootStage.setHeight(548);
 		// TODO: set all event for different scene transfer.
 		_addTransferListener();
-		// initantiate all scene.
-		_instantiateScene();
-		// setup the first scene to loading scene.
-		_rootStage.setScene(_guiLoading);
+		// initantiate loading scene.
+		FXMLLoader _loading = new FXMLLoader(
+				this.getClass().getResource("/views/_loadingLayout.fxml"));
+		_rootStage.setScene(new Scene(_loading.load()));
 		// set the current scene.
-		_activeGui = _guiLoading;
+	//	_activeGui = _guiLoading;
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
 	}
 	
-	private void _instantiateScene() {
-		// initialize loading scene.
+	public void changeScene(String fxml){
+	    Parent pane;
 		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_loadingLayout.fxml"));
-			_fxmlLoader.setController(new LoadingController());
-			_guiLoading = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		// initialize main scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_mainLayout.fxml"));
-			_fxmlLoader.setController(new MainController());
-			_guiMain = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		// initialize setting scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_settingLayout.fxml"));
-			_fxmlLoader.setController(new SettingController());
-			_guiSetting = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		// initialize question scene.
-		try {
-			FXMLLoader _fxmlLoader = new FXMLLoader(
-					this.getClass().getResource("/views/_questionLayout.fxml"));
-			_guiQuestion = new Scene(_fxmlLoader.load());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			pane = FXMLLoader.load(
+			       getClass().getResource(fxml));
+			_rootStage.getScene().setRoot(pane);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
-	
+
 	private void _addTransferListener() {
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToMain, e -> {
-			_rootStage.setScene(_guiMain);
-			_activeGui = _guiMain;
+			changeScene("/views/_mainLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
-			_rootStage.setScene(_guiSetting);
-			_activeGui = _guiSetting;
+			changeScene("/views/_settingLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
-			_rootStage.setScene(_guiQuestion);
-			_activeGui = _guiQuestion;
+			changeScene("/views/_questionLayout.fxml");
+			
+			boolean _enterQuestion;
+			Stage _enterQStage = new Stage();
+			Parent parent;
+			try {
+				parent = FXMLLoader.load(getClass().getResource("views/_questionEntranceLayout.fxml"));
+				Scene scene = new Scene(parent);
+				_enterQStage.initStyle(StageStyle.UNDECORATED);
+				_enterQStage.setScene(scene);
+				_enterQStage.setResizable(false);
+				_enterQStage.show();
+				
+		//		if(_enterQStage._enter)
+					changeScene("/views/_questionLayout.fxml");
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 	}
 

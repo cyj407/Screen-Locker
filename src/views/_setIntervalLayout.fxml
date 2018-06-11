@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="198.0" prefWidth="400.0" style="-fx-border-color: #b5b4b4; -fx-border-width: 1px;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SetIntervalController">
+   <top>
+      <HBox alignment="CENTER_RIGHT" maxHeight="48.0" maxWidth="400.0" minHeight="48.0" minWidth="400.0" onMouseDragged="#Draged" onMousePressed="#Pressed" prefHeight="48.0" prefWidth="400.0" style="-fx-background-color: #7be8f2; -fx-border-color: #b5b4b4; -fx-border-width: 0px 1px 0px 1px;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets right="4.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@../images/_iconTitle.png" />
+               </image>
+            </ImageView>
+            <Text strokeType="INSIDE" strokeWidth="0.0" text="Set Interval" wrappingWidth="200.0">
+               <HBox.margin>
+                  <Insets left="4.0" right="70.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="24.0" />
+               </font></Text>
+            <Button fx:id="_closeButton" maxHeight="32.0" maxWidth="64.0" minHeight="32.0" minWidth="64.0" mnemonicParsing="false" onMouseClicked="#Close" prefHeight="32.0" prefWidth="64.0" styleClass="menu-bar-close-button" stylesheets="@../stylesheets/_rootStylesheet.css" textFill="#f2f4f4">
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="8.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="13.0" fitWidth="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/_iconClose.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+   </top>
+   <left>
+      <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="125.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="From">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="40.0" top="10.0" />
+               </VBox.margin>
+            </Text>
+         </children>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onMouseClicked="#Close" prefHeight="28.0" prefWidth="88.0" style="-fx-background-radius: 8px; -fx-border-radius: 8px;" styleClass="cancle-button" stylesheets="@../stylesheets/_rootStylesheet.css" text="取消" textFill="#f2f4f4">
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onMouseClicked="#Submit" prefHeight="28.0" prefWidth="88.0" style="-fx-background-radius: 8px; -fx-border-radius: 8px;" styleClass="default-button" stylesheets="@../stylesheets/_rootStylesheet.css" text="確定" textFill="#f2f4f4">
+               <HBox.margin>
+                  <Insets right="40.0" />
+               </HBox.margin>
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <GridPane alignment="CENTER" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <DatePicker fx:id="_fromDatePicker" prefHeight="32.0" prefWidth="134.0" promptText="date" style="-fx-background-color: #ffffff; -fx-background-radius: 16px; -fx-border-radius: 16px; -fx-border-color: #b8b8b8;" styleClass="date-circle-text-field" stylesheets="@../stylesheets/_rootStylesheet.css">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets top="15.0" />
+               </GridPane.margin>
+            </DatePicker>
+            <DatePicker fx:id="_toDatePicker" layoutX="10.0" layoutY="19.0" prefHeight="32.0" prefWidth="134.0" promptText="date" style="-fx-background-color: #ffffff; -fx-background-radius: 16px; -fx-border-radius: 16px; -fx-border-color: #b8b8b8;" styleClass="date-circle-text-field" stylesheets="@../stylesheets/_rootStylesheet.css" GridPane.rowIndex="1">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </DatePicker>
+            <ChoiceBox fx:id="_fromTimePicker" prefHeight="32.0" prefWidth="76.0" style="-fx-background-color: #ffffff; -fx-background-radius: 16px; -fx-border-color: #b8b8b8; -fx-border-radius: 16px;" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" top="15.0" />
+               </GridPane.margin>
+            </ChoiceBox>
+            <ChoiceBox fx:id="_toTimePicker" layoutX="147.0" layoutY="19.0" prefHeight="32.0" prefWidth="76.0" style="-fx-background-color: #ffffff; -fx-background-radius: 16px; -fx-border-color: #b8b8b8; -fx-border-radius: 16px;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </ChoiceBox>
+         </children>
+      </GridPane>
+   </center>
+</BorderPane>

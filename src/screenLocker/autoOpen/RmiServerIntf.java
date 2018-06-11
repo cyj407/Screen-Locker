@@ -5,4 +5,5 @@ import java.rmi.RemoteException;
 
 public interface RmiServerIntf extends Remote{
 	public int GetRemainTime() throws RemoteException;
+	public boolean IsAlive() throws RemoteException;
 }
