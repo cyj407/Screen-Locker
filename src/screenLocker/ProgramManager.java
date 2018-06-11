@@ -32,6 +32,14 @@ public class ProgramManager extends Application {
 	}
 
 	public static void main(String[] args) {
+		String _myDir = System.getProperty("user.dir");
+		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
+			_myDir += "/bin";
+		}
+		System.setProperty("user.dir", _myDir);
+
+		LockerTimer timer = new LockerTimer();
+		timer.setTime("abc", 1);
 
 		// -------------------- f26401004's section -----------------------//
 
@@ -41,10 +49,6 @@ public class ProgramManager extends Application {
 
 		// ----------------------- afcidk's section -----------------------//
 		// IMPORTANT!! Must be placed before launch(args)
-		String _myDir = System.getProperty("user.dir");
-		if (!_myDir.substring(_myDir.length() - 4).equals("/bin")) {
-			_myDir += "/bin";
-		}
 
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);

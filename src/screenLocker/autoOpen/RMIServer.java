@@ -58,9 +58,11 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 			Naming.unbind("//localhost/ReOpenServer");
 		} catch (RemoteException | MalformedURLException | NotBoundException e1) {
 			try {
+				/*
 				PrintWriter writer = new PrintWriter("log_naming.txt");
 				writer.println(e1);
 				writer.close();
+				*/
 			} catch (Exception e2) {
 
 			}
@@ -70,9 +72,11 @@ public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
 			UnicastRemoteObject.unexportObject(this, true);
 		} catch (NoSuchObjectException e) {
 			try {
+				/*
 				PrintWriter writer = new PrintWriter("log_obj.txt");
 				writer.println(e);
 				writer.close();
+				*/
 			} catch (Exception e2) {
 
 			}

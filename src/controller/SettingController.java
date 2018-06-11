@@ -136,7 +136,7 @@ public class SettingController implements Initializable {
 	@FXML
 	private GridPane _rightItems;
 	@FXML
-	private ListView _appListView;
+	private ListView<Application> _appListView;
 	@FXML
 	private Text _appName;
 	@FXML
@@ -146,7 +146,7 @@ public class SettingController implements Initializable {
 	@FXML
 	private ImageView _appIcon;
 	@FXML
-	private TableView _timerTable;
+	private TableView<Application> _timerTable;
 	@FXML
 	private TextField _searchTextField;
 
@@ -206,12 +206,13 @@ public class SettingController implements Initializable {
 	public void SearchApplication(KeyEvent _event) {
 		if (_searchTextField.getText() != "") {
 			_currentList.clear();
-			for (Application _iter : Loader.GetInstance().GetApplication()) {
+			Loader.GetInstance();
+			for (Application _iter : Loader.GetApplication()) {
 				if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
 					_currentList.add(_iter);
 				}
 			}
-			ObservableList _observableList = FXCollections.observableArrayList(_currentList);
+			ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
 			_appListView.setItems(_observableList);
 		}
 	}
@@ -220,20 +221,20 @@ public class SettingController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		_rightItems.setVisible(false);
 		_currentList = new ArrayList<Application>();
-		// ListView<String> _appList = new ListView<>();
-		for (Application _iter : Loader.GetInstance().GetApplication()) {
+		Loader.GetInstance();
+		for (Application _iter : Loader.GetApplication()) {
 			_currentList.add(_iter);
 		}
-		ObservableList _observableList = FXCollections.observableArrayList(_currentList);
+		ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
 		_appListView.setItems(_observableList);
 		_appListView.setPrefHeight(35 * 8);
 		_appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
 			@Override
 			public ListCell<Application> call(ListView<Application> param) {
 				return new AppCell();
-
 			}
 		});
+
 		// add mouse click handler
 		_appListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -290,7 +291,6 @@ public class SettingController implements Initializable {
 								}
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}

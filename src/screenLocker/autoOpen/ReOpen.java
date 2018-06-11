@@ -15,19 +15,19 @@ public class ReOpen {
 
 	public static void main(String[] args) throws IOException {
 
-		FileWriter writer = new FileWriter("error_log");
+		//FileWriter writer = new FileWriter("error_log");
 		String _mainName = args[1];
 		String _path = args[0];
 		// IMPORTANT!! Windows may need the path embraced with quotes!!
 		// However, linux will show error due to the mechanism of Runtime.exec
-		_path = String.format("%1$s%2$sbin%3$s%1$s%2$slib", _path, _deli, _deli2);
+		_path = String.format("%1$s%2$sbin%3$s%1$s%2$slib%2$s*", _path, _deli, _deli2);
 		RmiServerIntf _obj = null;
 		while (true) {
 			try {
 				_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 				break;
 			} catch (Exception e) {
-				writer.write(e.toString());
+				//writer.write(e.toString());
 			}
 		}
 
@@ -44,7 +44,7 @@ public class ReOpen {
 							_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 							break;
 						} catch (Exception e) {
-							writer.write(e.toString());
+							//writer.write(e.toString());
 						}
 					}
 					continue;
@@ -54,7 +54,7 @@ public class ReOpen {
 				try {
 				Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
 				} catch (Exception e2) {
-					writer.write(e2.toString());
+					//writer.write(e2.toString());
 				}
 
 				/** if still can't find server, then loop back again **/
@@ -69,7 +69,7 @@ public class ReOpen {
 
 			}
 		}
-		writer.close();
+		//writer.close();
 	}
 
 	public static void openReOpen(String myExe, String workingDir) throws Exception {
