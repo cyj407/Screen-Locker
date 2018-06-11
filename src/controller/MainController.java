@@ -29,12 +29,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
 import screenLocker.LockerTimer;
+import screenLocker.ProgramManager;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
@@ -52,13 +54,17 @@ public class MainController implements Initializable{
         private HBox _hbox;
         private ImageView _icon;
         private Application _lastItem;
+        private Text _time;
 
         public AppCell() {
             super();
             _hbox = new HBox();
             _icon = new ImageView();
-            _hbox.getChildren().add(_icon);
+            _time = new Text();
+            _time.setStyle("-fx-text-fill: red;");
+            _hbox.getChildren().addAll(_icon, _time);
             _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
+            
             //setStyle("-fx-cursor: pointer");
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
         }
@@ -76,6 +82,13 @@ public class MainController implements Initializable{
                 	setText("  " + _item.GetDisplayName().substring(0, 15) + "...");
                 else
                 	setText("  " + _item.GetDisplayName());
+                for(String _iter : LockerTimer.BlackList()) {
+                	if (_iter.equals(_lastItem.GetDisplayName())) {
+                		LockerTimer _timer = new LockerTimer();
+                		int _timeValue = _timer.getTime(_lastItem.GetDisplayName());
+                		_time.setText(Integer.toString(_timeValue / 3600) + ":" + Integer.toString((_timeValue % 3600) / 60) + ":" + Integer.toString(_timeValue % 60));
+                	}
+                }
                 try {
                 	if (_lastItem.GetIconPath() != null && _lastItem.GetIconPath() != "" ) {
 		                if (_lastItem.GetIconPath().indexOf(".ico") < 0) {
@@ -171,6 +184,7 @@ public class MainController implements Initializable{
 		
 		ArrayList<Application> _appList = new ArrayList<Application>();
 		_appList.clear();
+		LockerTimer _timer = new LockerTimer();
 		for(String _iter : LockerTimer.BlackList()) {
 			for(Application _appIter : Loader.GetInstance().GetApplication()) {
 				if (_iter.equals(_appIter.GetDisplayName())) {

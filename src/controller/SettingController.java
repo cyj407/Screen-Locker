@@ -197,6 +197,13 @@ public class SettingController implements Initializable {
     }
     
 	@FXML
+    public void Draged(MouseEvent event) {
+    	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    	stage.setX(event.getScreenX() - _x);
+    	stage.setY(event.getScreenY() - _y);
+    }
+    
+	@FXML
 	public void Pressed(MouseEvent event) {
 		_x = event.getSceneX();
 		_y = event.getSceneY();
