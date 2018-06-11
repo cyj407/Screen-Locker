@@ -6,22 +6,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.TimerTask;
+import screenLocker.loader.Loader;
+
 import java.util.List;
 
 public class LockerTimer extends TimerTask {
 
 	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
 	private String _path;
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	
 	public LockerTimer() {
-		_path = System.getProperty("user.dir") + "time.txt";
+		_path = System.getProperty("user.dir") + _deli + "time.txt";
 		File _checkFile = new File(_path);
 		if(_checkFile.exists()) {
 			ObjectInputStream _ois = null;
