@@ -33,6 +33,7 @@ public class ProgramManager extends Application {
 	}
 
 	public static void main(String[] args) {
+		// ------------------must be placed at the first---------------------//
 		String _myDir = System.getProperty("user.dir");
 		if (!_myDir.substring(_myDir.length() - 4).equals(_deli+"bin")) {
 			_myDir += _deli+"bin";
