@@ -2,39 +2,60 @@ package screenLocker.autoOpen;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
 
 import screenLocker.loader.Loader;
 
 public class ReOpen {
-	private final static String _deli = Loader.IsLinux()?"/":"\\";
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
+	private final static String _deli2 = Loader.IsLinux() ? ":" : ";";
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 
+		//FileWriter writer = new FileWriter("error_log");
 		String _mainName = args[1];
 		String _path = args[0];
-		_path = String.format("\"%1$s%2$sbin;%1$s%2$slib%2$sjna-platform.jar;%1$s%2$slib%2$sjna.jar;%1$s%2$slib%2$sjRegistryKey.jar\"", _path,
-				_deli);
+		// IMPORTANT!! Windows may need the path embraced with quotes!!
+		// However, linux will show error due to the mechanism of Runtime.exec
+		_path = String.format("%1$s%2$sbin%3$s%1$s%2$slib%2$s*", _path, _deli, _deli2);
 		RmiServerIntf _obj = null;
+		while (true) {
+			try {
+				_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
+				break;
+			} catch (Exception e) {
+				//writer.write(e.toString());
+			}
+		}
 
-		_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
-
-		int cnt = 0;
 		while (true) {
 
 			/** times up, leave loop **/
 			try {
-				_obj.GetRemainTime();
-				/*
 				if (_obj.GetRemainTime() <= 0) {
 					break;
+				} else if (!_obj.IsAlive()) {
+					Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
+					while (true) {
+						try {
+							_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
+							break;
+						} catch (Exception e) {
+							//writer.write(e.toString());
+						}
+					}
+					continue;
 				}
-				*/
 			} catch (Exception e) {
 				/** cannot find server -> application is down **/
-				if (Loader.IsLinux()) Runtime.getRuntime().exec(String.format("java %s", _mainName));
-				else Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
+				try {
+				Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
+				} catch (Exception e2) {
+					//writer.write(e2.toString());
+				}
 
 				/** if still can't find server, then loop back again **/
 				while (true) {
@@ -48,6 +69,7 @@ public class ReOpen {
 
 			}
 		}
+		//writer.close();
 	}
 
 	public static void openReOpen(String myExe, String workingDir) throws Exception {
@@ -60,6 +82,11 @@ public class ReOpen {
 					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
 			Process p = _pb.start();
+			/*
+			 * BufferedReader br = new BufferedReader(new
+			 * InputStreamReader(p.getInputStream())); String st; while ((st=br.readLine())
+			 * != null) { System.out.println(st); }
+			 */
 
 			/**
 			 * checkout the pid, do wmic path win32_process where name="java.exe" get
@@ -106,10 +133,8 @@ public class ReOpen {
 			while ((_line = _br.readLine()) != null) {
 				_lines += _line;
 			}
-			
-			System.out.println("contain?" + _lines.contains("ReOpen"));
+
 			return _lines.contains("ReOpen");
 		}
-
 	}
 }

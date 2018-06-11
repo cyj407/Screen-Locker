@@ -85,6 +85,7 @@ public final class LinuxLoader extends Loader {
 									/** does not exist backslash **/
 									_exeName = _exePath;
 								}
+								_newApp.SetProcessName(_exeName);
 							} else if (_front.equals("Icon=")) {
 								_newApp.SetIconPath(_back);
 							}
@@ -122,7 +123,6 @@ public final class LinuxLoader extends Loader {
 
 		/** executable path **/
 		if (br.readLine().contains("text")) {
-			System.out.println("path = " + path);
 			List<String> oriList = getCurrentState();
 			_openProc(path);
 			Thread.sleep(1000);

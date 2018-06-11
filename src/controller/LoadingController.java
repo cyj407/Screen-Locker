@@ -40,7 +40,7 @@ public class LoadingController implements Initializable {
     @FXML
     public void Close(MouseEvent _event) {
     	Stage _stage = (Stage)((Node)_event.getSource()).getScene().getWindow();
-    	screenLocker.ProgramManager.rmiServer.CloseServer();
+    	screenLocker.ProgramManager.leave();
     	_stage.close();
     }
     @FXML
@@ -81,7 +81,7 @@ public class LoadingController implements Initializable {
 			@Override
 			protected Object call() throws Exception {
 				for(int i = 0 ; i < Loader.GetInstance().GetApplicationNumber() ; ++i) {
-					int _randomTime = (int)(Math.random() * 0 + 10); //*150 + 50
+					int _randomTime = (int)(Math.random() * 0 + 10); //*150 + 50  // *0+10
 					Loader.GetInstance().LoadApplication();
 					try {
 						Thread.sleep(_randomTime);
