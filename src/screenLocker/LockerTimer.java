@@ -1,5 +1,6 @@
 package screenLocker;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -18,151 +19,122 @@ import java.util.List;
 
 public class LockerTimer extends TimerTask{
 	
-	public static Hashtable<String, Integer> applications = new Hashtable<String, Integer>();
+	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
+	private String _path;
+	private LockerTimer _lLockerTimer = new LockerTimer();
 	
 	public LockerTimer() throws FileNotFoundException, IOException {
-		Path p = Paths.get("time.txt");
-        if (Files.exists(p)) {
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream("time.txt"));
+		_path = this.getClass().getResource("").getPath();
+		_path = _path.substring(0, _path.lastIndexOf("screenLocker/"));
+		_path = _path + "time.txt";
+		File _checkFile = new File(_path);
+		if(_checkFile.exists()) {
+			ObjectInputStream _ois = new ObjectInputStream(new FileInputStream(_path));
 			try {
 				while(true) {
-					String string = (String)ois.readObject();
-					int num = ois.readInt();
-					applications.put(string, num);
-					//System.out.println("App = " + string);
-					//System.out.println("time = " + applications.get(string));	
+					String _string = (String)_ois.readObject();
+					int _num = _ois.readInt();
+					_applications.put(_string, _num);
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			ois.close();
+			_ois.close();
         }
 	}
 
-	public int getTime(String application) throws IOException, ClassNotFoundException {	
-		ObjectInputStream ois = new ObjectInputStream(new FileInputStream("time.txt"));
-		try {
-			while(true) {
-				String string = (String)ois.readObject();
-				int num = ois.readInt();
-				if(string.equals(application)) {
-					//System.out.println("App = " + string);
-					//System.out.println("time = " + applications.get(application));
-					return applications.get(application);
-				}
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
+	public int getTime(String _application) throws IOException, ClassNotFoundException {	
+		for(int _i = 0; _i < _applications.size(); _i++) {
+			return _applications.get(_application);
 		}
-		ois.close();
 		return -1;
 	}
 	
 	/*return the maximum time value in applications*/
 	public static int getLargeTime() throws IOException, ClassNotFoundException {
-		Enumeration e = applications.keys();
-		int maxtime = 0;
-		while(e. hasMoreElements()) {
-			String s= e.nextElement().toString();
-			int num = applications.get(s);
-			if(maxtime < num) {
-				maxtime = num;
+		Enumeration _e = _applications.keys();
+		int _maxtime = 0;
+		while(_e. hasMoreElements()) {
+			String _s = _e.nextElement().toString();
+			int _num = _applications.get(_s);
+			if(_maxtime < _num) {
+				_maxtime = _num;
 			}
 		}
-		return maxtime;
+		return _maxtime;
 	}
 	
-	public void setTime(String application, int time) throws IOException {
-		applications.put(application, time*3600);
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
-		Enumeration e = applications.keys();
-		while(e. hasMoreElements()){
-			String s= e.nextElement().toString();
-			oos.writeObject(s);
-			oos.writeInt(applications.get(s));
+	public void setTime(String _application, int _time) throws IOException {
+		_applications.put(_application, _time*3600);
+		ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+		Enumeration _e = _applications.keys();
+		while(_e. hasMoreElements()){
+			String _s= _e.nextElement().toString();
+			_oos.writeObject(_s);
+			_oos.writeInt(_applications.get(_s));
 		}
-		oos.flush(); 
-		oos.close();
+		_oos.flush(); 
+		_oos.close();
 	}
 	
 	public static List<String> BlackList() {
-		List<String> blacklist = new ArrayList<>();
-		Enumeration<String> e = applications.keys();
-		while(e.hasMoreElements()) {
-			String s = e.nextElement().toString();
-			blacklist.add(s);
+		List<String> _blacklist = new ArrayList<>();
+		Enumeration<String> _e = _applications.keys();
+		while(_e.hasMoreElements()) {
+			String _s = _e.nextElement().toString();
+			_blacklist.add(_s);
 		}
-		System.out.println("list = " + blacklist);	
-		return blacklist;	
+		System.out.println("list = " + _blacklist);	
+		return _blacklist;	
 	}
 	
-	public static void setAddTenMins() {
+	public void setAddOneHour(String _punishedApp) {
 		try {  
-			Enumeration e = applications.keys();
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
-			while(e. hasMoreElements()){
-				String s= e.nextElement().toString();
-				oos.writeObject(s);
-				int newtime = applications.get(s)+360;
-				oos.writeInt(newtime);
-				applications.put(s, newtime);
-			}
-			oos.flush(); 
-			oos.close();
+			Enumeration _e = _applications.keys();
+			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+			_oos.writeObject(_punishedApp);
+			int _newtime = _applications.get(_punishedApp)+3600;
+			_oos.writeInt(_newtime);
+			_applications.put(_punishedApp, _newtime);
+			System.out.println("addten: " + _punishedApp + _newtime);
+			_oos.flush(); 
+			_oos.close();
 		} catch (IOException ex) {                       
 			
 		}
 	}
 	
-	private int twomin = 0;
+	private int _twomin = 0;
 	public void run() {
-		Enumeration e = applications.keys();
-		while(e. hasMoreElements()){
-			String s= e.nextElement().toString();
-			int secondtime = applications.get(s);
-			secondtime--;
-			if(secondtime > 0) {
-				applications.remove(s);
-				applications.put(s, secondtime);
-				//System.out.println(s + secondtime);
+		Enumeration _e = _applications.keys();
+		while(_e. hasMoreElements()){
+			String _s= _e.nextElement().toString();
+			int _secondtime = _applications.get(_s);
+			_secondtime--;
+			if(_secondtime > 0) {
+				_applications.remove(_s);
+				_applications.put(_s, _secondtime);
 			}
 			else {
-				applications.remove(s);
+				_applications.remove(_s);
 			}
 		}
-		twomin++;
-		if(twomin == 120) {
-			twomin = 0;
+		_twomin++;
+		if(_twomin == 120) {
+			_twomin = 0;
 			try {        
-				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
-				Enumeration e2 = applications.keys();
-				while(e2. hasMoreElements()){
-					String s= e2.nextElement().toString();
-					oos.writeObject(s);
-					oos.writeInt(applications.get(s));
-					//System.out.println(s);
-					//System.out.println(applications.get(s));
+				ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+				Enumeration _e2 = _applications.keys();
+				while(_e2. hasMoreElements()){
+					String _s= _e2.nextElement().toString();
+					_oos.writeObject(_s);
+					_oos.writeInt(_applications.get(_s));
 				}
-				oos.flush(); 
-				oos.close();
+				_oos.flush(); 
+				_oos.close();
 			} catch (IOException ex) {                       
 			
 			}
-		}
-	}
-	
-	public static void close() {
-		try {        
-			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("time.txt"));
-			Enumeration e = applications.keys();
-			while(e. hasMoreElements()){
-				String s= e.nextElement().toString();
-				oos.writeObject(s);
-				oos.writeInt(applications.get(s));
-			}
-			oos.flush(); 
-			oos.close();
-		} catch (IOException ex) {                       
 		}
 	}
 }
