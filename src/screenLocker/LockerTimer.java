@@ -2,42 +2,51 @@ package screenLocker;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.TimerTask;
 import java.util.List;
 
+import screenLocker.loader.Loader;
+
 public class LockerTimer extends TimerTask {
 
 	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
 	private String _path;
-	private LockerTimer _lLockerTimer = new LockerTimer();
+	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	
-	public LockerTimer() {
-		_path = this.getClass().getResource("").getPath();
-		_path = _path.substring(0, _path.lastIndexOf("screenLocker/"));
-		_path = _path + "time.txt";
+	public LockerTimer() throws FileNotFoundException, IOException {
+		_path = System.getProperty("user.dir") + _deli +  "time.txt";
 		File _checkFile = new File(_path);
 		if(_checkFile.exists()) {
+			System.out.println(_path);
 			ObjectInputStream _ois = new ObjectInputStream(new FileInputStream(_path));
 			try {
 				while(true) {
+					if (_ois.read() == -1) 
+						break;
 					String _string = (String)_ois.readObject();
 					int _num = _ois.readInt();
 					_applications.put(_string, _num);
 				}
-				ois.close();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (Exception e) {
+					e.printStackTrace();
 			}
+				
+			try {
+				_ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("test");
+		System.out.println(BlackList());
 	}
 
 	public int getTime(String _application) {	

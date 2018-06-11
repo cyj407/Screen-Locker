@@ -13,6 +13,8 @@ import screenLocker.autoOpen.ReOpen;
 //import screenLocker.gui.GUI;
 //import screenLocker.gui.GUILoading;
 import screenLocker.loader.Loader;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import controller.DefaultController;
@@ -20,6 +22,7 @@ import controller.LoadingController;
 import controller.MainController;
 import controller.SettingController;
 import controller.WindowsTransferEvent;
+import java.util.Timer;
 
 public class ProgramManager extends Application {
 	private Stage _rootStage;
@@ -38,8 +41,17 @@ public class ProgramManager extends Application {
 		}
 		System.setProperty("user.dir", _myDir);
 
-		LockerTimer timer = new LockerTimer();
+		LockerTimer timer;
+		try {
+			timer = new LockerTimer();
 		timer.setTime("abc", 1);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		// -------------------- f26401004's section -----------------------//
 
