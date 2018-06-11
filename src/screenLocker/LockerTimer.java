@@ -19,25 +19,29 @@ public class LockerTimer extends TimerTask {
 
 	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
 	private String _path;
-	private LockerTimer _lLockerTimer = new LockerTimer();
 	
 	public LockerTimer() {
-		_path = this.getClass().getResource("").getPath();
-		_path = _path.substring(0, _path.lastIndexOf("screenLocker/"));
-		_path = _path + "time.txt";
+		_path = System.getProperty("user.dir") + "time.txt";
 		File _checkFile = new File(_path);
 		if(_checkFile.exists()) {
-			ObjectInputStream _ois = new ObjectInputStream(new FileInputStream(_path));
+			ObjectInputStream _ois = null;
 			try {
+				_ois = new ObjectInputStream(new FileInputStream(_path));
 				while(true) {
 					String _string = (String)_ois.readObject();
 					int _num = _ois.readInt();
 					_applications.put(_string, _num);
 				}
-				ois.close();
-			} catch (Exception e1) {
-				e1.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
+			try {
+				_ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public int getTime(String _application) {	
