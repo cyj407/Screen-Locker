@@ -33,7 +33,7 @@ public class SetIntervalController implements Initializable {
     private ChoiceBox _toTimePicker;
     
     public void SetApplication(Application _target) {
-    	System.out.println("set application");
+    	System.out.println(_target.GetProcessName());
     	_selected = _target;
     }
     public void SetParentController(SettingController _parent) {
@@ -75,14 +75,14 @@ public class SetIntervalController implements Initializable {
 		try {
 			_timer = new LockerTimer();
 			int _time = Integer.parseInt(_toTimePicker.getSelectionModel().getSelectedItem().toString().substring(0, 2));
-			_timer.setTime(_selected.GetDisplayName(), _time);
+			_timer.setTime(_selected.GetProcessName(), _time);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			//e1.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		// refresh table view data.
-		_parentController.RefreshTableView();
+		_parentController.RefreshView();
     	_stage.close();
     }
 

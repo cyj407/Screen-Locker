@@ -261,6 +261,8 @@ public final class WindowsLoader extends Loader {
 			if (_app.GetExecutePath() != null && _app.GetExecutePath().indexOf(".exe") >= 0) {
 				File _file = new File(_app.GetExecutePath());
 				String _str = _file.getPath().replace(_file.getParent(), "");
+				_str = _str.replace("\\", "");
+				_str = _str.replace(",0", "");
 				_app.SetProcessName(_str);
 			}
 		} catch (Exception e) {

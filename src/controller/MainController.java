@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -20,6 +22,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -29,10 +32,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
 import screenLocker.LockerTimer;
@@ -51,22 +58,35 @@ public class MainController implements Initializable{
     private ListView<Application> _appListView;
 	
 	static class AppCell extends ListCell<Application> {
-        private HBox _hbox;
+        private HBox _pane;
         private ImageView _icon;
         private Application _lastItem;
         private Text _time;
+        private Text _appName;
 
         public AppCell() {
             super();
-            _hbox = new HBox();
+            _pane = new HBox();
             _icon = new ImageView();
             _time = new Text();
-            _time.setStyle("-fx-text-fill: red;");
-            _hbox.getChildren().addAll(_icon, _time);
-            _hbox.setStyle("-fx-padding: 0px 0px 0px 10px;");
-            
-            //setStyle("-fx-cursor: pointer");
+            _appName = new Text();
+            _appName.setStyle("-fx-fill: white;");
+            _appName.setWrappingWidth(130);
+            _time.setStyle("-fx-fill: red;");
+            _time.setWrappingWidth(48);
+            _time.setTextAlignment(TextAlignment.RIGHT);
+            _pane.getChildren().addAll(_icon, _appName,_time);
+            _pane.setStyle("-fx-padding: 0px 0px 0px 10px;");
+            _pane.setAlignment(Pos.CENTER_LEFT);
+            _pane.setMinWidth(220);
             getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
+        }
+        
+        public void SetHoverStyle() {
+        	_appName.setStyle("-fx-fill: #383838;");
+        }
+        public void SetUnhoverStyle() {
+        	_appName.setStyle("-fx-fill: #f2f4f4;");
         }
         
         @Override
@@ -78,14 +98,14 @@ public class MainController implements Initializable{
                 setGraphic(null);
             } else {
                 _lastItem = _item;
-                if (_item.GetDisplayName().length() > 15)
-                	setText("  " + _item.GetDisplayName().substring(0, 15) + "...");
+                if (_item.GetDisplayName().length() > 18)
+                	_appName.setText("  " + _item.GetDisplayName().substring(0, 18) + "...");
                 else
-                	setText("  " + _item.GetDisplayName());
+                	_appName.setText("  " + _item.GetDisplayName());
                 for(String _iter : LockerTimer.BlackList()) {
-                	if (_iter.equals(_lastItem.GetDisplayName())) {
+                	if (_iter.equals(_lastItem.GetProcessName())) {
                 		LockerTimer _timer = new LockerTimer();
-                		int _timeValue = _timer.getTime(_lastItem.GetDisplayName());
+                		int _timeValue = _timer.getTime(_lastItem.GetProcessName());
                 		_time.setText(Integer.toString(_timeValue / 3600) + ":" + Integer.toString((_timeValue % 3600) / 60) + ":" + Integer.toString(_timeValue % 60));
                 	}
                 }
@@ -141,7 +161,7 @@ public class MainController implements Initializable{
 					}
                     
                 }
-                setGraphic(_hbox);
+                setGraphic(_pane);
             }
         }
     }
@@ -186,7 +206,7 @@ public class MainController implements Initializable{
 		LockerTimer _timer = new LockerTimer();
 		for(String _iter : LockerTimer.BlackList()) {
 			for(Application _appIter : Loader.GetInstance().GetApplication()) {
-				if (_iter.equals(_appIter.GetDisplayName())) {
+				if (_iter.equals(_appIter.GetProcessName())) {
 					_appList.add(_appIter);
 				}
 			}
@@ -196,7 +216,20 @@ public class MainController implements Initializable{
         _appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
             @Override
             public ListCell<Application> call(ListView<Application> param) {
-            	return new AppCell();
+            	AppCell _cell = new AppCell();
+            	_cell.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                    	_cell.SetHoverStyle();
+                    }
+                });
+            	_cell.setOnMouseExited(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                    	_cell.SetUnhoverStyle();
+                    }
+                });
+            	return _cell;
 
             }
         });
@@ -225,6 +258,17 @@ public class MainController implements Initializable{
 			}
         	
         });
+        
+        Timeline _time = new Timeline();
+		KeyFrame _cycle= new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent event) {
+				_appListView.refresh();
+			}		
+		});
+		_time.setCycleCount(Timeline.INDEFINITE);
+		_time.getKeyFrames().add(_cycle);
+		_time.play();
+        
         
 	}
 

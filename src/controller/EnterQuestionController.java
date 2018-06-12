@@ -35,7 +35,6 @@ public class EnterQuestionController implements Initializable{
     	Event.fireEvent(ProgramManager.RootStage(), _event);
         PauseTransition _delay = new PauseTransition(Duration.seconds(1));
         _delay.setOnFinished(event ->{
-    		
         	_stage.close();
 		});
 		_delay.play();
