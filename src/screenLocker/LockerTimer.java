@@ -48,9 +48,8 @@ public class LockerTimer extends TimerTask {
 	}
 
 	public int getTime(String _application) {	
-		for(int _i = 0; _i < _applications.size(); _i++) {
+		if(_applications.containsKey(_application))
 			return _applications.get(_application);
-		}
 		return -1;
 	}
 	
