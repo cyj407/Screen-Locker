@@ -34,27 +34,21 @@ public class ProgramManager extends Application {
 			_myDir += _deli+"bin";
 		}
 		System.setProperty("user.dir", _myDir);
+		// ------------------------------------------------------------------//
 		
 		_timer = new Timer();
 		_timer.schedule(new LockerTimer(), 0, 1000);
 
-		// -------------------- f26401004's section -----------------------//
 
-		// ------------------------ yiiju's section -----------------------//
 		_pListen = new ProcessListener();
 		_pListen.start();
 
-		// ----------------------- afcidk's section -----------------------//
-		// IMPORTANT!! Must be placed before launch(args)
-		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
 
-		// ----------------------- cyj407's section -----------------------//
 		launch(args);
 	}
 
@@ -67,7 +61,6 @@ public class ProgramManager extends Application {
 		_rootStage.initStyle(StageStyle.UNDECORATED);
 		_rootStage.setWidth(800);
 		_rootStage.setHeight(548);
-		// TODO: set all event for different scene transfer.
 		_addTransferListener();
 		// initantiate loading scene.
 		FXMLLoader _loading = new FXMLLoader(

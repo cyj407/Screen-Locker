@@ -32,8 +32,10 @@ public class ReOpen {
 
 			/** times up, leave loop **/
 			try {
-				if (_obj.GetRemainTime() <= 0) {
+				if (_obj.GetRemainTime() == 0) {
 					break;
+				} else if (_obj.GetRemainTime() == -999) {
+					continue;
 				} else if (!_obj.IsAlive()) {
 					Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
 					while (true) {
@@ -48,7 +50,7 @@ public class ReOpen {
 			} catch (Exception e) {
 				/** cannot find server -> application is down **/
 				try {
-				Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
+					Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
 				} catch (Exception e2) {
 				}
 
@@ -58,7 +60,6 @@ public class ReOpen {
 						_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 						break;
 					} catch (Exception et) {
-						et.printStackTrace();
 					}
 				}
 
@@ -75,12 +76,7 @@ public class ReOpen {
 			ProcessBuilder _pb = new ProcessBuilder("java", "screenLocker.autoOpen.ReOpen",
 					workingDir.substring(0, workingDir.lastIndexOf(_deli)), myExe);
 			_pb.directory(new File(workingDir));
-			Process p = _pb.start();
-			/*
-			 * BufferedReader br = new BufferedReader(new
-			 * InputStreamReader(p.getInputStream())); String st; while ((st=br.readLine())
-			 * != null) { System.out.println(st); }
-			 */
+			_pb.start();
 
 			/**
 			 * checkout the pid, do wmic path win32_process where name="java.exe" get
@@ -89,7 +85,6 @@ public class ReOpen {
 			 */
 
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

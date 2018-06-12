@@ -19,6 +19,7 @@ public class LockerTimer extends TimerTask {
 	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
 	private String _path;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
+	private static boolean _firstTime = true;
 	
 	public LockerTimer() {
 		_path = System.getProperty("user.dir") + _deli + "time.txt";
@@ -34,7 +35,6 @@ public class LockerTimer extends TimerTask {
 					_applications.put(_string, _num);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 		}
@@ -51,6 +51,7 @@ public class LockerTimer extends TimerTask {
 	
 	/*return the maximum time value in applications*/
 	public static int getLargeTime() {
+		if (_firstTime) return -999;
 		Enumeration _e = _applications.keys();
 		int _maxtime = 0;
 		while(_e. hasMoreElements()) {
@@ -64,6 +65,7 @@ public class LockerTimer extends TimerTask {
 	}
 	
 	public void setTime(String _application, int _time) {
+		_firstTime = false;
 		_applications.put(_application, _time*3600);
     try {
 		  ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
