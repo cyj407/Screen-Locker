@@ -70,7 +70,7 @@ public class MainController implements Initializable{
             _appName.setStyle("-fx-fill: white;");
             _appName.setWrappingWidth(130);
             _time.setStyle("-fx-fill: red;");
-            _time.setWrappingWidth(48);
+            _time.setWrappingWidth(56);
             _time.setTextAlignment(TextAlignment.RIGHT);
             _pane.getChildren().addAll(_icon, _appName,_time);
             _pane.setStyle("-fx-padding: 0px 0px 0px 10px;");
