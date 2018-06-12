@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import screenLocker.LockerTimer;
 import screenLocker.ProgramManager;
 import screenLocker.question.Question;
 
@@ -126,6 +127,14 @@ public class QuestionController implements Initializable{
 	        }
 	        
 	        // sucess, open the application
+	        LockerTimer.removeApp(ProgramManager.NowAccess.GetProcessName());
+	        
+	        try {
+	        	Runtime.getRuntime().exec(ProgramManager.NowAccess.GetExecutePath());
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        }
+	        ProgramManager.NowAccess = null;
 		}
 		else {
 			_clickedButton.setStyle("-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white");
@@ -148,6 +157,8 @@ public class QuestionController implements Initializable{
 	        }
 	        
 	        // fail, add 10 minutes time to lock the application
+	        LockerTimer.setAddOneHour(ProgramManager.NowAccess.GetProcessName());
+	        ProgramManager.NowAccess = null;
 		}
 	}
 	

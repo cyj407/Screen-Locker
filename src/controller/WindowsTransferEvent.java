@@ -14,8 +14,8 @@ public class WindowsTransferEvent extends Event {
 			"TransferToSetting");
 	public static final EventType<WindowsTransferEvent> TransferToQuestion = new EventType<WindowsTransferEvent>(ANY,
 			"TransferToQuestion");
-	public static final EventType<WindowsTransferEvent> RefreshTableView = new EventType<WindowsTransferEvent>(ANY,
-			"RefreshTableView");
+	public static final EventType<WindowsTransferEvent> RemoveApplication = new EventType<WindowsTransferEvent>(ANY,
+			"RemoveApplication");
 
 	public WindowsTransferEvent(Object source, EventTarget target, EventType<? extends Event> eventType) {
 		super(source, target, eventType);

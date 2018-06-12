@@ -40,6 +40,7 @@ import javafx.util.Duration;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
 import screenLocker.LockerTimer;
+import screenLocker.ProgramManager;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
@@ -202,7 +203,7 @@ public class MainController implements Initializable{
 		for(String _iter : LockerTimer.BlackList()) {
 			Loader.GetInstance();
 			for(Application _appIter : Loader.GetApplication()) {
-				if (_iter.equals(_appIter.GetDisplayName())) {
+				if (_iter.equals(_appIter.GetProcessName())) {
 					_appList.add(_appIter);
 				}
 			}
@@ -235,6 +236,7 @@ public class MainController implements Initializable{
 			@Override
 			public void handle(MouseEvent event) {
 				if (_appListView.getSelectionModel().getSelectedItem() != null) {
+					ProgramManager.NowAccess = _appListView.getSelectionModel().getSelectedItem();
 					Stage _enterQStage = new Stage();
 					Parent parent;
 					try {

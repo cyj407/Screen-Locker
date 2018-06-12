@@ -17,7 +17,7 @@ import java.util.List;
 public class LockerTimer extends TimerTask {
 
 	private static Hashtable<String, Integer> _applications = new Hashtable<String, Integer>();
-	private String _path;
+	private static String _path;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	private static boolean _firstTime = true;
 
@@ -89,7 +89,7 @@ public class LockerTimer extends TimerTask {
 		return _blacklist;
 	}
 
-	public void setAddOneHour(String _punishedApp) {
+	public static void setAddOneHour(String _punishedApp) {
 		try {  
 			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
 			_oos.writeObject(_punishedApp);
@@ -104,7 +104,7 @@ public class LockerTimer extends TimerTask {
 		}
 	}
 
-	public void removeApp(String _removeApp) {
+	public static void removeApp(String _removeApp) {
 		_applications.remove(_removeApp);
 		try {
 			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));

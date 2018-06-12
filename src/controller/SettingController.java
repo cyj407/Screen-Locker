@@ -223,12 +223,14 @@ public class SettingController implements Initializable {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	stage.setX(event.getScreenX() - _x);
     	stage.setY(event.getScreenY() - _y);
+    	_setIntervalStage.close();
     }
     
 	@FXML
 	public void Pressed(MouseEvent event) {
 		_x = event.getSceneX();
 		_y = event.getSceneY();
+		_setIntervalStage.close();
 	}
 
 	@FXML
@@ -242,6 +244,7 @@ public class SettingController implements Initializable {
 	public void Shrink(MouseEvent event) {
 		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 		stage.setIconified(true);
+		_setIntervalStage.close();
 	}
 
 	@FXML
@@ -249,7 +252,8 @@ public class SettingController implements Initializable {
 		// switch to main scene.
         Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
     	Event.fireEvent(ProgramManager.RootStage(), _event);
-    }
+    	_setIntervalStage.close();
+	}
     
     @FXML
     public void ShowSetIntervalStage(ActionEvent event) {
@@ -271,6 +275,7 @@ public class SettingController implements Initializable {
             ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
             _appListView.setItems(_observableList);
     	}
+    	_setIntervalStage.close();
     }
     
     
@@ -311,6 +316,7 @@ public class SettingController implements Initializable {
 		_appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
             @Override
             public ListCell<Application> call(ListView<Application> param) {
+            	_setIntervalStage.close();
             	AppCell _cell = new AppCell();
             	_cell.setOnMouseEntered(new EventHandler<MouseEvent>() {
                     @Override
@@ -334,6 +340,7 @@ public class SettingController implements Initializable {
 
 			@Override
 			public void handle(MouseEvent event) {
+				_setIntervalStage.close();
 				RefreshView();
 				if (!_rightItems.visibleProperty().get())
 					_rightItems.setVisible(true);

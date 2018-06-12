@@ -22,6 +22,7 @@ public class ProgramManager extends Application {
 	private static Timer _timer;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
+	public static screenLocker.Application NowAccess;
 
 	public static Stage RootStage() {
 		return _rootStage;

@@ -164,7 +164,7 @@
                         <Insets left="30.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView fx:id="_timerTable" editable="true" maxHeight="216.0" maxWidth="434.0" minHeight="216.0" minWidth="434.0" prefHeight="216.0" prefWidth="434.0" style="-fx-background-color: #fefefe; -fx-border-color: #979797;">
+                  <TableView fx:id="_timerTable" maxHeight="216.0" maxWidth="434.0" minHeight="216.0" minWidth="434.0" prefHeight="216.0" prefWidth="434.0" style="-fx-background-color: #fefefe; -fx-border-color: #979797;">
                     <columns>
                       <TableColumn prefWidth="93.0" style="-fx-background-color: #fefefe;" text="排程編號" />
                       <TableColumn prefWidth="340.0" style="-fx-background-color: #fefefe;" text="時間" />
