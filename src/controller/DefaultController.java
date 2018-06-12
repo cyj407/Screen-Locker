@@ -13,8 +13,6 @@ public class DefaultController implements Initializable {
     private double _x, _y;
     @FXML
     private Button _shrinkButton;
-    private Button _enlargeButton;
-    private Button _closeButton;
     
 	@FXML
     public void Draged(MouseEvent event) {

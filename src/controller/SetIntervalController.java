@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import screenLocker.Application;
 import screenLocker.LockerTimer;
-import screenLocker.ProgramManager;
 
 public class SetIntervalController implements Initializable {
     private double _x, _y;
@@ -28,9 +26,9 @@ public class SetIntervalController implements Initializable {
     @FXML
     private DatePicker _toDatePicker;
     @FXML
-    private ChoiceBox _fromTimePicker;
+    private ChoiceBox<String> _fromTimePicker;
     @FXML
-    private ChoiceBox _toTimePicker;
+    private ChoiceBox<String> _toTimePicker;
     
     public void SetApplication(Application _target) {
     	System.out.println(_target.GetProcessName());
@@ -77,8 +75,6 @@ public class SetIntervalController implements Initializable {
 			int _time = Integer.parseInt(_toTimePicker.getSelectionModel().getSelectedItem().toString().substring(0, 2));
 			_timer.setTime(_selected.GetProcessName(), _time);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
 			System.out.println(e.getMessage());
 		}
 		// refresh table view data.

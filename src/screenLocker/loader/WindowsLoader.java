@@ -253,11 +253,6 @@ public final class WindowsLoader extends Loader {
 		} catch (Exception e) {
 		}
 		try {
-			_app.SetPublisher((String)_tr.get("Publisher"));
-		} catch (Exception e) {
-			
-		}
-		try {
 			if (_app.GetExecutePath() != null && _app.GetExecutePath().indexOf(".exe") >= 0) {
 				File _file = new File(_app.GetExecutePath());
 				String _str = _file.getPath().replace(_file.getParent(), "");
@@ -265,11 +260,6 @@ public final class WindowsLoader extends Loader {
 				_str = _str.replace(",0", "");
 				_app.SetProcessName(_str);
 			}
-		} catch (Exception e) {
-			
-		}
-		try {
-			_app.SetVersion((String)_tr.get("Version"));
 		} catch (Exception e) {
 			
 		}
