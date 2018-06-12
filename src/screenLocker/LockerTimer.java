@@ -44,7 +44,6 @@ public class LockerTimer extends TimerTask {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("test");
 		System.out.println(BlackList());
 	}
 
@@ -109,6 +108,23 @@ public class LockerTimer extends TimerTask {
 			_oos.close();
 		} catch (IOException ex) {                       
 			
+		}
+	}
+	
+	public void removeApp(String _removeApp) {
+		_applications.remove(_removeApp);
+	    try {        
+			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+			Enumeration _e = _applications.keys();
+			while(_e. hasMoreElements()){
+				String _s= _e.nextElement().toString();
+				_oos.writeObject(_s);
+				_oos.writeInt(_applications.get(_s));
+			}
+			_oos.flush(); 
+			_oos.close();
+		} catch (IOException ex) {                       
+		
 		}
 	}
 	
