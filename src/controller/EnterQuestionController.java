@@ -18,11 +18,6 @@ import screenLocker.ProgramManager;
 public class EnterQuestionController implements Initializable{
     @FXML private Button _closeButton;
     @FXML private Button _enterQButton;
-    private MainController _parentController;
-
-    public void SetParentController(MainController _parent) {
-    	_parentController = _parent;
-    }
     
     @FXML public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

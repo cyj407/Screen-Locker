@@ -2,7 +2,6 @@ package controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -32,8 +31,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -43,7 +40,6 @@ import javafx.util.Duration;
 import net.sf.image4j.codec.ico.ICODecoder;
 import screenLocker.Application;
 import screenLocker.LockerTimer;
-import screenLocker.ProgramManager;
 import screenLocker.loader.Loader;
 
 public class MainController implements Initializable{
@@ -203,10 +199,10 @@ public class MainController implements Initializable{
 		
 		ArrayList<Application> _appList = new ArrayList<Application>();
 		_appList.clear();
-		LockerTimer _timer = new LockerTimer();
 		for(String _iter : LockerTimer.BlackList()) {
-			for(Application _appIter : Loader.GetInstance().GetApplication()) {
-				if (_iter.equals(_appIter.GetProcessName())) {
+			Loader.GetInstance();
+			for(Application _appIter : Loader.GetApplication()) {
+				if (_iter.equals(_appIter.GetDisplayName())) {
 					_appList.add(_appIter);
 				}
 			}
@@ -239,7 +235,6 @@ public class MainController implements Initializable{
 			@Override
 			public void handle(MouseEvent event) {
 				if (_appListView.getSelectionModel().getSelectedItem() != null) {
-					boolean _enterQuestion;
 					Stage _enterQStage = new Stage();
 					Parent parent;
 					try {

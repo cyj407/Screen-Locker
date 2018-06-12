@@ -9,9 +9,7 @@ import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.*;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -70,16 +68,17 @@ public class LoadingController implements Initializable {
 				}
 			}
 		});
-		Task _task = _loadTask();
+		Task<Object> _task = _loadTask();
 		_progressBar.progressProperty().bind(_task.progressProperty());
 		new Thread(_task).start();
 	}
 	
-	private Task _loadTask() {
-		return new Task() {	
+	private Task<Object> _loadTask() {
+		return new Task<Object>() {	
 			@Override
 			protected Object call() throws Exception {
-				for(int i = 0 ; i < Loader.GetInstance().GetApplicationNumber() ; ++i) {
+				Loader.GetInstance();
+				for(int i = 0 ; i < Loader.GetApplicationNumber() ; ++i) {
 					int _randomTime = (int)(Math.random() * 0 + 10); //*150 + 50  // *0+10
 					Loader.GetInstance().LoadApplication();
 					try {

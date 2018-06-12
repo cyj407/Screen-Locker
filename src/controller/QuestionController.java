@@ -38,7 +38,6 @@ public class QuestionController implements Initializable{
     @FXML private Button _enlargeButton;
     @FXML private Button _closeButton;
 	
-	private Stage _stage;
 	private boolean _hasAnswered = false;
 	
     private double _x, _y;
@@ -56,9 +55,6 @@ public class QuestionController implements Initializable{
     
     @FXML public void Close(MouseEvent event) {
     //	do nothing >> prevent user close the question window
-    	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    // 	screenLocker.ProgramManager.rmiServer.CloseServer();
-    //	stage.close();
     }
 
     @FXML public void Shrink(MouseEvent event) {
@@ -82,7 +78,6 @@ public class QuestionController implements Initializable{
 			    if(_countdown < 0) {
 			    	try {
 			        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_timeoutNoticeLayout.fxml"));	        
-			        	_stage = (Stage) _remainTime.getScene().getWindow();
 			        	Stage _showTimeoutStage = new Stage();
 				        _showTimeoutStage.setScene(new Scene(_noticeFXML));
 				        _showTimeoutStage.initStyle(StageStyle.UNDECORATED);
@@ -110,7 +105,6 @@ public class QuestionController implements Initializable{
         Button _clickedButton= ((Button) _onClick.getSource());
         String _correctAnswer = _questionContent.getans();
         String _userAnswer = _clickedButton.getText();
-        _stage = (Stage) _clickedButton.getScene().getWindow();
         if(_userAnswer.equals(_correctAnswer)) {
 			_clickedButton.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {

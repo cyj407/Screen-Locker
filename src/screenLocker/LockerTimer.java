@@ -2,7 +2,6 @@ package screenLocker;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,8 +13,6 @@ import java.util.TimerTask;
 import screenLocker.loader.Loader;
 
 import java.util.List;
-
-import screenLocker.loader.Loader;
 
 public class LockerTimer extends TimerTask {
 
@@ -51,9 +48,8 @@ public class LockerTimer extends TimerTask {
 
 	/* return the maximum time value in applications */
 	public static int getLargeTime() {
-		if (_firstTime)
-			return -999;
-		Enumeration _e = _applications.keys();
+		if (_firstTime) return -999;
+		Enumeration<String> _e = _applications.keys();
 		int _maxtime = 0;
 		while (_e.hasMoreElements()) {
 			String _s = _e.nextElement().toString();
@@ -94,8 +90,7 @@ public class LockerTimer extends TimerTask {
 	}
 
 	public void setAddOneHour(String _punishedApp) {
-		try {
-			Enumeration _e = _applications.keys();
+		try {  
 			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
 			_oos.writeObject(_punishedApp);
 			int _newtime = _applications.get(_punishedApp) + 3600;
@@ -113,7 +108,7 @@ public class LockerTimer extends TimerTask {
 		_applications.remove(_removeApp);
 		try {
 			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
-			Enumeration _e = _applications.keys();
+			Enumeration<String> _e = _applications.keys();
 			while (_e.hasMoreElements()) {
 				String _s = _e.nextElement().toString();
 				_oos.writeObject(_s);
@@ -129,9 +124,9 @@ public class LockerTimer extends TimerTask {
 	private int _twomin = 0;
 
 	public void run() {
-		Enumeration _e = _applications.keys();
-		while (_e.hasMoreElements()) {
-			String _s = _e.nextElement().toString();
+		Enumeration<String>_e = _applications.keys();
+		while(_e. hasMoreElements()){
+			String _s= _e.nextElement().toString();
 			int _secondtime = _applications.get(_s);
 			_secondtime--;
 			if (_secondtime > 0) {
@@ -146,9 +141,9 @@ public class LockerTimer extends TimerTask {
 			_twomin = 0;
 			try {
 				ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
-				Enumeration _e2 = _applications.keys();
-				while (_e2.hasMoreElements()) {
-					String _s = _e2.nextElement().toString();
+				Enumeration<String>_e2 = _applications.keys();
+				while(_e2. hasMoreElements()){
+					String _s= _e2.nextElement().toString();
 					_oos.writeObject(_s);
 					_oos.writeInt(_applications.get(_s));
 				}

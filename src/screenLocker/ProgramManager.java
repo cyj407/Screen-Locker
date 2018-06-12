@@ -12,11 +12,9 @@ import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
 import screenLocker.loader.Loader;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Timer;
 import controller.WindowsTransferEvent;
-import java.util.Timer;
 
 public class ProgramManager extends Application {
 	private static Stage _rootStage;

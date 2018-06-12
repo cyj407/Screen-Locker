@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
-import controller.MainController.AppCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -36,7 +35,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
@@ -185,7 +183,7 @@ public class SettingController implements Initializable {
     @FXML
     private GridPane _rightItems;
     @FXML
-    private ListView _appListView;
+    private ListView<Application> _appListView;
     @FXML
     private Text _appName;
     @FXML
@@ -195,7 +193,7 @@ public class SettingController implements Initializable {
     @FXML
     private ImageView _appIcon;
     @FXML
-    private TableView _timerTable;
+    private TableView<TimerEntry> _timerTable;
     @FXML
     private TextField _searchTextField;
     
@@ -249,7 +247,6 @@ public class SettingController implements Initializable {
 	@FXML
 	public void ToGUIMain(ActionEvent event) {
 		// switch to main scene.
-		Stage _stage = (Stage) _shrinkButton.getScene().getWindow();
         Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
     	Event.fireEvent(ProgramManager.RootStage(), _event);
     }
@@ -265,12 +262,13 @@ public class SettingController implements Initializable {
     public void SearchApplication(KeyEvent _event) {
     	if (_searchTextField.getText() != "") {
     		_currentList.clear();
-    		for(Application _iter : Loader.GetInstance().GetApplication()) {
+    		Loader.GetInstance();
+			for(Application _iter : Loader.GetApplication()) {
     			if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
     				_currentList.add(_iter);
     			}
     		}
-            ObservableList _observableList = FXCollections.observableArrayList(_currentList);
+            ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
             _appListView.setItems(_observableList);
     	}
     }
