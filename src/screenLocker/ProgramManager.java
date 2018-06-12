@@ -22,15 +22,9 @@ public class ProgramManager extends Application {
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
 
-	public static void leave() {
-		_timer.cancel();
-		_pListen.close();
-		rmiServer.CloseServer();
-	}
 	public static Stage RootStage() {
 		return _rootStage;
 	}
-	
 
 	public static void main(String[] args) {
 		
@@ -83,6 +77,12 @@ public class ProgramManager extends Application {
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
+	}
+	
+	public void stop() {
+		_timer.cancel();
+		_pListen.close();
+		rmiServer.CloseServer();
 	}
 	
 	public void changeScene(String fxml){
