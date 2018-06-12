@@ -27,20 +27,15 @@ public class LockerTimer extends TimerTask {
 		_path = System.getProperty("user.dir") + _deli + "time.txt";
 		File _checkFile = new File(_path);
 		if(_checkFile.exists()) {
-			System.out.println(_path);
 			ObjectInputStream _ois = null;
 			try {
 				_ois = new ObjectInputStream(new FileInputStream(_path));
 				while(true) {
-					if (_ois.read() == -1) 
-						break;
 					String _string = (String)_ois.readObject();
 					int _num = _ois.readInt();
 					_applications.put(_string, _num);
-					
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 			}
 
 			try {
@@ -76,19 +71,19 @@ public class LockerTimer extends TimerTask {
 	
 	public void setTime(String _application, int _time) {
 		_applications.put(_application, _time*3600);
-    try {
-		  ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
-		  Enumeration _e = _applications.keys();
-		  while(_e. hasMoreElements()){
-			  String _s= _e.nextElement().toString();
-			  _oos.writeObject(_s);
-			  _oos.writeInt(_applications.get(_s));
-		  }
-		  _oos.flush(); 
-		  _oos.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+	    try {
+			  ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+			  Enumeration _e = _applications.keys();
+			  while(_e. hasMoreElements()){
+				  String _s= _e.nextElement().toString();
+				  _oos.writeObject(_s);
+				  _oos.writeInt(_applications.get(_s));
+			  }
+			  _oos.flush(); 
+			  _oos.close();
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    }
 	}
 
 	public static List<String> BlackList() {

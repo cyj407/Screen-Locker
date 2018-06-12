@@ -28,7 +28,6 @@ public class ProgramManager extends Application {
 	private static ProcessListener _pListen = null;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
-	//public static LockerTimer lockerTimer = new LockerTimer();
 
 	public static void leave() {
 		_pListen.close();
