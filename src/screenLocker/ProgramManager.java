@@ -13,21 +13,17 @@ import screenLocker.autoOpen.ReOpen;
 import screenLocker.loader.Loader;
 import java.io.IOException;
 import java.util.Timer;
-
-import controller.DefaultController;
-import controller.LoadingController;
-import controller.MainController;
-import controller.SettingController;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private static Stage _rootStage;
 	private static ProcessListener _pListen = null;
+	private static Timer _timer;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
-	//public static LockerTimer lockerTimer = new LockerTimer();
 
 	public static void leave() {
+		_timer.cancel();
 		_pListen.close();
 		rmiServer.CloseServer();
 	}
@@ -45,7 +41,7 @@ public class ProgramManager extends Application {
 		}
 		System.setProperty("user.dir", _myDir);
 		
-		Timer _timer = new Timer();
+		_timer = new Timer();
 		_timer.schedule(new LockerTimer(), 0, 1000);
 
 		// -------------------- f26401004's section -----------------------//

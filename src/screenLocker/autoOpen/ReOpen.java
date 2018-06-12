@@ -2,7 +2,6 @@ package screenLocker.autoOpen;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
@@ -15,7 +14,6 @@ public class ReOpen {
 
 	public static void main(String[] args) throws IOException {
 
-		//FileWriter writer = new FileWriter("error_log");
 		String _mainName = args[1];
 		String _path = args[0];
 		// IMPORTANT!! Windows may need the path embraced with quotes!!
@@ -27,7 +25,6 @@ public class ReOpen {
 				_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 				break;
 			} catch (Exception e) {
-				//writer.write(e.toString());
 			}
 		}
 
@@ -44,7 +41,6 @@ public class ReOpen {
 							_obj = (RmiServerIntf) Naming.lookup("//localhost/ReOpenServer");
 							break;
 						} catch (Exception e) {
-							//writer.write(e.toString());
 						}
 					}
 					continue;
@@ -54,7 +50,6 @@ public class ReOpen {
 				try {
 				Runtime.getRuntime().exec(String.format("java -classpath %s %s", _path, _mainName));
 				} catch (Exception e2) {
-					//writer.write(e2.toString());
 				}
 
 				/** if still can't find server, then loop back again **/
@@ -69,7 +64,6 @@ public class ReOpen {
 
 			}
 		}
-		//writer.close();
 	}
 
 	public static void openReOpen(String myExe, String workingDir) throws Exception {

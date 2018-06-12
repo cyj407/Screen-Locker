@@ -29,22 +29,14 @@ public class LockerTimer extends TimerTask {
 			try {
 				_ois = new ObjectInputStream(new FileInputStream(_path));
 				while(true) {
-					if (_ois.read() == -1) 
-						break;
 					String _string = (String)_ois.readObject();
 					int _num = _ois.readInt();
 					_applications.put(_string, _num);
-					
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			try {
-				_ois.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 		System.out.println("test");
 		System.out.println(BlackList());
@@ -75,7 +67,7 @@ public class LockerTimer extends TimerTask {
 		_applications.put(_application, _time*3600);
     try {
 		  ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
-		  Enumeration _e = _applications.keys();
+		  Enumeration<String> _e = _applications.keys();
 		  while(_e. hasMoreElements()){
 			  String _s= _e.nextElement().toString();
 			  _oos.writeObject(_s);
