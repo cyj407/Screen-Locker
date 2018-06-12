@@ -125,7 +125,7 @@ public final class LinuxLoader extends Loader {
 		if (br.readLine().contains("text")) {
 			List<String> oriList = getCurrentState();
 			_openProc(path);
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			List<String> aftList = getCurrentState();
 			ret = getDiff(path, oriList, aftList);
 			return ret;
