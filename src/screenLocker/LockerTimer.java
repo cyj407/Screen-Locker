@@ -46,7 +46,6 @@ public class LockerTimer extends TimerTask {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("test");
 		System.out.println(BlackList());
 	}
 

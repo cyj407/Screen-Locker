@@ -55,10 +55,12 @@ public class QuestionController implements Initializable{
     }
     
     @FXML public void Close(MouseEvent event) {
+    //	do nothing >> prevent user close the question window
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-   // 	screenLocker.ProgramManager.rmiServer.CloseServer();
-    	stage.close();
+    // 	screenLocker.ProgramManager.rmiServer.CloseServer();
+    //	stage.close();
     }
+
     @FXML public void Shrink(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	stage.setIconified(true);
@@ -93,7 +95,7 @@ public class QuestionController implements Initializable{
 			        }
 			    	_time.stop();
 			    
-			    	// fail, add 10 minutes time to lock the application
+			    	// fail, add an hour time to lock the application
 			    }
 			}		
 		});
