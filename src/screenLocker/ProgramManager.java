@@ -13,28 +13,18 @@ import screenLocker.autoOpen.ReOpen;
 import screenLocker.loader.Loader;
 import java.io.IOException;
 import java.util.Timer;
-
-import controller.DefaultController;
-import controller.LoadingController;
-import controller.MainController;
-import controller.SettingController;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
 	private static Stage _rootStage;
 	private static ProcessListener _pListen = null;
+	private static Timer _timer;
 	private final static String _deli = Loader.IsLinux() ? "/" : "\\";
 	public static RMIServer rmiServer = RMIServer.StartServer();
-	//public static LockerTimer lockerTimer = new LockerTimer();
 
-	public static void leave() {
-		_pListen.close();
-		rmiServer.CloseServer();
-	}
 	public static Stage RootStage() {
 		return _rootStage;
 	}
-	
 
 	public static void main(String[] args) {
 		
@@ -44,27 +34,21 @@ public class ProgramManager extends Application {
 			_myDir += _deli+"bin";
 		}
 		System.setProperty("user.dir", _myDir);
+		// ------------------------------------------------------------------//
 		
-		Timer _timer = new Timer();
+		_timer = new Timer();
 		_timer.schedule(new LockerTimer(), 0, 1000);
 
-		// -------------------- f26401004's section -----------------------//
 
-		// ------------------------ yiiju's section -----------------------//
 		_pListen = new ProcessListener();
 		_pListen.start();
 
-		// ----------------------- afcidk's section -----------------------//
-		// IMPORTANT!! Must be placed before launch(args)
-		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
 
-		// ----------------------- cyj407's section -----------------------//
 		launch(args);
 	}
 
@@ -77,7 +61,6 @@ public class ProgramManager extends Application {
 		_rootStage.initStyle(StageStyle.UNDECORATED);
 		_rootStage.setWidth(800);
 		_rootStage.setHeight(548);
-		// TODO: set all event for different scene transfer.
 		_addTransferListener();
 		// initantiate loading scene.
 		FXMLLoader _loading = new FXMLLoader(
@@ -87,6 +70,12 @@ public class ProgramManager extends Application {
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
+	}
+	
+	public void stop() {
+		_timer.cancel();
+		_pListen.close();
+		rmiServer.CloseServer();
 	}
 	
 	public void changeScene(String fxml){
