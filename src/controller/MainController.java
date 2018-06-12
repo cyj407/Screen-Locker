@@ -100,8 +100,8 @@ public class MainController implements Initializable{
                 	_appName.setText("  " + _item.GetDisplayName());
                 for(String _iter : LockerTimer.BlackList()) {
                 	if (_iter.equals(_lastItem.GetProcessName())) {
-                		LockerTimer _timer = new LockerTimer();
-                		int _timeValue = _timer.getTime(_lastItem.GetProcessName());
+                		//LockerTimer _timer = new LockerTimer();
+                		int _timeValue = LockerTimer.getTime(_lastItem.GetProcessName());
                 		_time.setText(Integer.toString(_timeValue / 3600) + ":" + Integer.toString((_timeValue % 3600) / 60) + ":" + Integer.toString(_timeValue % 60));
                 	}
                 }

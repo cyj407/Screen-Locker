@@ -51,6 +51,7 @@ public class ProgramManager extends Application {
 		}
 
 		launch(args);
+
 	}
 
 	@Override

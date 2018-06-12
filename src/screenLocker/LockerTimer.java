@@ -40,7 +40,7 @@ public class LockerTimer extends TimerTask {
 		System.out.println(BlackList());
 	}
 
-	public int getTime(String _application) {	
+	public static int getTime(String _application) {
 		if (_applications.containsKey(_application))
 			return _applications.get(_application);
 		return -1;
