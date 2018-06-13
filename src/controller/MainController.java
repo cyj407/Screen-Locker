@@ -102,10 +102,10 @@ public class MainController implements Initializable{
                 for(String _iter : LockerTimer.BlackList()) {
                 	if (_iter.equals(_lastItem.GetProcessName())) {
                 		//LockerTimer _timer = new LockerTimer();
-                		int _timeValue = LockerTimer.getTime(_lastItem.GetProcessName());
+                		int _timeValue = LockerTimer.getTime(_lastItem.GetProcessName());                  
                 		_time.setText(Integer.toString(_timeValue / 3600) + ":" + Integer.toString((_timeValue % 3600) / 60) + ":" + Integer.toString(_timeValue % 60));
                 	}
-                }
+                }                     
                 try {
                 	if (_lastItem.GetIconPath() != null && _lastItem.GetIconPath() != "" ) {
 		                if (_lastItem.GetIconPath().indexOf(".ico") < 0) {
@@ -260,6 +260,23 @@ public class MainController implements Initializable{
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
 				_appListView.refresh();
+				for(Application _iter : _appListView.getItems()) {
+					int _timeValue = LockerTimer.getTime(_iter.GetProcessName());      
+             		if(_timeValue == -1) {
+	                	ArrayList<Application> _appList = new ArrayList<Application>();
+	                	_appList.clear();
+	                	for(String _iter2 : LockerTimer.BlackList()) {
+	                		Loader.GetInstance();
+	                		for(Application _appIter : Loader.GetApplication()) {
+	                			if (_iter2.equals(_appIter.GetProcessName())) {
+	                				_appList.add(_appIter);
+	                			}
+	                		}
+	                	}
+	                    ObservableList<Application> _observableList = FXCollections.observableArrayList(_appList);
+	                    _appListView.setItems(_observableList);
+             		}
+				} 
 			}		
 		});
 		_time.setCycleCount(Timeline.INDEFINITE);

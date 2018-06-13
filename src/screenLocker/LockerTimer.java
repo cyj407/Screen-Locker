@@ -134,6 +134,19 @@ public class LockerTimer extends TimerTask {
 				_applications.put(_s, _secondtime);
 			} else {
 				_applications.remove(_s);
+				try {
+					ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+					Enumeration<String>_e2 = _applications.keys();
+					while(_e2. hasMoreElements()){
+						String _s2= _e2.nextElement().toString();
+						_oos.writeObject(_s2);
+						_oos.writeInt(_applications.get(_s2));
+					}
+					_oos.flush();
+					_oos.close();
+				} catch (IOException ex) {
+
+				}
 			}
 		}
 		_twomin++;
