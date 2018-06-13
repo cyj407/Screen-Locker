@@ -256,10 +256,15 @@ public class SettingController implements Initializable {
 	}
     
     @FXML
-    public void ShowSetIntervalStage(ActionEvent event) {
-		_setIntevalController.SetApplication((Application)_appListView.getSelectionModel().getSelectedItem());
+    public void ShowSetIntervalStage(ActionEvent event) { 
+    	for(String _iter2 : LockerTimer.BlackList()) {
+	    	if(_appListView.getSelectionModel().getSelectedItem().GetProcessName().equals(_iter2)) {
+	    		return;
+	    	}
+		}
+    	_setIntevalController.SetApplication((Application)_appListView.getSelectionModel().getSelectedItem());
         _setIntevalController.SetParentController(this);
-	    _setIntervalStage.show();
+    	_setIntervalStage.show();  	
     }
     
     @FXML
