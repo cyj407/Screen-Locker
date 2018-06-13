@@ -97,6 +97,7 @@ public class ProgramManager extends Application {
 			changeScene("/views/_mainLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
+			LockerTimer.updateFile();
 			changeScene("/views/_settingLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {

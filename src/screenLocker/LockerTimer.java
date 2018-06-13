@@ -120,6 +120,22 @@ public class LockerTimer extends TimerTask {
 
 		}
 	}
+	
+	public static void updateFile() {
+		try {
+			ObjectOutputStream _oos = new ObjectOutputStream(new FileOutputStream(_path));
+			Enumeration<String>_e = _applications.keys();
+			while(_e. hasMoreElements()){
+				String _s= _e.nextElement().toString();
+				_oos.writeObject(_s);
+				_oos.writeInt(_applications.get(_s));
+			}
+			_oos.flush();
+			_oos.close();
+		} catch (IOException ex) {
+
+		}
+	}
 
 	private int _twomin = 0;
 
