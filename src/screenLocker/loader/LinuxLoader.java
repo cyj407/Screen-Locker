@@ -29,7 +29,7 @@ public final class LinuxLoader extends Loader {
 		_appList = new ArrayList<Application>();
 		_loadALLApplication();
 	}
-	
+
 	public boolean LoadApplication() {
 		return _readNext();
 	}
@@ -48,6 +48,7 @@ public final class LinuxLoader extends Loader {
 	}
 
 	private void _addInfo(String _path) {
+		List<String> nameList = new ArrayList<String>();
 		File _folder = new File(_path);
 		File[] _files = _folder.listFiles();
 
@@ -57,6 +58,7 @@ public final class LinuxLoader extends Loader {
 
 				/** ensure the file is a desktop entry **/
 				if (_fileName.contains(".desktop")) {
+					boolean duplicate = false;
 					Application _newApp = new Application();
 					try {
 						FileReader _fr = new FileReader(_file);
@@ -85,14 +87,37 @@ public final class LinuxLoader extends Loader {
 									/** does not exist backslash **/
 									_exeName = _exePath;
 								}
+								if (nameList.contains(_exeName)) {
+									duplicate = true;
+									break;
+								}
+								nameList.add(_exeName);
 								_newApp.SetProcessName(_exeName);
 								_newApp.SetExecutePath(_exePath);
 							} else if (_front.equals("Icon=")) {
-								_newApp.SetIconPath(_back);
+								if (_back.contains("/"))
+									_newApp.SetIconPath(_back);
+								else {
+									Process p = Runtime.getRuntime()
+											.exec(String.format("find /usr/share -name *%s*", _back));
+									BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+									String st, last = null;
+									while ((st = br.readLine()) != null) {
+										if (st.contains("32x32")) {
+											if (last == null && st.contains("png"))
+												last = st;
+												
+										}
+									}
+									if (last == null) _newApp.SetIconPath(st);
+									else _newApp.SetIconPath(last);
+
+								}
 							}
 						}
 
-						_appList.add(_newApp);
+						if (!duplicate)
+							_appList.add(_newApp);
 						_br.close();
 
 					} catch (IOException e) {
@@ -105,13 +130,14 @@ public final class LinuxLoader extends Loader {
 
 	@Override
 	public double LoadProgressPercentage() {
-		return (double)_currentAppId/_appList.size();
+		return (double) _currentAppId / _appList.size();
 
 	}
 
 	@Override
 	public String LoadStatus() {
-		if (_currentAppId >= _appList.size()) _currentAppId = _appList.size()-1;
+		if (_currentAppId >= _appList.size())
+			_currentAppId = _appList.size() - 1;
 		return "loading..." + _appList.get(_currentAppId).GetDisplayName();
 	}
 
@@ -164,7 +190,7 @@ public final class LinuxLoader extends Loader {
 	private void _loadALLApplication() {
 		_addInfo("/usr/share/applications");
 	}
-	
+
 	private static boolean _readNext() {
 		if (_currentAppId < _appList.size()) {
 			++_currentAppId;

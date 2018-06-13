@@ -45,11 +45,13 @@ public class ProgramManager extends Application {
 		_pListen = new ProcessListener();
 		_pListen.start();
 
+		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		*/
 
 		launch(args);
 
