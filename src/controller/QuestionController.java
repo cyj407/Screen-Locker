@@ -39,8 +39,7 @@ public class QuestionController implements Initializable{
     @FXML private Button _enlargeButton;
     @FXML private Button _closeButton;
 	
-	private boolean _hasAnswered = false;
-	
+    private Timeline _time = new Timeline();
     private double _x, _y;
     
 	@FXML public void Draged(MouseEvent event) {
@@ -65,12 +64,9 @@ public class QuestionController implements Initializable{
 	
 	
 	private void updateRemainTime() {
-		Timeline _time = new Timeline();
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
 				_remainTime.setVisible(true);
-				if(_hasAnswered)
-					_time.stop();
 				_countdown--;
 				if(_countdown <= 10) {
 					_remainTime.setStyle("-fx-text-fill: red");
@@ -102,7 +98,7 @@ public class QuestionController implements Initializable{
 	
 
 	@FXML private void handleButtonClick(ActionEvent _onClick) {
-		_hasAnswered = true;
+		_time.stop();		// when clicking button, stop counting down
         Button _clickedButton= ((Button) _onClick.getSource());
         String _correctAnswer = _questionContent.getans();
         String _userAnswer = _clickedButton.getText();
