@@ -86,6 +86,7 @@ public final class LinuxLoader extends Loader {
 									_exeName = _exePath;
 								}
 								_newApp.SetProcessName(_exeName);
+								_newApp.SetExecutePath(_exePath);
 							} else if (_front.equals("Icon=")) {
 								_newApp.SetIconPath(_back);
 							}

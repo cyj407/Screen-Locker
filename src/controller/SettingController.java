@@ -206,10 +206,10 @@ public class SettingController implements Initializable {
         	if(!LockerTimer.BlackList().contains(_target.GetProcessName())) {
         		return;
         	}
-			if (_timer.getTime(_target.GetProcessName()) == -1) {
+			if (LockerTimer.getTime(_target.GetProcessName()) == -1) {
 				return;
 			}
-			int _timeValue = _timer.getTime(_target.GetProcessName());
+			int _timeValue = LockerTimer.getTime(_target.GetProcessName());
 			_timerTable.getItems().add(new TimerEntry(1, _timeValue / 3600));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
