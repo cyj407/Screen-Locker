@@ -53,6 +53,7 @@ public class MainController implements Initializable{
     private Button _closeButton;
     @FXML
     private ListView<Application> _appListView;
+    private Stage _enterQStage;
 	
 	static class AppCell extends ListCell<Application> {
         private HBox _pane;
@@ -180,6 +181,7 @@ public class MainController implements Initializable{
     public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	stage.close();
+    	_enterQStage.close();
     }
     @FXML
     public void Shrink(MouseEvent event) {
@@ -237,7 +239,7 @@ public class MainController implements Initializable{
 			public void handle(MouseEvent event) {
 				if (_appListView.getSelectionModel().getSelectedItem() != null) {
 					ProgramManager.NowAccess = _appListView.getSelectionModel().getSelectedItem();
-					Stage _enterQStage = new Stage();
+					_enterQStage = new Stage();
 					Parent parent;
 					try {
 						parent = FXMLLoader.load(getClass().getResource("/views/_questionEntranceLayout.fxml"));
