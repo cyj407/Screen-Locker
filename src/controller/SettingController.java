@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ListChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -300,14 +302,29 @@ public class SettingController implements Initializable {
 		} catch (Exception e) {
 			
 		}
-	
-		System.out.println(_timerTable.getItems().getClass());
-		
 		// set timer table view column factory.
 		TableColumn _numberColumn = (TableColumn)_timerTable.getColumns().get(0);
 		_numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
+		_numberColumn.setResizable(false);
 		TableColumn _timeColumn = (TableColumn)_timerTable.getColumns().get(1);
 		_timeColumn.setCellValueFactory(new PropertyValueFactory("time"));
+		_timeColumn.setResizable(false);
+		// disable the table item selectable.
+		_timerTable.setSelectionModel(null);
+		// disable the table header reorder
+		_timerTable.getColumns().addListener(new ListChangeListener() {
+	        public boolean suspended;
+
+	        @Override
+	        public void onChanged(Change change) {
+	            change.next();
+	            if (change.wasReplaced() && !suspended) {
+	                this.suspended = true;
+	                _timerTable.getColumns().setAll(_numberColumn, _timeColumn);
+	                this.suspended = false;
+	            }
+	        }
+	    });
 		
 		_rightItems.setVisible(false);
 		_currentList = new ArrayList<Application>();

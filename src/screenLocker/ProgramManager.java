@@ -16,8 +16,13 @@ import screenLocker.loader.Loader;
 import java.io.IOException;
 import java.util.Timer;
 
+
 import com.sun.javafx.stage.StageHelper;
 
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef.HWND;
+import static com.sun.jna.platform.win32.WinUser.GWL_STYLE;
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
@@ -77,7 +82,17 @@ public class ProgramManager extends Application {
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
-
+		if (Loader.IsWindows()) {
+			// reference the stage address.
+	        long lhwnd = com.sun.glass.ui.Window.getWindows().get(0).getNativeWindow();
+	        Pointer lpVoid = new Pointer(lhwnd);
+	        HWND hwnd = new HWND(lpVoid);
+	        // use Windows User32.dll API to set the style forcelly.
+	        final User32 user32 = User32.INSTANCE;
+	        int oldStyle = user32.GetWindowLong(hwnd, GWL_STYLE);
+	        int newStyle = oldStyle | 0x00020000;//WS_MINIMIZEBOX
+	        user32.SetWindowLong(hwnd, GWL_STYLE, newStyle);
+		}
 	}
 	
 	public void stop() {
