@@ -54,13 +54,12 @@ public class ProgramManager extends Application {
 		
 		Thread t = new Thread(Loader.GetInstance());
 		t.start();
-		/*
+		
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
 		
 		launch(args);
 
