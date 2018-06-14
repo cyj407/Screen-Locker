@@ -26,7 +26,7 @@ public class EnterQuestionController implements Initializable{
     
     @FXML public void Entrance(ActionEvent _clickEntrance) {
     	Stage _stage = (Stage)((Node)_clickEntrance.getSource()).getScene().getWindow();
-    	Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToQuestion);
+    	Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToQuestion);    	
     	Event.fireEvent(ProgramManager.RootStage(), _event);
         PauseTransition _delay = new PauseTransition(Duration.seconds(1));
         _delay.setOnFinished(event ->{
