@@ -275,8 +275,8 @@ public class SettingController implements Initializable {
     		_currentList.clear();
     		Loader.GetInstance();
 			for(Application _iter : Loader.GetApplication()) {
-    			if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
-    				_currentList.add(_iter);
+    			if(_iter.GetDisplayName().toLowerCase().indexOf(_searchTextField.getText().toLowerCase()) >= 0) {
+					_currentList.add(_iter);
     			}
     		}
             ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
