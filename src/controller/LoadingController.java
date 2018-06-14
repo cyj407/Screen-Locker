@@ -11,6 +11,9 @@ import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import screenLocker.loader.Loader;
@@ -21,6 +24,8 @@ public class LoadingController implements Initializable {
 	private ProgressBar _progressBar;
 	@FXML
 	private Text _loadingText;
+	@FXML
+	private MediaView _logo;
 
 	@FXML
 	public void Draged(MouseEvent _event) {
@@ -49,14 +54,17 @@ public class LoadingController implements Initializable {
 
 	@Override
 	public void initialize(URL _arg0, ResourceBundle _arg1) {
+		MediaPlayer _player = new MediaPlayer( new Media(this.getClass().getResource("/_logoAnimeSlow.mp4").toExternalForm()));
+        _logo.setMediaPlayer(_player);
+        _player.setCycleCount(MediaPlayer.INDEFINITE);
+        _player.play();
+        
 		Loader.GetInstance();
 		_progressBar.progressProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				_loadingText.setText(Loader.GetInstance().LoadStatus());
 				if (newValue.intValue() == 1) {
-					// Thread.sleep(1000);
-					// switch to main scene.
 					Stage _stage = (Stage) _progressBar.getScene().getWindow();
 					Event _event = new WindowsTransferEvent(this, _stage, WindowsTransferEvent.TransferToMain);
 					_progressBar.fireEvent(_event);
@@ -73,27 +81,13 @@ public class LoadingController implements Initializable {
 		return new Task<Object>() {
 			@Override
 			protected Object call() throws Exception {
-				if (Loader.IsLinux()) {
-					double perc = Loader.GetInstance().LoadProgressPercentage();
-					while (perc < 1) {
-						Loader.GetInstance().LoadApplication();
-						updateProgress(perc, 1);
-						perc = Loader.GetInstance().LoadProgressPercentage();
-					}
+				double perc = Loader.GetInstance().LoadProgressPercentage();
+				while (perc < 1) {
 					updateProgress(perc, 1);
-					return true;
-				} else {
-					for (int i = 0; i < Loader.GetInstance().GetApplicationNumber(); ++i) {
-						int _randomTime = (int) (Math.random() * 0 + 10); // *150 + 50 // *0+10
-						Loader.GetInstance().LoadApplication();
-						try {
-							Thread.sleep(_randomTime);
-							updateProgress(Loader.GetInstance().LoadProgressPercentage(), 1);
-						} catch (Exception _e) {
-						}
-					}
-					return true;
+					perc = Loader.GetInstance().LoadProgressPercentage();
 				}
+				updateProgress(perc, 1);
+				return true;
 			}
 		};
 	}

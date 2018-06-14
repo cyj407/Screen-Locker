@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -83,16 +84,6 @@
          </opaqueInsets>
       </HBox>
    </top>
-   <center>
-      <ImageView fitHeight="306.0" fitWidth="412.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="@../images/_logo.png" />
-         </image>
-         <BorderPane.margin>
-            <Insets bottom="-20.0" />
-         </BorderPane.margin>
-      </ImageView>
-   </center>
    <bottom>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -127,4 +118,7 @@
          </children>
       </GridPane>
    </bottom>
+   <center>
+      <MediaView fx:id="_logo" fitHeight="306.0" fitWidth="412.0" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>

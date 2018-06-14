@@ -33,6 +33,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -55,7 +58,11 @@ public class MainController implements Initializable{
     private Button _closeButton;
     @FXML
     private ListView<Application> _appListView;
+    @FXML
+    private MediaView _logo;
     private Stage _enterQStage;
+    private ArrayList<Application> _appList;
+    
 	
 	static class AppCell extends ListCell<Application> {
         private HBox _pane;
@@ -91,7 +98,7 @@ public class MainController implements Initializable{
         	_appName.setStyle("-fx-fill: #f2f4f4;");
         	_pane.setStyle("-fx-padding: 0px 0px 0px 10px;" + "-fx-background-color: rgba(0, 0, 0, 0);" + "-fx-background-radius: 16px;");
         }
-        
+
         @Override
         protected void updateItem(Application _item, boolean _empty) {
             super.updateItem(_item, _empty);
@@ -108,8 +115,11 @@ public class MainController implements Initializable{
                 for(String _iter : LockerTimer.BlackList()) {
                 	if (_iter.equals(_lastItem.GetProcessName())) {
                 		//LockerTimer _timer = new LockerTimer();
-                		int _timeValue = LockerTimer.getTime(_lastItem.GetProcessName());                  
-                		_time.setText(Integer.toString(_timeValue / 3600) + ":" + Integer.toString((_timeValue % 3600) / 60) + ":" + Integer.toString(_timeValue % 60));
+                		int _timeValue = LockerTimer.getTime(_lastItem.GetProcessName());   
+                		String hour = _timeValue / 3600 > 9 ? Integer.toString(_timeValue / 3600) : "0" + Integer.toString(_timeValue / 3600);
+                		String minute = _timeValue % 3600 / 60 > 9 ? Integer.toString((_timeValue % 3600) / 60) : "0" + Integer.toString((_timeValue % 3600) / 60);
+                		String second = _timeValue % 60 > 9 ? Integer.toString(_timeValue % 60) : "0" + Integer.toString(_timeValue % 60);
+                		_time.setText(hour + ":" + minute + ":" + second);
                 	}
                 }                     
                 try {
@@ -217,8 +227,13 @@ public class MainController implements Initializable{
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		MediaPlayer _player = new MediaPlayer( new Media(this.getClass().getResource("/_logoAnime.mp4").toExternalForm()));
+        _logo.setMediaPlayer(_player);
+        _player.setCycleCount(MediaPlayer.INDEFINITE);
+        _player.play();
+        
 		
-		ArrayList<Application> _appList = new ArrayList<Application>();
+		_appList = new ArrayList<Application>();
 		_appList.clear();
 		for(String _iter : LockerTimer.BlackList()) {
 			Loader.GetInstance();
@@ -279,7 +294,9 @@ public class MainController implements Initializable{
     Timeline _time = new Timeline();
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
-				_appListView.refresh();
+				// refresh the list view.
+				_appListView.setItems(null);
+				_appListView.setItems(FXCollections.observableArrayList(_appList));
 				for(Application _iter : _appListView.getItems()) {
 					int _timeValue = LockerTimer.getTime(_iter.GetProcessName());      
              		if(_timeValue == -1) {
@@ -302,7 +319,6 @@ public class MainController implements Initializable{
 		_time.setCycleCount(Timeline.INDEFINITE);
 		_time.getKeyFrames().add(_cycle);
 		_time.play();
-        
         
 	}
 

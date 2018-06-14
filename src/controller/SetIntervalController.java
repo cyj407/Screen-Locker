@@ -31,7 +31,7 @@ public class SetIntervalController implements Initializable {
     private ChoiceBox<String> _toTimePicker;
     
     public void SetApplication(Application _target) {
-    	System.out.println(_target.GetProcessName());
+    	//System.out.println(_target.GetProcessName());
     	_selected = _target;
     }
     public void SetParentController(SettingController _parent) {

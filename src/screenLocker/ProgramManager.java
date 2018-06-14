@@ -52,15 +52,16 @@ public class ProgramManager extends Application {
 		_pListen = new ProcessListener();
 		_pListen.start();
 		
-		Thread t = new Thread(new LinuxLoader());
+		Thread t = new Thread(Loader.GetInstance());
 		t.start();
-
+		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		*/
+		
 		launch(args);
 
 	}
@@ -83,8 +84,6 @@ public class ProgramManager extends Application {
 		_rootStage.setScene(new Scene(_loading.load()));
 		// set the current scene.
 		_rootStage.show();
-		// Loader start load application
-		Loader.GetInstance().LoadApplication();
 		if (Loader.IsWindows()) {
 			// reference the stage address.
 	        long lhwnd = com.sun.glass.ui.Window.getWindows().get(0).getNativeWindow();

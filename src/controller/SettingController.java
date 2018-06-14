@@ -178,6 +178,7 @@ public class SettingController implements Initializable {
 	private ArrayList<Application> _currentList;
 	private Stage _setIntervalStage;
 	private SetIntervalController _setIntevalController;
+	private Application _selected;
 	@FXML
 	private Button _shrinkButton;
 	@FXML
@@ -204,17 +205,18 @@ public class SettingController implements Initializable {
 	private TextField _searchTextField;
 
 	public void RefreshView() {
-		_appListView.refresh();
-		Application _target = (Application) _appListView.getSelectionModel().getSelectedItem();
+		//_selected = (Application) _appListView.getSelectionModel().getSelectedItem();
+		_appListView.setItems(null);
+		_appListView.setItems(FXCollections.observableArrayList(_currentList));
 		_timerTable.getItems().clear();
 		try {
-			if (!LockerTimer.BlackList().contains(_target.GetProcessName())) {
+			if (!LockerTimer.BlackList().contains(_selected.GetProcessName())) {
 				return;
 			}
-			if (LockerTimer.getTime(_target.GetProcessName()) == -1) {
+			if (LockerTimer.getTime(_selected.GetProcessName()) == -1) {
 				return;
 			}
-			int _timeValue = LockerTimer.getTime(_target.GetProcessName());
+			int _timeValue = LockerTimer.getTime(_selected.GetProcessName());
 			_timerTable.getItems().add(new TimerEntry(1, _timeValue / 3600));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -261,7 +263,7 @@ public class SettingController implements Initializable {
 
 	@FXML
 	public void ShowSetIntervalStage(ActionEvent event) {
-		_setIntevalController.SetApplication((Application) _appListView.getSelectionModel().getSelectedItem());
+		_setIntevalController.SetApplication(_selected);
 		_setIntevalController.SetParentController(this);
 		_setIntervalStage.show();
 	}
@@ -358,11 +360,11 @@ public class SettingController implements Initializable {
 
 			@Override
 			public void handle(MouseEvent event) {
+				_selected = (Application) _appListView.getSelectionModel().getSelectedItem();
 				_setIntervalStage.close();
 				RefreshView();
 				if (!_rightItems.visibleProperty().get())
 					_rightItems.setVisible(true);
-				Application _selected = (Application) _appListView.getSelectionModel().getSelectedItem();
 				// System.out.println(_selected.GetDisplayName());
 				// render right items
 				if (_selected.GetDisplayName().length() > 15) {
@@ -405,7 +407,8 @@ public class SettingController implements Initializable {
 							} else {
 								// get the default exe icon file.
 								File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
-								List<BufferedImage> _images = ICODecoder.read(_file);
+								List<BufferedImage> _images;
+								_images = ICODecoder.read(_file);
 								for (BufferedImage _iter : _images) {
 									if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
 										_appIcon.setImage(SwingFXUtils.toFXImage(_iter, null));
@@ -414,7 +417,7 @@ public class SettingController implements Initializable {
 								}
 							}
 						} catch (Exception e) {
-							e.printStackTrace();
+
 						}
 					}
 				}

@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public final class WindowsLoader extends Loader {
+public final class WindowsLoader extends Loader implements Runnable {
 	private static WindowsLoader _instance;
 	private static int _currentNumber;
+	private static int _totalNumber;
 	
 	private ArrayList<String> _executableList;
 	private String _defaultPath = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
@@ -30,10 +31,9 @@ public final class WindowsLoader extends Loader {
 	public WindowsLoader() {
 		_executableList = new ArrayList<String>();
 		_appList = new ArrayList<Application>();
-		// get all application execuatable path registered in registry.
-		_getExecutableList();
-		// load all application first.
-		_loadAllApplication ();
+		_currentNumber = 0;
+		_totalNumber = 0;
+		_getTotalDataNumber();
 	}
 	
 	public static Loader GetInstance() {
@@ -59,25 +59,58 @@ public final class WindowsLoader extends Loader {
 	}
 	
 	@Override
-	public boolean LoadApplication() {
-		_readNext();
-		return false;
-	}
-	@Override
 	public double LoadProgressPercentage() {
-		return (double)_currentNumber / GetApplicationNumber();
+		return (double)_currentNumber / _totalNumber;
 	}
 	@Override
 	public String LoadStatus() {
-		if (_currentNumber == 0) {
-			return "Now is loading " + _appList.get(0).GetDisplayName() + " ...";
+		if (_currentNumber < _totalNumber / 2) {
+			return "Now is fetching the data ...";
 		}
-		String _str = "Now is loading " + _appList.get(_currentNumber - 1).GetDisplayName() + " ...";
+		String _str = "Now is loading " + _appList.get(_appList.size() - 1).GetDisplayName() + " ...";
 		return _str;
 	}
 	
+	private void _getTotalDataNumber() {
+		// get all key of the target registry.
+		String[] _defaultAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _defaultPath);
+		String[] _anotherAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _anotherPath);
+		String[] _userDefaultAppRegister = null;
+		try {
+			_userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultPathOfCurrentUser);
+		} catch (Exception e) {
+			
+		}
+		_totalNumber += _defaultAppRegister.length + _anotherAppRegister.length;
+		try {
+			_totalNumber += _userDefaultAppRegister.length;
+		} catch (Exception e) {
+			
+		}
+		_defaultAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _defaultAppPath);
+		_anotherAppRegister = Advapi32Util.registryGetKeys(HKEY_LOCAL_MACHINE, _anotherAppPath);
+		_userDefaultAppRegister = null;
+		try {
+			_userDefaultAppRegister = Advapi32Util.registryGetKeys(HKEY_CURRENT_USER, _defaultAppPathOfCurrentUser);
+		} catch (Exception e) {
+			
+		}
+		_totalNumber += _defaultAppRegister.length + _anotherAppRegister.length;
+		try {
+			_totalNumber += _userDefaultAppRegister.length;
+		} catch (Exception e) {
+			
+		}
+	}
+	
 	private static boolean _readNext() {
-		if (_currentNumber < Loader.GetInstance().GetApplicationNumber()) {
+		try {
+			Thread.sleep(20);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (_currentNumber <= _totalNumber) {
 			_currentNumber++;
 			return true;
 		}
@@ -95,6 +128,7 @@ public final class WindowsLoader extends Loader {
 		}
 		// visit the default register that record application executable path information.
 		for (String _iter : _defaultAppRegister) {
+			_readNext();
 			String _temp = _defaultAppPath + "\\" + _iter;
 		    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(HKEY_LOCAL_MACHINE, _temp); 
 		    if (_tr.isEmpty())
@@ -106,6 +140,8 @@ public final class WindowsLoader extends Loader {
 		}
 		// visit the another register that record application executable path information.
 		for (String _iter : _anotherAppRegister) {
+			
+			_readNext();
 			String _temp = _anotherAppPath + "\\" + _iter;
 			TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(HKEY_LOCAL_MACHINE, _temp); 
 		    if (_tr.isEmpty())
@@ -118,6 +154,7 @@ public final class WindowsLoader extends Loader {
 		try {
 			// visit the local user register that record application executable path information.
 			for (String _iter : _userDefaultAppRegister) {
+				_readNext();
 				String _temp = _defaultAppPathOfCurrentUser + "\\" + _iter;
 				TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
 			    if (_tr.isEmpty())
@@ -143,6 +180,8 @@ public final class WindowsLoader extends Loader {
 		}
 		// visit the default register that record application information.
 		for (String _iter : _defaultAppRegister) {
+			
+			_readNext();
 			String _temp = _defaultPath + "\\" + _iter;
 		    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(HKEY_LOCAL_MACHINE, _temp); 
 		    if (_tr.isEmpty()) {
@@ -173,6 +212,8 @@ public final class WindowsLoader extends Loader {
 		}
 		// visit the another register that record application information.
 		for (String _iter : _anotherAppRegister) {
+			
+			_readNext();
 			String _temp = _anotherPath + "\\" + _iter;
 		    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(HKEY_LOCAL_MACHINE, _temp); 
 		    if (_tr.isEmpty()) {
@@ -202,6 +243,7 @@ public final class WindowsLoader extends Loader {
 		try {
 			// visit the local user register that record application information.
 			for (String _iter : _userDefaultAppRegister) {
+				_readNext();
 				String _temp = _defaultPathOfCurrentUser + "\\" + _iter;
 			    TreeMap<String, Object> _tr = Advapi32Util.registryGetValues(WinReg.HKEY_CURRENT_USER, _temp); 
 			    if (_tr.isEmpty()) {
@@ -292,32 +334,11 @@ public final class WindowsLoader extends Loader {
 	    }
 	    return null;
 	}
-
 	
-	public static List<String> listRunningProcesses() {
-		    List<String> processes = new ArrayList<String>();
-		    
-		    try {
-		      String line;
-		      Process p = Runtime.getRuntime().exec("tasklist.exe /fo csv /nh");
-		      
-		      BufferedReader input = new BufferedReader
-		          (new InputStreamReader(p.getInputStream()));
-		      while ((line = input.readLine()) != null) {
-		          
-		    	  if (!line.trim().equals("")) {
-		              // keep only the process name
-		              line = line.substring(1);
-		              processes.add(line.substring(0, line.indexOf("\"")));
-		          }
-
-		      }
-		      input.close();
-		    }
-		    catch (Exception err) {
-		      err.printStackTrace();
-		    }
-		    return processes;
-		  }
+	@Override
+	public void run() {
+		_getExecutableList();
+		_loadAllApplication();
+	}
 
 }

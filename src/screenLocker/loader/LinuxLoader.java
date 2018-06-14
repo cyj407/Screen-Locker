@@ -217,11 +217,6 @@ public final class LinuxLoader extends Loader implements Runnable {
 		}
 	}
 
-	@Override
-	public boolean LoadApplication() {
-		return false;
-	}
-
 	private static boolean _addFromFile() {
 		File _file = new File(System.getProperty("user.dir") + "/appList.dat");
 		if (!_file.exists())
@@ -269,5 +264,4 @@ public final class LinuxLoader extends Loader implements Runnable {
 
 		return true;
 	}
-
 }

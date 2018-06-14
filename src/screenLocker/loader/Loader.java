@@ -5,8 +5,7 @@ import java.util.List;
 
 import screenLocker.Application;
 
-public abstract class Loader {
-	public abstract boolean LoadApplication();
+public abstract class Loader implements Runnable {
 	public abstract double LoadProgressPercentage();
 	public abstract String LoadStatus();
 	private static String _OS = System.getProperty("os.name").toLowerCase();

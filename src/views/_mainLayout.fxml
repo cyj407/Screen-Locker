@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.media.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
@@ -83,16 +84,6 @@
          </opaqueInsets>
       </HBox>
    </top>
-   <left>
-      <ImageView fitHeight="306.0" fitWidth="412.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-         <image>
-            <Image url="@../images/_logo.png" />
-         </image>
-         <BorderPane.margin>
-            <Insets bottom="80.0" left="40.0" />
-         </BorderPane.margin>
-      </ImageView>
-   </left>
    <right>
       <StackPane alignment="TOP_LEFT" prefHeight="500.0" prefWidth="300.0" style="-fx-background-image: url('@../images/_backgroundMain.png');">
          <children>
@@ -128,7 +119,7 @@
                   <Insets bottom="1.0" />
                </padding>
             </Button>
-            <ListView fx:id="_appListView" fixedCellSize="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: rgba(255, 255, 255, 0);" StackPane.alignment="CENTER_RIGHT">
+            <ListView fx:id="_appListView" fixedCellSize="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="260.0" style="-fx-background-color: rgba(255, 255, 255, 0);" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
                   <Insets bottom="20.0" right="10.0" />
                </StackPane.margin>
@@ -136,4 +127,11 @@
          </children>
       </StackPane>
    </right>
+   <left>
+      <MediaView fx:id="_logo" fitHeight="306.0" fitWidth="412.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="50.0" left="20.0" />
+         </BorderPane.margin>
+      </MediaView>
+   </left>
 </BorderPane>
