@@ -1,7 +1,6 @@
 package screenLocker;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,12 +13,8 @@ import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
 import screenLocker.loader.Loader;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
-
-
-import com.sun.javafx.stage.StageHelper;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.User32;

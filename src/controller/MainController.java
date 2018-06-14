@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -15,7 +14,6 @@ import com.sun.javafx.stage.StageHelper;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -254,22 +252,15 @@ public class MainController implements Initializable{
 					ProgramManager.NowAccess = _appListView.getSelectionModel().getSelectedItem();
 					_enterQStage = new Stage();
 					Parent parent;
-					try {
-			//			parent = FXMLLoader.load(getClass().getResource("/views/_questionEntranceLayout.fxml"));
-			//			Scene scene = new Scene(parent);
-						
+					try {		
 						FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
 						parent = (Parent) _loader.load();
 						Scene scene = new Scene(parent);
-						EnterQuestionController controller = _loader.getController();
-						
-						
 						_enterQStage.initStyle(StageStyle.UNDECORATED);
 						_enterQStage.setScene(scene);
 						_enterQStage.setResizable(false);
 						_enterQStage.show();
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
