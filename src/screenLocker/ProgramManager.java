@@ -11,6 +11,7 @@ import javafx.stage.StageStyle;
 import screenLocker.autoOpen.ProcessListener;
 import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
+import screenLocker.loader.LinuxLoader;
 import screenLocker.loader.Loader;
 
 import java.io.IOException;
@@ -50,6 +51,9 @@ public class ProgramManager extends Application {
 
 		_pListen = new ProcessListener();
 		_pListen.start();
+		
+		Thread t = new Thread(new LinuxLoader());
+		t.start();
 
 		/*
 		try {

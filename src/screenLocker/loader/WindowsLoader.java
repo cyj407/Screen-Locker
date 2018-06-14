@@ -77,7 +77,7 @@ public final class WindowsLoader extends Loader {
 	}
 	
 	private static boolean _readNext() {
-		if (_currentNumber < GetApplicationNumber()) {
+		if (_currentNumber < Loader.GetInstance().GetApplicationNumber()) {
 			_currentNumber++;
 			return true;
 		}

@@ -10,9 +10,11 @@ import java.util.List;
 
 import screenLocker.Application;
 
-public final class LinuxLoader extends Loader {
+public final class LinuxLoader extends Loader implements Runnable{
 	private static LinuxLoader _instance;
-	private static int _currentAppId;
+	private static int _fileSize;
+	private static int _curLoadCnt;
+	private static String _curLoadName;
 
 	public static Loader GetInstance() {
 		if (_instance == null) {
@@ -27,11 +29,7 @@ public final class LinuxLoader extends Loader {
 
 	public LinuxLoader() {
 		_appList = new ArrayList<Application>();
-		_loadALLApplication();
-	}
-
-	public boolean LoadApplication() {
-		return _readNext();
+		//_loadALLApplication();
 	}
 
 	private static List<String> getCurrentState() throws IOException {
@@ -46,13 +44,21 @@ public final class LinuxLoader extends Loader {
 
 		return ret;
 	}
+	
+	@Override
+	public int GetApplicationNumber() {
+		while (_fileSize == 0);
+		return  _fileSize;
+	}
 
 	private void _addInfo(String _path) {
 		List<String> nameList = new ArrayList<String>();
 		File _folder = new File(_path);
 		File[] _files = _folder.listFiles();
+		_fileSize = _files.length;
 
 		for (File _file : _files) {
+			++_curLoadCnt;
 			if (_file.isFile()) {
 				String _fileName = _file.getName();
 
@@ -94,6 +100,7 @@ public final class LinuxLoader extends Loader {
 								nameList.add(_exeName);
 								_newApp.SetProcessName(_exeName);
 								_newApp.SetExecutePath(_exePath);
+								_curLoadName = _exeName;
 							} else if (_front.equals("Icon=")) {
 								if (_back.contains("/"))
 									_newApp.SetIconPath(_back);
@@ -101,7 +108,7 @@ public final class LinuxLoader extends Loader {
 									Process p = Runtime.getRuntime()
 											.exec(String.format("find /usr/share -name *%s*", _back));
 									BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
-									String st, last = null;
+									String st;
 									while ((st = br.readLine()) != null) {
 										if (st.contains("32x32")) {
 											break;
@@ -128,15 +135,12 @@ public final class LinuxLoader extends Loader {
 
 	@Override
 	public double LoadProgressPercentage() {
-		return (double) _currentAppId / _appList.size();
-
+		return (double) _curLoadCnt / _fileSize;
 	}
 
 	@Override
 	public String LoadStatus() {
-		if (_currentAppId >= _appList.size())
-			_currentAppId = _appList.size() - 1;
-		return "loading..." + _appList.get(_currentAppId).GetDisplayName();
+		return "loading..." + _curLoadName;
 	}
 
 	private String findExeName(String path) throws Exception {
@@ -146,7 +150,7 @@ public final class LinuxLoader extends Loader {
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String rd = br.readLine();
 		String ret = "";
-		System.out.println(path);
+		//System.out.println(path);
 
 		/** executable path **/
 		if (rd.indexOf("text") > 0 || rd.indexOf("symbolic") > 0) {
@@ -155,7 +159,7 @@ public final class LinuxLoader extends Loader {
 			Thread.sleep(2000);
 			List<String> aftList = getCurrentState();
 			ret = getDiff(path, oriList, aftList);
-			System.out.println(ret);
+			//System.out.println(ret);
 			return ret;
 
 		}
@@ -188,15 +192,13 @@ public final class LinuxLoader extends Loader {
 		return "";
 	}
 
-	private void _loadALLApplication() {
+	@Override
+	public void run() {
 		_addInfo("/usr/share/applications");
 	}
 
-	private static boolean _readNext() {
-		if (_currentAppId < _appList.size()) {
-			++_currentAppId;
-			return true;
-		}
+	@Override
+	public boolean LoadApplication() {
 		return false;
 	}
 }
