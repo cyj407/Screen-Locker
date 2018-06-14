@@ -39,9 +39,9 @@ public class QuestionController implements Initializable{
     @FXML private Button _enlargeButton;
     @FXML private Button _closeButton;
 	
-	private boolean _hasAnswered = false;
-	
+    private Timeline _time = new Timeline();
     private double _x, _y;
+    private Stage _showResultStage;
     
 	@FXML public void Draged(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -63,14 +63,10 @@ public class QuestionController implements Initializable{
     	stage.setIconified(true);
     }
 	
-	
 	private void updateRemainTime() {
-		Timeline _time = new Timeline();
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
 				_remainTime.setVisible(true);
-				if(_hasAnswered)
-					_time.stop();
 				_countdown--;
 				if(_countdown <= 10) {
 					_remainTime.setStyle("-fx-text-fill: red");
@@ -79,11 +75,11 @@ public class QuestionController implements Initializable{
 			    if(_countdown < 0) {
 			    	try {
 			        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_timeoutNoticeLayout.fxml"));	        
-			        	Stage _showTimeoutStage = new Stage();
-				        _showTimeoutStage.setScene(new Scene(_noticeFXML));
-				        _showTimeoutStage.initStyle(StageStyle.UNDECORATED);
-				        _showTimeoutStage.setResizable(false); 
-				        _showTimeoutStage.show();
+			        	_showResultStage = new Stage();
+			        	_showResultStage.setScene(new Scene(_noticeFXML));
+			        	_showResultStage.initStyle(StageStyle.UNDECORATED);
+			        	_showResultStage.setResizable(false); 
+			        	_showResultStage.show();
 				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
 				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 			        } catch(Exception e) {
@@ -102,7 +98,7 @@ public class QuestionController implements Initializable{
 	
 
 	@FXML private void handleButtonClick(ActionEvent _onClick) {
-		_hasAnswered = true;
+		_time.stop();		// when clicking button, stop counting down
         Button _clickedButton= ((Button) _onClick.getSource());
         String _correctAnswer = _questionContent.getans();
         String _userAnswer = _clickedButton.getText();
@@ -110,13 +106,13 @@ public class QuestionController implements Initializable{
 			_clickedButton.setStyle("-fx-background-color: green; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {
 	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_correctAnswerNoticeLayout.fxml"));
-		        Stage _showCorrectStage = new Stage();
-		        _showCorrectStage.setScene(new Scene(_noticeFXML));
-		        _showCorrectStage.setResizable(false);
-		        _showCorrectStage.initStyle(StageStyle.UNDECORATED);
+	        	_showResultStage = new Stage();
+	        	_showResultStage.setScene(new Scene(_noticeFXML));
+	        	_showResultStage.setResizable(false);
+	        	_showResultStage.initStyle(StageStyle.UNDECORATED);
 		        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
 		        _delay.setOnFinished(event ->{
-						_showCorrectStage.show();
+		        		_showResultStage.show();
 				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
 				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 					}
@@ -140,13 +136,13 @@ public class QuestionController implements Initializable{
 			_clickedButton.setStyle("-fx-background-color: red; -fx-background-radius: 20; -fx-text-fill: white");
 	        try {
 	        	Parent _noticeFXML = FXMLLoader.load(getClass().getClassLoader().getResource("views/_wrongAnswerNoticeLayout.fxml"));	        
-		        Stage _showWrongStage = new Stage();
-		        _showWrongStage.setScene(new Scene(_noticeFXML));
-		        _showWrongStage.setResizable(false);
-		        _showWrongStage.initStyle(StageStyle.UNDECORATED);
+	        	_showResultStage = new Stage();
+		        _showResultStage.setScene(new Scene(_noticeFXML));
+		        _showResultStage.setResizable(false);
+		        _showResultStage.initStyle(StageStyle.UNDECORATED);
 		        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
 		        _delay.setOnFinished(event ->{
-						_showWrongStage.show();
+		        		_showResultStage.show();
 				        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
 				    	Event.fireEvent(ProgramManager.RootStage(), _event);
 					}

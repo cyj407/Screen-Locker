@@ -266,23 +266,26 @@ public class SettingController implements Initializable {
 		_setIntevalController.SetParentController(this);
 		_setIntervalStage.show();
 	}
-
-	@FXML
-	public void SearchApplication(KeyEvent _event) {
-		if (_searchTextField.getText() != "") {
-			_currentList.clear();
-			Loader.GetInstance();
-			for (Application _iter : Loader.GetApplication()) {
-				if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
-					_currentList.add(_iter);
-				}
-			}
-			ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
-			_appListView.setItems(_observableList);
-		}
-		_setIntervalStage.close();
-	}
-
+    
+    @FXML
+    public void SearchApplication(KeyEvent _event) {
+    	if (_searchTextField.getText() != "") {
+    		_currentList.clear();
+    		Loader.GetInstance();
+			for(Application _iter : Loader.GetApplication()) {
+    			if (_iter.GetDisplayName().toLowerCase().contains(_searchTextField.getText().toLowerCase())) {
+    				_currentList.add(_iter);
+    			}
+    		}
+            ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
+            _appListView.setItems(_observableList);
+    	}
+    	_setIntervalStage.close();
+    }
+    
+    
+    
+>>>>>>> cebe1d58cc053661203a3aacd54be8c333228414
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
