@@ -205,9 +205,9 @@ public class MainController implements Initializable{
     	ObservableList<Stage> _stage = StageHelper.getStages();
     	// get all existing stages  	
     	for(int i = 0;i<_stage.size();++i)
-			if(_stage.get(i).isShowing())
-				_stage.get(i).close();
-    			// close all showing windows
+		//	if(_stage.get(i).isShowing())
+			_stage.get(i).close();
+    	// close all showing windows
 
     }
 
@@ -231,6 +231,20 @@ public class MainController implements Initializable{
         _logo.setMediaPlayer(_player);
         _player.setCycleCount(MediaPlayer.INDEFINITE);
         _player.play();
+        
+        _enterQStage = new Stage();
+		Parent parent;
+		try {
+			FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
+			parent = (Parent) _loader.load();
+			Scene scene = new Scene(parent);
+			_enterQStage.initStyle(StageStyle.UNDECORATED);
+			_enterQStage.setScene(scene);
+			_enterQStage.setResizable(false);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         
 		
 		_appList = new ArrayList<Application>();
@@ -268,20 +282,8 @@ public class MainController implements Initializable{
         				if (_cell.GetApplication() != null) {
         					System.out.println(_cell.GetApplication().GetDisplayName());
         					ProgramManager.NowAccess = _cell.GetApplication();
-        					_enterQStage = new Stage();
-        					Parent parent;
-        					try {
-        						FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
-        						parent = (Parent) _loader.load();
-        						Scene scene = new Scene(parent);
-        						_enterQStage.initStyle(StageStyle.UNDECORATED);
-        						_enterQStage.setScene(scene);
-        						_enterQStage.setResizable(false);
-        						_enterQStage.show();
-        					} catch (IOException e1) {
-        						// TODO Auto-generated catch block
-        						e1.printStackTrace();
-        					}
+        					_enterQStage.toFront();
+        					_enterQStage.show();
         				}
 
         			}
