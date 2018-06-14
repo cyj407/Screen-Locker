@@ -20,6 +20,7 @@ public class EnterQuestionController implements Initializable{
     @FXML public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	stage.close();
+    	ProgramManager.NowAccess = null;
     }
     
     @FXML public void Entrance(ActionEvent _clickEntrance) {

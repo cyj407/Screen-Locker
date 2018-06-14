@@ -88,6 +88,8 @@ public class QuestionController implements Initializable{
 			    	_time.stop();
 			    
 			    	// fail, add an hour time to lock the application
+			        LockerTimer.setAddOneHour(ProgramManager.NowAccess.GetProcessName());
+			        ProgramManager.NowAccess = null;
 			    }
 			}		
 		});
@@ -152,7 +154,7 @@ public class QuestionController implements Initializable{
 	        	e.printStackTrace();
 	        }
 	        
-	        // fail, add 10 minutes time to lock the application
+	        // fail, add an hour time to lock the application
 	        LockerTimer.setAddOneHour(ProgramManager.NowAccess.GetProcessName());
 	        ProgramManager.NowAccess = null;
 		}
