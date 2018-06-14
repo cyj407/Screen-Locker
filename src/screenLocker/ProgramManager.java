@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -13,6 +14,7 @@ import screenLocker.autoOpen.RMIServer;
 import screenLocker.autoOpen.ReOpen;
 import screenLocker.loader.Loader;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Timer;
 
@@ -73,6 +75,8 @@ public class ProgramManager extends Application {
 		_rootStage.initStyle(StageStyle.UNDECORATED);
 		_rootStage.setWidth(800);
 		_rootStage.setHeight(548);
+		_rootStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/_iconTitle.png")));
+		_rootStage.setTitle("ScreenLocker");
 		_addTransferListener();
 		// initantiate loading scene.
 		FXMLLoader _loading = new FXMLLoader(
