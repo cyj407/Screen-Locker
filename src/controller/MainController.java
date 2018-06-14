@@ -81,14 +81,17 @@ public class MainController implements Initializable{
             _pane.setStyle("-fx-padding: 0px 0px 0px 10px;");
             _pane.setAlignment(Pos.CENTER_LEFT);
             _pane.setMinWidth(220);
-            getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
+            _pane.setMinHeight(35);
+            setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
         }
         
         public void SetHoverStyle() {
         	_appName.setStyle("-fx-fill: #383838;");
+        	_pane.setStyle("-fx-padding: 0px 0px 0px 10px;" + "-fx-background-color: #fefefe;" +  "-fx-background-radius: 16px;" + "-fx-cursor: hand;");
         }
         public void SetUnhoverStyle() {
         	_appName.setStyle("-fx-fill: #f2f4f4;");
+        	_pane.setStyle("-fx-padding: 0px 0px 0px 10px;" + "-fx-background-color: rgba(0, 0, 0, 0);" + "-fx-background-radius: 16px;");
         }
         
         @Override
@@ -166,6 +169,10 @@ public class MainController implements Initializable{
                 setGraphic(_pane);
             }
         }
+
+		public Application GetApplication() {
+			return _lastItem;
+		}
     }
     
 	@FXML
@@ -241,44 +248,40 @@ public class MainController implements Initializable{
                     	_cell.SetUnhoverStyle();
                     }
                 });
-            	return _cell;
+            	_cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
+        			@Override
+        			public void handle(MouseEvent event) {
+        				if (_cell.GetApplication() != null) {
+        					System.out.println(_cell.GetApplication().GetDisplayName());
+        					ProgramManager.NowAccess = _cell.GetApplication();
+        					_enterQStage = new Stage();
+        					Parent parent;
+        					try {
+        						FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
+        						parent = (Parent) _loader.load();
+        						Scene scene = new Scene(parent);
+        						EnterQuestionController controller = _loader.getController();
+        						
+        						
+        						_enterQStage.initStyle(StageStyle.UNDECORATED);
+        						_enterQStage.setScene(scene);
+        						_enterQStage.setResizable(false);
+        						_enterQStage.show();
+        					} catch (IOException e1) {
+        						// TODO Auto-generated catch block
+        						e1.printStackTrace();
+        					}
+        				}
+
+        			}
+                	
+                });
+            	return _cell;
             }
         });
         
-        _appListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				if (_appListView.getSelectionModel().getSelectedItem() != null) {
-					ProgramManager.NowAccess = _appListView.getSelectionModel().getSelectedItem();
-					_enterQStage = new Stage();
-					Parent parent;
-					try {
-			//			parent = FXMLLoader.load(getClass().getResource("/views/_questionEntranceLayout.fxml"));
-			//			Scene scene = new Scene(parent);
-						
-						FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
-						parent = (Parent) _loader.load();
-						Scene scene = new Scene(parent);
-						EnterQuestionController controller = _loader.getController();
-						
-						
-						_enterQStage.initStyle(StageStyle.UNDECORATED);
-						_enterQStage.setScene(scene);
-						_enterQStage.setResizable(false);
-						_enterQStage.show();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-
-			}
-        	
-        });
-        
-        Timeline _time = new Timeline();
+    Timeline _time = new Timeline();
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
 				_appListView.refresh();

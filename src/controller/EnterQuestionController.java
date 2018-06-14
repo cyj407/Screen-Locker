@@ -3,7 +3,6 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import screenLocker.ProgramManager;
 
 public class EnterQuestionController implements Initializable{
@@ -28,11 +26,7 @@ public class EnterQuestionController implements Initializable{
     	Stage _stage = (Stage)((Node)_clickEntrance.getSource()).getScene().getWindow();
     	Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToQuestion);    	
     	Event.fireEvent(ProgramManager.RootStage(), _event);
-        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
-        _delay.setOnFinished(event ->{
-        	_stage.close();
-		});
-		_delay.play();
+    	_stage.close();
     }
     
 	@Override
@@ -40,9 +34,5 @@ public class EnterQuestionController implements Initializable{
 		// TODO Auto-generated method stub
 		
 	}
-	/*
-	public boolean goToQuesiton(){
-		return _enter;
-	}
-	*/
+
 }

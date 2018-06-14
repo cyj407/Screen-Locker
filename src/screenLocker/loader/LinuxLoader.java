@@ -146,6 +146,7 @@ public final class LinuxLoader extends Loader {
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String rd = br.readLine();
 		String ret = "";
+		System.out.println(path);
 
 		/** executable path **/
 		if (rd.indexOf("text") > 0 || rd.indexOf("symbolic") > 0) {
@@ -154,6 +155,7 @@ public final class LinuxLoader extends Loader {
 			Thread.sleep(2000);
 			List<String> aftList = getCurrentState();
 			ret = getDiff(path, oriList, aftList);
+			System.out.println(ret);
 			return ret;
 
 		}
