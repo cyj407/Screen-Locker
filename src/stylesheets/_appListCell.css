@@ -1,8 +1,4 @@
-.list-view {
-    -fx-background-color: rgba(0, 0, 0, 0);
-}
-
-.list-view .list-cell:hover {
+.cell:hover {
     -fx-background-insets: 0px 10px 0px 10px;
     -fx-background-color: #fefefe ;
     -fx-background-radius: 16px;
@@ -10,7 +6,7 @@
     
 }
 
-.list-view .list-cell {
+.cell {
     -fx-background-insets: 0px 10px 0px 10px;
     -fx-background-color: rgba(0, 0, 0, 0);
     -fx-background-radius: 16px;
