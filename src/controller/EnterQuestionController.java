@@ -28,11 +28,7 @@ public class EnterQuestionController implements Initializable{
     	Stage _stage = (Stage)((Node)_clickEntrance.getSource()).getScene().getWindow();
     	Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToQuestion);    	
     	Event.fireEvent(ProgramManager.RootStage(), _event);
-        PauseTransition _delay = new PauseTransition(Duration.seconds(1));
-        _delay.setOnFinished(event ->{
-        	_stage.close();
-		});
-		_delay.play();
+    	_stage.close();
     }
     
 	@Override
@@ -40,9 +36,5 @@ public class EnterQuestionController implements Initializable{
 		// TODO Auto-generated method stub
 		
 	}
-	/*
-	public boolean goToQuesiton(){
-		return _enter;
-	}
-	*/
+
 }
