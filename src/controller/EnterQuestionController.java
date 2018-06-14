@@ -3,7 +3,6 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import screenLocker.ProgramManager;
 
 public class EnterQuestionController implements Initializable{

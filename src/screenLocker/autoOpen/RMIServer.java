@@ -12,6 +12,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.*;
 
 public class RMIServer extends UnicastRemoteObject implements RmiServerIntf {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private static RMIServer _server;
 	private static boolean _alive;
 

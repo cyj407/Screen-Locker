@@ -281,7 +281,7 @@ public class MainController implements Initializable{
             }
         });
         
-        Timeline _time = new Timeline();
+    Timeline _time = new Timeline();
 		KeyFrame _cycle= new KeyFrame(Duration.seconds(0.5), new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent event) {
 				_appListView.refresh();
