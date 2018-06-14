@@ -79,6 +79,7 @@ public class ProgramManager extends Application {
 		_timer.cancel();
 		_pListen.close();
 		rmiServer.CloseServer();
+		LockerTimer.updateFile();
 	}
 	
 	public void changeScene(String fxml){
