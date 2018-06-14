@@ -5,13 +5,17 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
+import com.sun.javafx.stage.StageHelper;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -181,8 +185,17 @@ public class MainController implements Initializable{
     public void Close(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     	stage.close();
-    	_enterQStage.close();
+    	if(_enterQStage != null)
+    		_enterQStage.close();
+    	ObservableList<Stage> _stage = StageHelper.getStages();
+    	// get all existing stages  	
+    	for(int i = 0;i<_stage.size();++i)
+			if(_stage.get(i).isShowing())
+				_stage.get(i).close();
+    			// close all showing windows
+
     }
+
     @FXML
     public void Shrink(MouseEvent event) {
     	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -242,8 +255,15 @@ public class MainController implements Initializable{
 					_enterQStage = new Stage();
 					Parent parent;
 					try {
-						parent = FXMLLoader.load(getClass().getResource("/views/_questionEntranceLayout.fxml"));
+			//			parent = FXMLLoader.load(getClass().getResource("/views/_questionEntranceLayout.fxml"));
+			//			Scene scene = new Scene(parent);
+						
+						FXMLLoader _loader = new FXMLLoader(getClass().getResource("/views/_questionEntranceLayout.fxml"));
+						parent = (Parent) _loader.load();
 						Scene scene = new Scene(parent);
+						EnterQuestionController controller = _loader.getController();
+						
+						
 						_enterQStage.initStyle(StageStyle.UNDECORATED);
 						_enterQStage.setScene(scene);
 						_enterQStage.setResizable(false);

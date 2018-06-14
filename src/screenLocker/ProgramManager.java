@@ -1,6 +1,7 @@
 package screenLocker;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,6 +15,9 @@ import screenLocker.loader.Loader;
 
 import java.io.IOException;
 import java.util.Timer;
+
+import com.sun.javafx.stage.StageHelper;
+
 import controller.WindowsTransferEvent;
 
 public class ProgramManager extends Application {
@@ -73,6 +77,7 @@ public class ProgramManager extends Application {
 		_rootStage.show();
 		// Loader start load application
 		Loader.GetInstance().LoadApplication();
+
 	}
 	
 	public void stop() {
@@ -84,8 +89,7 @@ public class ProgramManager extends Application {
 	public void changeScene(String fxml){
 	    Parent pane;
 		try {
-			pane = FXMLLoader.load(
-			       getClass().getResource(fxml));
+			pane = FXMLLoader.load(getClass().getResource(fxml));
 			_rootStage.getScene().setRoot(pane);
 		} catch (IOException e) {
 			e.printStackTrace();
