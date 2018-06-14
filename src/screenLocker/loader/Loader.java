@@ -27,7 +27,7 @@ public abstract class Loader {
 	public static boolean IsLinux() {
 		return (_OS.indexOf("nix") >= 0 || _OS.indexOf("nux") >= 0 || _OS.indexOf("aix") > 0);
 	}
-	public static int GetApplicationNumber() {
+	public int GetApplicationNumber() {
 		return _appList.size();
 	}
 	public static boolean IsExisitedApplication(String _name) {
