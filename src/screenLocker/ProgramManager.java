@@ -72,7 +72,7 @@ public class ProgramManager extends Application {
 		_rootStage.initStyle(StageStyle.UNDECORATED);
 		_rootStage.setWidth(800);
 		_rootStage.setHeight(548);
-		_rootStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/_iconTitle.png")));
+		_rootStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/images/_icon.png")));
 		_rootStage.setTitle("ScreenLocker");
 		_addTransferListener();
 		// initantiate loading scene.
