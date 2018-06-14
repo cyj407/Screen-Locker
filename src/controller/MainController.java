@@ -148,7 +148,7 @@ public class MainController implements Initializable{
 	                    }
                 	}
                 } catch (Exception e) {
-                	System.out.println(e.getMessage());
+                	//System.out.println(e.getMessage());
                 	// get the default exe icon file.
                 	File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
                 	List<BufferedImage> _images;

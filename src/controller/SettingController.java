@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import javafx.collections.FXCollections;
@@ -49,163 +50,167 @@ public class SettingController implements Initializable {
 
 	static class AppCell extends ListCell<Application> {
 		private HBox _pane;
-        private ImageView _icon;
-        private ImageView _lockImage;
-        private Application _lastItem;
-        private Text _appName;
+		private ImageView _icon;
+		private ImageView _lockImage;
+		private Application _lastItem;
+		private Text _appName;
 
-        public AppCell() {
-            super();
-            _pane = new HBox();
-            _icon = new ImageView();
-            _lockImage = new ImageView();
-            _appName = new Text();
-            _appName.setStyle("-fx-fill: white;");
-            _appName.setWrappingWidth(160);
-            _pane.getChildren().addAll(_icon, _appName, _lockImage);
-            _pane.setStyle("-fx-padding: 0px 0px 0px 10px;");
-            _pane.setAlignment(Pos.CENTER_LEFT);
-            _pane.setMinWidth(220);
-            getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
-        }
-        
-        public void SetHoverStyle() {
-        	_appName.setStyle("-fx-fill: #383838;");
-        }
-        public void SetUnhoverStyle() {
-        	_appName.setStyle("-fx-fill: #f2f4f4;");
-        }
-        
-        @Override
-        protected void updateItem(Application _item, boolean _empty) {
-            super.updateItem(_item, _empty);
-            setText(null);
-            if (_empty) {
-                _lastItem = null;
-                setGraphic(null);
-            } else {
-                _lastItem = _item;
-                if (LockerTimer.BlackList().contains(_item.GetProcessName()))
-                	_lockImage.setImage(new Image(this.getClass().getResourceAsStream("/images/_iconListening.png")));
-                else
-                	_lockImage.setImage(null);
-                if (_item.GetDisplayName().length() > 18)
-                	_appName.setText("  " + _item.GetDisplayName().substring(0, 18) + "...");
-                else
-                	_appName.setText("  " + _item.GetDisplayName());
-                try {
-                	if (_lastItem.GetIconPath() != null && _lastItem.GetIconPath() != "" ) {
-		                if (_lastItem.GetIconPath().indexOf(".ico") < 0) {
-		                	// get the exe icon file.
-		                	File _file = new File(_lastItem.GetIconPath());
-		                    sun.awt.shell.ShellFolder _sf =
-		                            sun.awt.shell.ShellFolder.getShellFolder(_file);
-		                    javax.swing.Icon _iconImage = new ImageIcon(_sf.getIcon(true));
-		                    BufferedImage _bufferedImage = new BufferedImage(_iconImage.getIconWidth(), _iconImage.getIconHeight(),
-		                    		BufferedImage.TYPE_INT_ARGB);
-		                    _iconImage.paintIcon(null, _bufferedImage.getGraphics(), 0, 0);
-		                    _icon.setImage(SwingFXUtils.toFXImage(_bufferedImage, null));
-		                } else {
-		                	File _file = new File(_lastItem.GetIconPath());
-		                    List<BufferedImage> _images = ICODecoder.read(_file);
-		                    for(BufferedImage _iter : _images) {
-		                    	if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
-		                    		_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
-		                    		break;
-		                    	}
-		                    }
-		                }
-                	} else {
-	                	// get the default exe icon file.
-	                	File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
-	                	List<BufferedImage> _images = ICODecoder.read(_file);
-	                    for(BufferedImage _iter : _images) {
-	                    	if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
-	                    		_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
-	                    		break;
-	                    	}
-	                    }
-                	}
-                } catch (Exception e) {
-                	System.out.println(e.getMessage());
-                	// get the default exe icon file.
-                	File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
-                	List<BufferedImage> _images;
+		public AppCell() {
+			super();
+			_pane = new HBox();
+			_icon = new ImageView();
+			_lockImage = new ImageView();
+			_appName = new Text();
+			_appName.setStyle("-fx-fill: white;");
+			_appName.setWrappingWidth(160);
+			_pane.getChildren().addAll(_icon, _appName, _lockImage);
+			_pane.setStyle("-fx-padding: 0px 0px 0px 10px;");
+			_pane.setAlignment(Pos.CENTER_LEFT);
+			_pane.setMinWidth(220);
+			getStylesheets().add(this.getClass().getResource("/stylesheets/_appListView.css").toExternalForm());
+		}
+
+		public void SetHoverStyle() {
+			_appName.setStyle("-fx-fill: #383838;");
+		}
+
+		public void SetUnhoverStyle() {
+			_appName.setStyle("-fx-fill: #f2f4f4;");
+		}
+
+		@Override
+		protected void updateItem(Application _item, boolean _empty) {
+			super.updateItem(_item, _empty);
+			setText(null);
+			if (_empty) {
+				_lastItem = null;
+				setGraphic(null);
+			} else {
+				_lastItem = _item;
+				if (LockerTimer.BlackList().contains(_item.GetProcessName()))
+					_lockImage.setImage(new Image(this.getClass().getResourceAsStream("/images/_iconListening.png")));
+				else
+					_lockImage.setImage(null);
+				if (_item.GetDisplayName().length() > 18)
+					_appName.setText("  " + _item.GetDisplayName().substring(0, 18) + "...");
+				else
+					_appName.setText("  " + _item.GetDisplayName());
+				try {
+					// System.out.println(_lastItem.GetIconPath());
+					if (_lastItem.GetIconPath() != null && _lastItem.GetIconPath() != "") {
+						if (_lastItem.GetIconPath().contains(".exe")) {
+							// get the exe icon file.
+							File _file = new File(_lastItem.GetIconPath());
+							sun.awt.shell.ShellFolder _sf = sun.awt.shell.ShellFolder.getShellFolder(_file);
+							javax.swing.Icon _iconImage = new ImageIcon(_sf.getIcon(true));
+							BufferedImage _bufferedImage = new BufferedImage(_iconImage.getIconWidth(),
+									_iconImage.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+							_iconImage.paintIcon(null, _bufferedImage.getGraphics(), 0, 0);
+							_icon.setImage(SwingFXUtils.toFXImage(_bufferedImage, null));
+						} else if (_lastItem.GetIconPath().contains(".ico")) {
+							File _file = new File(_lastItem.GetIconPath());
+							List<BufferedImage> _images = ICODecoder.read(_file);
+							for (BufferedImage _iter : _images) {
+								if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
+									_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
+									break;
+								}
+							}
+						} else {
+							BufferedImage _pic = ImageIO.read(new File(_lastItem.GetIconPath()));
+							_icon.setImage(SwingFXUtils.toFXImage(_pic, null));
+						}
+
+					} else {
+						// get the default exe icon file.
+						File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
+						List<BufferedImage> _images = ICODecoder.read(_file);
+						for (BufferedImage _iter : _images) {
+							if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
+								_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
+								break;
+							}
+						}
+					}
+				} catch (Exception e) {
+					// System.out.println(e.getMessage());
+					// get the default exe icon file.
+					File _file = new File(this.getClass().getResource("/images/_iconExe.ico").getPath());
+					List<BufferedImage> _images;
 					try {
 						_images = ICODecoder.read(_file);
-						for(BufferedImage _iter : _images) {
-	                    	if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
-	                    		_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
-	                    		break;
-	                    	}
-	                    }
+						for (BufferedImage _iter : _images) {
+							if (_iter.getWidth() > 24 && _iter.getWidth() < 48) {
+								_icon.setImage(SwingFXUtils.toFXImage(_iter, null));
+								break;
+							}
+						}
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-                    
-                }
-                setGraphic(_pane);
-            }
-        }
-    }
-	
-	static public class TimerEntry {
-	    private int _number;
-	    private int _time;
 
-	    public TimerEntry(int _numberValue, int _timeValue) {
-	        _number = _numberValue;
-	        _time = _timeValue;
-	    }
-
-	    public int getNumber() {
-	        return _number;
-	    }
-
-	    public int getTime() {
-	        return _time;
-	    }
+				}
+				setGraphic(_pane);
+			}
+		}
 	}
-	
-	
-    private double _x, _y;
-    private ArrayList<Application> _currentList;
-    private Stage _setIntervalStage;
-    private SetIntervalController _setIntevalController;
-    @FXML
-    private Button _shrinkButton;
-    @FXML
-    private Button _enlargeButton;
-    @FXML
-    private Button _closeButton;
-    @FXML
-    private Button _returnButton;
-    @FXML
-    private GridPane _rightItems;
-    @FXML
-    private ListView<Application> _appListView;
-    @FXML
-    private Text _appName;
-    @FXML
-    private Text _appLastUsed;
-    @FXML
-    private Text _appStatus;
-    @FXML
-    private ImageView _appIcon;
-    @FXML
-    private TableView<TimerEntry> _timerTable;
-    @FXML
-    private TextField _searchTextField;
-    
-    public void RefreshView() {
-    	_appListView.refresh();
-    	Application _target = (Application)_appListView.getSelectionModel().getSelectedItem();
-    	_timerTable.getItems().clear();
-    	try {
-        	if(!LockerTimer.BlackList().contains(_target.GetProcessName())) {
-        		return;
-        	}
+
+	static public class TimerEntry {
+		private int _number;
+		private int _time;
+
+		public TimerEntry(int _numberValue, int _timeValue) {
+			_number = _numberValue;
+			_time = _timeValue;
+		}
+
+		public int getNumber() {
+			return _number;
+		}
+
+		public int getTime() {
+			return _time;
+		}
+	}
+
+	private double _x, _y;
+	private ArrayList<Application> _currentList;
+	private Stage _setIntervalStage;
+	private SetIntervalController _setIntevalController;
+	@FXML
+	private Button _shrinkButton;
+	@FXML
+	private Button _enlargeButton;
+	@FXML
+	private Button _closeButton;
+	@FXML
+	private Button _returnButton;
+	@FXML
+	private GridPane _rightItems;
+	@FXML
+	private ListView<Application> _appListView;
+	@FXML
+	private Text _appName;
+	@FXML
+	private Text _appLastUsed;
+	@FXML
+	private Text _appStatus;
+	@FXML
+	private ImageView _appIcon;
+	@FXML
+	private TableView<TimerEntry> _timerTable;
+	@FXML
+	private TextField _searchTextField;
+
+	public void RefreshView() {
+		_appListView.refresh();
+		Application _target = (Application) _appListView.getSelectionModel().getSelectedItem();
+		_timerTable.getItems().clear();
+		try {
+			if (!LockerTimer.BlackList().contains(_target.GetProcessName())) {
+				return;
+			}
 			if (LockerTimer.getTime(_target.GetProcessName()) == -1) {
 				return;
 			}
@@ -214,17 +219,17 @@ public class SettingController implements Initializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	
-    }
-    
+
+	}
+
 	@FXML
-    public void Draged(MouseEvent event) {
-    	Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    	stage.setX(event.getScreenX() - _x);
-    	stage.setY(event.getScreenY() - _y);
-    	_setIntervalStage.close();
-    }
-    
+	public void Draged(MouseEvent event) {
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.setX(event.getScreenX() - _x);
+		stage.setY(event.getScreenY() - _y);
+		_setIntervalStage.close();
+	}
+
 	@FXML
 	public void Pressed(MouseEvent event) {
 		_x = event.getSceneX();
@@ -249,80 +254,74 @@ public class SettingController implements Initializable {
 	@FXML
 	public void ToGUIMain(ActionEvent event) {
 		// switch to main scene.
-        Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
-    	Event.fireEvent(ProgramManager.RootStage(), _event);
-    	_setIntervalStage.close();
+		Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToMain);
+		Event.fireEvent(ProgramManager.RootStage(), _event);
+		_setIntervalStage.close();
 	}
-    
-    @FXML
-    public void ShowSetIntervalStage(ActionEvent event) { 
-    	for(String _iter2 : LockerTimer.BlackList()) {
-	    	if(_appListView.getSelectionModel().getSelectedItem().GetProcessName().equals(_iter2)) {
-	    		return;
-	    	}
-		}
-    	_setIntevalController.SetApplication((Application)_appListView.getSelectionModel().getSelectedItem());
-        _setIntevalController.SetParentController(this);
-    	_setIntervalStage.show();  	
-    }
-    
-    @FXML
-    public void SearchApplication(KeyEvent _event) {
-    	if (_searchTextField.getText() != "") {
-    		_currentList.clear();
-    		Loader.GetInstance();
-			for(Application _iter : Loader.GetApplication()) {
-    			if(_iter.GetDisplayName().toLowerCase().indexOf(_searchTextField.getText().toLowerCase()) >= 0) {
+
+	@FXML
+	public void ShowSetIntervalStage(ActionEvent event) {
+		_setIntevalController.SetApplication((Application) _appListView.getSelectionModel().getSelectedItem());
+		_setIntevalController.SetParentController(this);
+		_setIntervalStage.show();
+	}
+
+	@FXML
+	public void SearchApplication(KeyEvent _event) {
+		if (_searchTextField.getText() != "") {
+			_currentList.clear();
+			Loader.GetInstance();
+			for (Application _iter : Loader.GetApplication()) {
+				if (_iter.GetDisplayName().toLowerCase().indexOf(_searchTextField.getText().toLowerCase()) >= 0) {
 					_currentList.add(_iter);
-    			}
-    		}
-            ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
-            _appListView.setItems(_observableList);
-    	}
-    	_setIntervalStage.close();
-    }
-    
-    
-    
+				}
+			}
+			ObservableList<Application> _observableList = FXCollections.observableArrayList(_currentList);
+			_appListView.setItems(_observableList);
+		}
+		_setIntervalStage.close();
+	}
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {
 			// load the set interval stage.
-			FXMLLoader _fxmlLoader = new FXMLLoader(this.getClass().getClassLoader().getResource("views/_setIntervalLayout.fxml"));
+			FXMLLoader _fxmlLoader = new FXMLLoader(
+					this.getClass().getClassLoader().getResource("views/_setIntervalLayout.fxml"));
 			Parent _intervalFXML = _fxmlLoader.load();
-			_setIntevalController = (SetIntervalController)_fxmlLoader.getController();
+			_setIntevalController = (SetIntervalController) _fxmlLoader.getController();
 			_setIntervalStage = new Stage();
-	        _setIntervalStage.setScene(new Scene(_intervalFXML));
-	        _setIntervalStage.initStyle(StageStyle.UNDECORATED);
-	        _setIntervalStage.setResizable(false); 
-	        
+			_setIntervalStage.setScene(new Scene(_intervalFXML));
+			_setIntervalStage.initStyle(StageStyle.UNDECORATED);
+			_setIntervalStage.setResizable(false);
+
 		} catch (Exception e) {
-			
+
 		}
 		// set timer table view column factory.
-		TableColumn _numberColumn = (TableColumn)_timerTable.getColumns().get(0);
+		TableColumn _numberColumn = (TableColumn) _timerTable.getColumns().get(0);
 		_numberColumn.setCellValueFactory(new PropertyValueFactory<>("number"));
 		_numberColumn.setResizable(false);
-		TableColumn _timeColumn = (TableColumn)_timerTable.getColumns().get(1);
+		TableColumn _timeColumn = (TableColumn) _timerTable.getColumns().get(1);
 		_timeColumn.setCellValueFactory(new PropertyValueFactory("time"));
 		_timeColumn.setResizable(false);
 		// disable the table item selectable.
 		_timerTable.setSelectionModel(null);
 		// disable the table header reorder
 		_timerTable.getColumns().addListener(new ListChangeListener() {
-	        public boolean suspended;
+			public boolean suspended;
 
-	        @Override
-	        public void onChanged(Change change) {
-	            change.next();
-	            if (change.wasReplaced() && !suspended) {
-	                this.suspended = true;
-	                _timerTable.getColumns().setAll(_numberColumn, _timeColumn);
-	                this.suspended = false;
-	            }
-	        }
-	    });
-		
+			@Override
+			public void onChanged(Change change) {
+				change.next();
+				if (change.wasReplaced() && !suspended) {
+					this.suspended = true;
+					_timerTable.getColumns().setAll(_numberColumn, _timeColumn);
+					this.suspended = false;
+				}
+			}
+		});
+
 		_rightItems.setVisible(false);
 		_currentList = new ArrayList<Application>();
 		Loader.GetInstance();
@@ -333,25 +332,25 @@ public class SettingController implements Initializable {
 		_appListView.setItems(_observableList);
 		_appListView.setPrefHeight(35 * 8);
 		_appListView.setCellFactory(new Callback<ListView<Application>, ListCell<Application>>() {
-            @Override
-            public ListCell<Application> call(ListView<Application> param) {
-            	_setIntervalStage.close();
-            	AppCell _cell = new AppCell();
-            	_cell.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                    	_cell.SetHoverStyle();
-                    }
-                });
-            	_cell.setOnMouseExited(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                    	_cell.SetUnhoverStyle();
-                    }
-                });
-            	return _cell;
+			@Override
+			public ListCell<Application> call(ListView<Application> param) {
+				_setIntervalStage.close();
+				AppCell _cell = new AppCell();
+				_cell.setOnMouseEntered(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						_cell.SetHoverStyle();
+					}
+				});
+				_cell.setOnMouseExited(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						_cell.SetUnhoverStyle();
+					}
+				});
+				return _cell;
 
-            }
+			}
 		});
 
 		// add mouse click handler
@@ -364,7 +363,7 @@ public class SettingController implements Initializable {
 				if (!_rightItems.visibleProperty().get())
 					_rightItems.setVisible(true);
 				Application _selected = (Application) _appListView.getSelectionModel().getSelectedItem();
-				System.out.println(_selected.GetDisplayName());
+				// System.out.println(_selected.GetDisplayName());
 				// render right items
 				if (_selected.GetDisplayName().length() > 15) {
 					_appName.setText("應用程式   " + _selected.GetDisplayName().substring(0, 15) + "...");
@@ -381,7 +380,7 @@ public class SettingController implements Initializable {
 					if (_selected.GetDisplayName().equals(_appIter.GetDisplayName())) {
 						try {
 							if (_appIter.GetIconPath() != null && _appIter.GetIconPath() != "") {
-								if (_appIter.GetIconPath().indexOf(".ico") < 0) {
+								if (_appIter.GetIconPath().contains(".exe")) {
 									// get the exe icon file.
 									File _file = new File(_appIter.GetIconPath());
 									sun.awt.shell.ShellFolder _sf = sun.awt.shell.ShellFolder.getShellFolder(_file);
@@ -390,7 +389,7 @@ public class SettingController implements Initializable {
 											_iconImage.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 									_iconImage.paintIcon(null, _bufferedImage.getGraphics(), 0, 0);
 									_appIcon.setImage(SwingFXUtils.toFXImage(_bufferedImage, null));
-								} else {
+								} else if (_appIter.GetIconPath().contains(".ico")) {
 									File _file = new File(_appIter.GetIconPath());
 									List<BufferedImage> _images = ICODecoder.read(_file);
 									for (BufferedImage _iter : _images) {
@@ -399,6 +398,9 @@ public class SettingController implements Initializable {
 											break;
 										}
 									}
+								} else {
+									BufferedImage _pic = ImageIO.read(new File(_appIter.GetIconPath()));
+									_appIcon.setImage(SwingFXUtils.toFXImage(_pic, null));
 								}
 							} else {
 								// get the default exe icon file.
@@ -417,6 +419,6 @@ public class SettingController implements Initializable {
 					}
 				}
 			}
-        });
+		});
 	}
 }
