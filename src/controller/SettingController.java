@@ -283,9 +283,6 @@ public class SettingController implements Initializable {
     	_setIntervalStage.close();
     }
     
-    
-    
->>>>>>> cebe1d58cc053661203a3aacd54be8c333228414
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		try {

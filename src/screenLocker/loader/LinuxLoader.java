@@ -87,7 +87,7 @@ public final class LinuxLoader extends Loader {
 									/** does not exist backslash **/
 									_exeName = _exePath;
 								}
-								if (nameList.contains(_exeName)) {
+								if (_exeName.equals("") || nameList.contains(_exeName)) {
 									duplicate = true;
 									break;
 								}
@@ -104,13 +104,11 @@ public final class LinuxLoader extends Loader {
 									String st, last = null;
 									while ((st = br.readLine()) != null) {
 										if (st.contains("32x32")) {
-											if (last == null && st.contains("png"))
-												last = st;
-												
+											break;
+
 										}
 									}
-									if (last == null) _newApp.SetIconPath(st);
-									else _newApp.SetIconPath(last);
+									_newApp.SetIconPath(st);
 
 								}
 							}
@@ -143,13 +141,14 @@ public final class LinuxLoader extends Loader {
 
 	private String findExeName(String path) throws Exception {
 		if (path.contains("java") || path.contains("jvm"))
-			return String.format("java-> %s", path);
+			return "";
 		Process p = Runtime.getRuntime().exec(String.format("file %s", path));
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		String rd = br.readLine();
 		String ret = "";
 
 		/** executable path **/
-		if (br.readLine().contains("text")) {
+		if (rd.indexOf("text") > 0 || rd.indexOf("symbolic") > 0) {
 			List<String> oriList = getCurrentState();
 			_openProc(path);
 			Thread.sleep(2000);
@@ -184,7 +183,7 @@ public final class LinuxLoader extends Loader {
 				}
 			}
 		}
-		return "cannot find process name";
+		return "";
 	}
 
 	private void _loadALLApplication() {
