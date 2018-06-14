@@ -55,13 +55,11 @@ public class ProgramManager extends Application {
 	//	Thread t = new Thread(new LinuxLoader());
 	//	t.start();
 
-		/*
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
 
 		launch(args);
 

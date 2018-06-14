@@ -1,6 +1,8 @@
 package screenLocker;
 
-public class Application {
+import java.io.Serializable;
+
+public class Application implements Serializable{
 	
 	private String _displayName;
 	private String _processName;
