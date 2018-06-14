@@ -128,13 +128,10 @@
                   <Insets bottom="1.0" />
                </padding>
             </Button>
-            <ListView fx:id="_appListView" fixedCellSize="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: rgba(255, 255, 255, 0);" stylesheets="@../stylesheets/_appListView.css" StackPane.alignment="CENTER_RIGHT">
+            <ListView fx:id="_appListView" fixedCellSize="35.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="260.0" style="-fx-background-color: rgba(255, 255, 255, 0);" StackPane.alignment="CENTER_RIGHT">
                <StackPane.margin>
                   <Insets bottom="20.0" right="10.0" />
                </StackPane.margin>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
             </ListView>
          </children>
       </StackPane>

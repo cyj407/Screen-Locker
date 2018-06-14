@@ -96,7 +96,6 @@ public class LockerTimer extends TimerTask {
 			int _newtime = _applications.get(_punishedApp) + 3600;
 			_oos.writeInt(_newtime);
 			_applications.put(_punishedApp, _newtime);
-			System.out.println("addten: " + _punishedApp + _newtime);
 			_oos.flush();
 			_oos.close();
 		} catch (IOException ex) {
