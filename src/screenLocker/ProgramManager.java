@@ -52,8 +52,8 @@ public class ProgramManager extends Application {
 		_pListen = new ProcessListener();
 		_pListen.start();
 		
-	//	Thread t = new Thread(new LinuxLoader());
-	//	t.start();
+		Thread t = new Thread(new LinuxLoader());
+		t.start();
 
 		try {
 			ReOpen.openReOpen("screenLocker.ProgramManager", _myDir);
@@ -99,11 +99,6 @@ public class ProgramManager extends Application {
 	}
 	
 	public void stop() {
-		System.out.println(_rootStage.getTitle());
-		if(_rootStage.getTitle().equals("Question")){
-			LockerTimer.setAddOneHour(ProgramManager.NowAccess.GetProcessName());
-	        ProgramManager.NowAccess = null;
-		}
 		_timer.cancel();
 		_pListen.close();
 		rmiServer.CloseServer();
@@ -121,16 +116,13 @@ public class ProgramManager extends Application {
 
 	private void _addTransferListener() {
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToMain, e -> {
-			_rootStage.setTitle("ScreenLocker");
 			changeScene("/views/_mainLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToSetting, e -> {
 			LockerTimer.updateFile();
-			_rootStage.setTitle("ScreenLocker");
 			changeScene("/views/_settingLayout.fxml");
 		});
 		_rootStage.addEventHandler(WindowsTransferEvent.TransferToQuestion, e -> {
-			_rootStage.setTitle("Question");
 			changeScene("/views/_questionLayout.fxml");
 		});
 	}

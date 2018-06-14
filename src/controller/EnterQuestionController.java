@@ -27,6 +27,7 @@ public class EnterQuestionController implements Initializable{
     	Stage _stage = (Stage)((Node)_clickEntrance.getSource()).getScene().getWindow();
     	Event _event = new WindowsTransferEvent(this, ProgramManager.RootStage(), WindowsTransferEvent.TransferToQuestion);    	
     	Event.fireEvent(ProgramManager.RootStage(), _event);
+    	ProgramManager.RootStage().setIconified(false);
     	_stage.close();
     }
     
