@@ -79,7 +79,6 @@ public class LoadingController implements Initializable {
 						Loader.GetInstance().LoadApplication();
 						updateProgress(perc, 1);
 						perc = Loader.GetInstance().LoadProgressPercentage();
-						System.out.println(perc);
 					}
 					updateProgress(perc, 1);
 					return true;

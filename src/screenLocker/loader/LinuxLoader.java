@@ -2,15 +2,20 @@ package screenLocker.loader;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import screenLocker.Application;
 
-public final class LinuxLoader extends Loader implements Runnable{
+public final class LinuxLoader extends Loader implements Runnable {
 	private static LinuxLoader _instance;
 	private static int _fileSize;
 	private static int _curLoadCnt;
@@ -29,7 +34,7 @@ public final class LinuxLoader extends Loader implements Runnable{
 
 	public LinuxLoader() {
 		_appList = new ArrayList<Application>();
-		//_loadALLApplication();
+		// _loadALLApplication();
 	}
 
 	private static List<String> getCurrentState() throws IOException {
@@ -44,17 +49,28 @@ public final class LinuxLoader extends Loader implements Runnable{
 
 		return ret;
 	}
-	
+
 	@Override
 	public int GetApplicationNumber() {
-		while (_fileSize == 0);
-		return  _fileSize;
+		while (_fileSize == 0)
+			;
+		return _fileSize;
 	}
 
 	private void _addInfo(String _path) {
 		List<String> nameList = new ArrayList<String>();
 		File _folder = new File(_path);
 		File[] _files = _folder.listFiles();
+		File _record = new File(System.getProperty("user.dir") + "/appList.dat");
+		ObjectOutputStream oos = null;
+		try {
+			oos = new ObjectOutputStream(new FileOutputStream(_record));
+			oos.writeObject(new Date());
+			oos.writeInt(_files.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
 		_fileSize = _files.length;
 
 		for (File _file : _files) {
@@ -121,15 +137,21 @@ public final class LinuxLoader extends Loader implements Runnable{
 							}
 						}
 
-						if (!duplicate)
+						if (!duplicate) {
 							_appList.add(_newApp);
+							oos.writeObject(_newApp);
+						}
 						_br.close();
-
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			}
+		}
+		try {
+			oos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -150,16 +172,14 @@ public final class LinuxLoader extends Loader implements Runnable{
 		BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
 		String rd = br.readLine();
 		String ret = "";
-		//System.out.println(path);
 
 		/** executable path **/
 		if (rd.indexOf("text") > 0 || rd.indexOf("symbolic") > 0) {
 			List<String> oriList = getCurrentState();
 			_openProc(path);
-			Thread.sleep(2000);
+			Thread.sleep(3000);
 			List<String> aftList = getCurrentState();
 			ret = getDiff(path, oriList, aftList);
-			//System.out.println(ret);
 			return ret;
 
 		}
@@ -181,9 +201,7 @@ public final class LinuxLoader extends Loader implements Runnable{
 			String s2s = s2.get(i);
 			if (!s1.contains(s2s) && !s2s.contains(" ps")) {
 				String s2s_name = (String) (" " + s2s).split("\\s+")[4];
-				// System.out.println(s2s_name);
 				if (path.contains(s2s_name)) {
-					// System.out.println("kill!");
 					Runtime.getRuntime().exec("pkill " + s2s_name);
 					return s2s_name;
 				}
@@ -194,11 +212,62 @@ public final class LinuxLoader extends Loader implements Runnable{
 
 	@Override
 	public void run() {
-		_addInfo("/usr/share/applications");
+		if (!_addFromFile()) {
+			_addInfo("/usr/share/applications");
+		}
 	}
 
 	@Override
 	public boolean LoadApplication() {
 		return false;
 	}
+
+	private static boolean _addFromFile() {
+		File _file = new File(System.getProperty("user.dir") + "/appList.dat");
+		if (!_file.exists())
+			return false;
+		else {
+			try {
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(_file));
+				/* Date, sum */
+				Date time = (Date) ois.readObject();
+				Date now = new Date();
+				_fileSize = ois.readInt();
+				_curLoadCnt = 0;
+
+				if (now.getTime() - time.getTime() > 5 * 60 * 60 * 1000) {
+					ois.close();
+					return false;
+				}
+
+				Application _newApp;
+				while (true) {
+					Thread.sleep(100);
+					_newApp = (Application) ois.readObject();
+					++_curLoadCnt;
+					_curLoadName = _newApp.GetDisplayName();
+					_appList.add(_newApp);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			int _last = _curLoadCnt;
+
+			while (_curLoadCnt <= _fileSize) {
+				_curLoadName = _appList.get(_curLoadCnt-_last).GetDisplayName();
+				++_curLoadCnt;
+				try {
+					Thread.sleep(100);
+				} catch (Exception e) {
+
+				}
+			}
+
+		}
+
+		return true;
+	}
+
 }
