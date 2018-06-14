@@ -81,7 +81,9 @@ public class SetIntervalController implements Initializable {
 		_parentController.RefreshView();
     	_stage.close();
     }
-
+    public void reset() {
+    	_toTimePicker.setValue(null);
+    }
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		_fromTimePicker.setItems(FXCollections.observableArrayList(

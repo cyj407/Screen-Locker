@@ -265,6 +265,7 @@ public class SettingController implements Initializable {
 	public void ShowSetIntervalStage(ActionEvent event) {
 		_setIntevalController.SetApplication(_selected);
 		_setIntevalController.SetParentController(this);
+		_setIntevalController.reset();
 		_setIntervalStage.show();
 	}
 
